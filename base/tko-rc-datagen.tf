@@ -21,7 +21,7 @@ data "aws_ami" "win_image" {
   }
 }
 
-data "aws_security_group" "djif-default.id" {
+data "aws_security_group" "djif-default" {
     filter {
         name = "group-name"
         values = ["djif_default"] 
