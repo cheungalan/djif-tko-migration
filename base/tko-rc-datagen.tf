@@ -1,5 +1,6 @@
 resource "aws_eip" "tko-rc-datagen-eip" {
-  vpc = true
+  count = 4
+  vpc  = true
 }
 
 resource "aws_eip_association" "tko-rc-datagen-eip-assoc" {
