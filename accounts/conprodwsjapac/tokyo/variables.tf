@@ -13,7 +13,7 @@ variable "account_id" {
   default = "261053699423"
 }
 
-variable "tko_dist_name" {
+variable "tko-rc-datagen_name" {
   default = "tko-rc-datagen"
 }
 
@@ -22,11 +22,11 @@ variable "deployment_role" {
   default = "djif-admin"
 }
 
-variable "tko_dist_subnet_id" {
+variable "tko-rc-datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_dist_instance_type" {
+variable "tko-rc-datagen_instance_type" {
   default = "t3.large" 
 }
 
