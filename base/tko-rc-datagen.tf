@@ -4,8 +4,8 @@ resource "aws_eip" "tko-rc-datagen-eip" {
 
 resource "aws_eip_association" "tko-rc-datagen-eip-assoc" {
   count		= 4
-  instance_id   = element(aws_instance.tko-rc-datagen.*.id, count.index) 
-  allocation_id = aws_eip.tko-rc-datagen-eip.id
+  instance_id   = element(aws_instance.tko-rc-datagen.*.id, count.index)
+  allocation_id = element(aws_eip.tko-rc-datagen.*.id, count.index)
 }
 
 resource "aws_key_pair" "tko_rc_datagen_key" {
