@@ -22,7 +22,7 @@ data "aws_ami" "win_image" {
   }
 }
 
-data "aws_security_group" "djif-default" {
+data "aws_security_group" "djif-default-win" {
     filter {
         name = "group-name"
         values = ["djif_default"] 
@@ -35,7 +35,7 @@ resource "aws_instance" "tko-rc-datagen-win" {
     instance_type          = "${var.tko_rc_datagen_win_instance_type}"
     key_name               = "${aws_key_pair.tko_rc_datagen_win_key.id}" 
     subnet_id              = "${var.tko_rc_datagen_win_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-win.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"

@@ -22,7 +22,7 @@ data "aws_ami" "lin_image" {
   }
 }
 
-data "aws_security_group" "djif-default" {
+data "aws_security_group" "djif-default-lin" {
     filter {
         name = "group-name"
         values = ["djif_default"] 
@@ -35,7 +35,7 @@ resource "aws_instance" "tko-rc-datagen-lin" {
     instance_type          = "${var.tko_rc_datagen_lin_instance_type}"
     key_name               = "${aws_key_pair.tko_rc_datagen_lin_key.id}" 
     subnet_id              = "${var.tko_rc_datagen_lin_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-lin.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"
