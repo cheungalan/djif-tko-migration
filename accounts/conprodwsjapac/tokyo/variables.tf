@@ -13,8 +13,12 @@ variable "account_id" {
   default = "261053699423"
 }
 
-variable "tko_rc_datagen_name" {
+variable "tko_rc_datagen_win_name" {
   default = "tko-rc-datagen"
+}
+
+variable "tko_rc_datagen_lin_name" {
+  default = "tko-rc-web"
 }
 
 variable "deployment_role" {
@@ -22,11 +26,19 @@ variable "deployment_role" {
   default = "djif-admin"
 }
 
-variable "tko_rc_datagen_subnet_id" {
+variable "tko_rc_datagen_win_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_rc_datagen_instance_type" {
+variable "tko_rc_datagen_lin_subnet_id" {
+  default = "subnet-01908a38bc2ac7a5b"
+}
+
+variable "tko_rc_datagen_win_instance_type" {
+  default = "t3.large" 
+}
+
+variable "tko_rc_datagen_lin_instance_type" {
   default = "t3.large" 
 }
 
