@@ -13,12 +13,20 @@ variable "account_id" {
   default = "261053699423"
 }
 
-variable "tko_rc_datagen_win_name" {
+variable "tko_rc_datagen_name" {
   default = "tko-rc-datagen"
 }
 
-variable "tko_rc_datagen_lin_name" {
+variable "tko_rc_web_name" {
   default = "tko-rc-web"
+}
+
+variable "hkg_jswj_archive_name" {
+  default = "hkg-jswj-archive"
+}
+
+variable "hkg_financial_inclusion_name" {
+  default = "hkg-financial-inclusion"
 }
 
 variable "deployment_role" {
@@ -26,20 +34,36 @@ variable "deployment_role" {
   default = "djif-admin"
 }
 
-variable "tko_rc_datagen_win_subnet_id" {
+variable "tko_rc_datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_rc_datagen_lin_subnet_id" {
+variable "tko_rc_web_lin_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_rc_datagen_win_instance_type" {
+variable "hkg_jswj_archive_subnet_id" {
+  default = "subnet-01908a38bc2ac7a5b"
+}
+
+variable "hkg_financial_inclusion_subnet_id" {
+  default = "subnet-01908a38bc2ac7a5b"
+}
+
+variable "tko_rc_datagen_instance_type" {
   default = "t3.large" 
 }
 
-variable "tko_rc_datagen_lin_instance_type" {
+variable "tko_rc_web_instance_type" {
   default = "t3.large" 
+}
+
+variable "hkg_jswj_archive_instance_type" {
+  default = "t3.large"
+}
+
+variable "hkg_financial_inclusion_instance_type" {
+  default = "t3.large"
 }
 
 variable "root_v_type" {
