@@ -38,7 +38,7 @@ variable "tko_rc_datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_rc_web_lin_subnet_id" {
+variable "tko_rc_web_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
