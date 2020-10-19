@@ -22,7 +22,7 @@ variable "tko_rc_web_name" {
 }
 
 variable "hkg_jswj_archive_name" {
-  default = "hkg-jswj-archive"
+  default = "hkg-jwsj-archive"
 }
 
 variable "hkg_financial_inclusion_name" {
