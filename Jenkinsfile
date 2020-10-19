@@ -14,7 +14,7 @@ properties([parameters([
     script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
     def  accountList = [] 
-    def jobName = "djif-tko-rc-datagen"
+    def jobName = "djif-tko-migration"
     new File("/var/lib/jenkins/workspace/${jobName}/accounts/").eachDir()
     {
         dirs -> dirs.getName() 
@@ -27,7 +27,7 @@ properties([parameters([
     [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
     def  regionList = []
-    def jobName = "djif-tko-rc-datagen"
+    def jobName = "djif-tko-migration"
     if ("${account}" == "") {
         return regionList // empty
     }
