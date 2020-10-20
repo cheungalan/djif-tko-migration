@@ -1,3 +1,3 @@
 # djif-tko-rc-datagen
 
-Project Wiki: https://wiki.dowjones.net/display/~gurungs/Cloud+instance+for+Tokyo+RC+Datagen
+Project Wiki: https://wiki.dowjones.net/display/~gurungs/EC2+Migration+from+ProdShrd+to+Asia+LZ
