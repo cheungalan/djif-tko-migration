@@ -29,6 +29,10 @@ variable "hkg_financial_inclusion_name" {
   default = "hkg-financial-inclusion"
 }
 
+variable "infoscreen_name" {
+  default = "infoscreen"
+}
+
 variable "deployment_role" {
   description = "Name of role for deployment"
   default = "djif-admin"
@@ -50,6 +54,10 @@ variable "hkg_financial_inclusion_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
+variable "infoscreen_subnet_id" {
+  default = "subnet-01908a38bc2ac7a5b"
+}
+
 variable "tko_rc_datagen_instance_type" {
   default = "t3.large" 
 }
@@ -63,6 +71,10 @@ variable "hkg_jswj_archive_instance_type" {
 }
 
 variable "hkg_financial_inclusion_instance_type" {
+  default = "t3.large"
+}
+
+variable "infoscreen_instance_type" {
   default = "t3.large"
 }
 
