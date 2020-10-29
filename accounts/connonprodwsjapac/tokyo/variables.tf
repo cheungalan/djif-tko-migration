@@ -45,7 +45,7 @@ variable "hkpc-financialinclusion-qa-name" {
   default = "hkpc-financialinclusion-qa"
 }
 
-variable "hkpk-jls-web2-qa" {
+variable "hkpk-jls-web2-qa-name" {
   default = "hkpk-jls-web2-qa"
 }
 
