@@ -59,7 +59,7 @@ variable "subnet_id" {
 }
 
 variable "instance_type" {
-  default = "t3.large" 
+  default = "t3.medium" 
 }
 
 variable "root_v_type" {
@@ -67,7 +67,7 @@ variable "root_v_type" {
 }
 
 variable "root_v_size" {
-  default = "300"
+  default = "200"
 }
 
 variable "TagEnv" {
