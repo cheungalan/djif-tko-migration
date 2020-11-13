@@ -36,6 +36,48 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["162.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["162.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 123
+    to_port     = 123
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  } 
+  
+  egress {
+    from_port   = 123
+    to_port     = 123
+    protocol    = "udp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }  
+  
   ingress {
     from_port   = -1 
     to_port     = -1 
