@@ -68,9 +68,51 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["162.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["162.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 123
+    to_port     = 123
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  } 
+  
+  egress {
+    from_port   = 123
+    to_port     = 123
+    protocol    = "udp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }  
+  
   egress {
     from_port   = -1
     to_port     = -1
