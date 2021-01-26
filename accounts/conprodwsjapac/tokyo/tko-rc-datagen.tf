@@ -29,13 +29,79 @@ data "aws_security_group" "djif-default-datagen" {
     }
 }
 
+resource "aws_security_group" "djif-datagen-sg" {
+  name        = "djif-datagen-sg"
+  description = "djif-datagen-sg"
+
+  vpc_id      = var.vpc_id
+
+  //IP-6495
+
+  // RDP Access
+  ingress {
+    description = "RDP Access"
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.146.86.15/32"]
+  }
+
+  // FTP Access 21
+  ingress {
+    description = "FTP Access 21"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.74/32", "10.167.16.70/32"]
+  }
+
+  // SMB Access
+  ingress {
+    description = "SMB Access"
+    from_port   = 445
+    to_port     = 445
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23"]
+  }
+
+   egress {
+    description = "FTP Access"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    cidr_blocks = ["13.113.112.91/32", "54.178.254.191/32"]
+  }
+
+  // Internet Access 80
+  egress {
+    description = "Internet Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Internet Access 443
+  egress {
+    description = "Internet Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    preserve = "true"
+  }
+}
+
 resource "aws_instance" "tko-rc-datagen" {
     count		   = 4
     ami                    = "${data.aws_ami.datagen_image.image_id}"
     instance_type          = "${var.tko_rc_datagen_instance_type}"
     key_name               = "${aws_key_pair.tko_rc_datagen_key.id}" 
     subnet_id              = "${var.tko_rc_datagen_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-datagen.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-datagen.id}","${aws_security_group.djif-datagen-sg.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"

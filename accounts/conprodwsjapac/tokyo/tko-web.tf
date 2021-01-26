@@ -29,13 +29,79 @@ data "aws_security_group" "djif-default-web" {
     }
 }
 
+resource "aws_security_group" "djif-rc-web-sg" {
+  name        = "djif-rc-web-sg"
+  description = "djif-rc-web-sg"
+
+  vpc_id      = var.vpc_id
+
+  //IP-6495
+
+  // Web Access 80
+  ingress {
+    description = "Web Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Web Access 443
+  ingress {
+    description = "Web Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // SSH Access
+  ingress {
+    description = "SSH Access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+  }
+
+   ingress {
+    description = "FTP Access"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    cidr_blocks = ["10.167.16.34/32", "10.167.16.226/32", "10.167.16.181/32", "10.167.16.250/32"]
+  }
+
+  // Internet Access 80
+  egress {
+    description = "Internet Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Internet Access 443
+  egress {
+    description = "Internet Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    preserve = "true"
+  }
+}
+
 resource "aws_instance" "tko-rc-web" {
     count		   = 2 
     ami                    = "${data.aws_ami.tko_rc_web_image.image_id}"
     instance_type          = "${var.tko_rc_web_instance_type}"
     key_name               = "${aws_key_pair.tko_rc_web_key.id}" 
     subnet_id              = "${var.tko_rc_web_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}","${aws_security_group.djif-rc-web-sg.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"

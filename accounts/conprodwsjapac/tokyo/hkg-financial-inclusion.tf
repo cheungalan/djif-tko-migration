@@ -29,13 +29,71 @@ data "aws_security_group" "djif-default-fi" {
     }
 }
 
+resource "aws_security_group" "djif-financial-sg" {
+  name        = "djif-financial-sg"
+  description = "djif-financial-sg"
+
+  vpc_id      = var.vpc_id
+
+  //IP-6495
+
+  // Web Access 80
+  ingress {
+    description = "Web Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Web Access 443
+  ingress {
+    description = "Web Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // SSH Access
+  ingress {
+    description = "SSH Access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+  }
+
+  // Internet Access 80
+  egress {
+    description = "Internet Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Internet Access 443
+  egress {
+    description = "Internet Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    preserve = "true"
+  }
+}
+
 resource "aws_instance" "hkg-financial-inclusion" {
     count		   = 1 
     ami                    = "${data.aws_ami.hkg_financial_inclusion_image.image_id}"
     instance_type          = "${var.hkg_financial_inclusion_instance_type}"
     key_name               = "${aws_key_pair.hkg_financial_inclusion_key.id}" 
     subnet_id              = "${var.hkg_financial_inclusion_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-fi.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-fi.id}","${aws_security_group.djif-financial-sg.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"
