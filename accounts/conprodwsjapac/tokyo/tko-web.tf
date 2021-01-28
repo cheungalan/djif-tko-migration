@@ -72,6 +72,33 @@ resource "aws_security_group" "djif-rc-web-sg" {
     cidr_blocks = ["10.167.16.34/32", "10.167.16.226/32", "10.167.16.181/32", "10.167.16.250/32"]
   }
 
+  // ICMP 
+  ingress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  // SMTP
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.167.16.249/32","10.167.16.48/32","10.167.16.169/32","10.167.16.38/32","10.167.16.4/32","10.167.16.74/32","10.167.16.70/32" ]
+  }
+
+  // ICMP 
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
   // Internet Access 80
   egress {
     description = "Internet Access 80"

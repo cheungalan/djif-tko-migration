@@ -64,6 +64,33 @@ resource "aws_security_group" "djif-archive-sg" {
     cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
   }
 
+  // ICMP 
+  ingress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  // SMTP
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.167.16.249/32","10.167.16.48/32","10.167.16.169/32","10.167.16.38/32","10.167.16.4/32","10.167.16.74/32","10.167.16.70/32" ]
+  }
+
+  // ICMP 
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
   // Internet Access 80
   egress {
     description = "Internet Access 80"
