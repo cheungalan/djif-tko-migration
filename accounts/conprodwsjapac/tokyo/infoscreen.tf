@@ -75,10 +75,10 @@ resource "aws_security_group" "djif-infoscreen-sg" {
 
   // SMTP
   egress {
-    description = "ICMP"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
+    description = "SMTP"
+    from_port   = 25 
+    to_port     = 25 
+    protocol    = "tcp"
     cidr_blocks = ["10.167.16.249/32","10.167.16.48/32","10.167.16.169/32","10.167.16.38/32","10.167.16.4/32","10.167.16.74/32","10.167.16.70/32" ]
   }
 
