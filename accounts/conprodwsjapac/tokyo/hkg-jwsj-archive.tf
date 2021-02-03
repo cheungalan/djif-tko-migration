@@ -29,13 +29,98 @@ data "aws_security_group" "djif-default-archive" {
     }
 }
 
+resource "aws_security_group" "djif-archive-sg" {
+  name        = "djif-archive-sg"
+  description = "djif-archive-sg"
+
+  vpc_id      = var.vpc_id 
+
+  //IP-6495
+
+  // Web Access 80
+  ingress {
+    description = "Web Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Web Access 443
+  ingress {
+    description = "Web Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // SSH Access 
+  ingress {
+    description = "SSH Access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+  }
+
+  // ICMP 
+  ingress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  // SMTP
+  egress {
+    description = "SMTP"
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // ICMP 
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  // Internet Access 80
+  egress {
+    description = "Internet Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // Internet Access 443
+  egress {
+    description = "Internet Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    preserve = "true"
+  }
+}
+
 resource "aws_instance" "hkg-jwsj-archive" {
     count		   = 2 
     ami                    = "${data.aws_ami.hkg_jswj_archive_image.image_id}"
     instance_type          = "${var.hkg_jswj_archive_instance_type}"
     key_name               = "${aws_key_pair.hkg_jswj_archive_key.id}" 
     subnet_id              = "${var.hkg_jswj_archive_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-archive.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-archive.id}","${aws_security_group.djif-archive-sg.id}"]
 
     root_block_device {
         volume_size = "${var.root_v_size}"

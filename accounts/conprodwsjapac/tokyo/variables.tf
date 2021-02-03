@@ -13,6 +13,11 @@ variable "account_id" {
   default = "261053699423"
 }
 
+variable "vpc_id" {
+  description = "VPC Id"
+  default = "vpc-09745522ce354a0f3"
+}
+
 variable "tko_rc_datagen_name" {
   default = "tko-rc-datagen"
 }
