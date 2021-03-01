@@ -182,7 +182,7 @@ data "aws_ami" "hkpc-cwsj-sql" {
   owners   = ["528339170479"]  
   filter {
     name   = "name"
-    values = ["amigo-windows-2012-dowjones-base-201911150909"]
+    values = ["DJW2K16DC-Vanilla-SQL2017_20180927"]
   }
 }
 
