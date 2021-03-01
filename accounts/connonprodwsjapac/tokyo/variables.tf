@@ -101,29 +101,29 @@ variable "appid" {
 }
 
 variable "hkpc-cwsj-editor-web-name" {
-  default = "editor-web-qa"
+default = "cwsj-editor-qa"
 }
 
 variable "hkpc-cwsj-sql-name" {
-  default = "cwsj-sql-01-qa"
+default = "cwsj-sql-qa"
 }
 
 variable "hkpc-lls-editor-web-name" {
-  default = "lls-edit-web-qa"
+default = "lls-editor-qa"
 }
 
 variable "hkpc-cln-dist-name" {
-  default = "cln-dist-5-qa"
+default = "cln-dist5-qa"
 }
 
 variable "hkpc-jls-wrfeed-name" {
-  default = "jls-wrfeed-1-qa"
+default = "jls-wrfeed01-qa"
 }
 
 variable "hkpc-cls-recv-name" {
-  default = "cls-recv-02-qa"
+default = "cls-receiver-qa"
 }
 
 variable "hkpc-cwsj-ftp-gateway-name" {
-  default = "cwsj-ftp-gat-qa"
+default = "cwsj-ftp-qa"
 }
