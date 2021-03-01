@@ -179,7 +179,7 @@ resource "aws_ebs_volume" "hkpc-cwsj-sql" {
 }
 
 data "aws_ami" "hkpc-cwsj-sql" {
-  owners   = ["528339170479"]  
+  owners   = ["534664863199"]  
   filter {
     name   = "name"
     values = ["DJW2K16DC-Vanilla-SQL2017_20180927"]
