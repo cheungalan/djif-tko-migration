@@ -99,3 +99,31 @@ variable "TagComponent" {
 variable "appid" {
   default = "in_randc_web"
 }
+
+variable "hkpc-cwsj-editor-web-name" {
+  default = "editor-web-qa"
+}
+
+variable "hkpc-cwsj-sql-name" {
+  default = "cwsj-sql-01-qa"
+}
+
+variable "hkpc-lls-editor-web-name" {
+  default = "lls-edit-web-qa"
+}
+
+variable "hkpc-cln-dist-name" {
+  default = "cln-dist-5-qa"
+}
+
+variable "hkpc-jls-wrfeed-name" {
+  default = "jls-wrfeed-1-qa"
+}
+
+variable "hkpc-cls-recv-name" {
+  default = "cls-recv-02-qa"
+}
+
+variable "hkpc-cwsj-ftp-gateway-name" {
+  default = "cwsj-ftp-gat-qa"
+}
