@@ -148,6 +148,12 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  egress {
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     preserve = "true"
