@@ -161,6 +161,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
 }
 
 data "aws_ami" "hkpc-cls-recv" {
+  most_recent = true
   owners   = ["528339170479"]  
   filter {
     name   = "name"

@@ -161,6 +161,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
 }
 
 data "aws_ami" "hkpc-cln-dist" {
+  most_recent = true
   owners   = ["528339170479"]  
   filter {
     name   = "name"

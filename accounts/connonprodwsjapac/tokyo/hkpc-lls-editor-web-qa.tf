@@ -161,6 +161,7 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
 }
 
 data "aws_ami" "hkpc-lls-editor-web" {
+  most_recent = true
   owners   = ["528339170479"]  
   filter {
     name   = "name"

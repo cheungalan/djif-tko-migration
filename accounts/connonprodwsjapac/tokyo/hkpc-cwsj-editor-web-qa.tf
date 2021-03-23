@@ -161,6 +161,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
 }
 
 data "aws_ami" "hkpc-cwsj-editor-web" {
+  most_recent = true
   owners   = ["528339170479"]  
   filter {
     name   = "name"

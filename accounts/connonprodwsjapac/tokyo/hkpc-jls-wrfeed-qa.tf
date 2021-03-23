@@ -161,6 +161,7 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
 }
 
 data "aws_ami" "hkpc-jls-wrfeed" {
+  most_recent = true
   owners   = ["528339170479"]  
   filter {
     name   = "name"
