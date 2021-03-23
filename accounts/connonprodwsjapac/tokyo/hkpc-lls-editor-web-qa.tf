@@ -164,7 +164,7 @@ data "aws_ami" "hkpc-lls-editor-web" {
   owners   = ["528339170479"]  
   filter {
     name   = "name"
-    values = ["amigo-windows-2012-dowjones-base-201911150909"]
+    values = ["amigo-windows-2019-dowjones-base*"] 
   }
 }
 
