@@ -165,7 +165,7 @@ data "aws_ami" "hkpc-cln-dist" {
   owners   = ["528339170479"]  
   filter {
     name   = "name"
-    values = ["amigo-windows-2019-dowjones-base*"]
+    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
   }
 }
 
