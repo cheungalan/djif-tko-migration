@@ -162,7 +162,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
 
 data "aws_ami" "hkpc-cwsj-editor-web" {
   most_recent = true
-  owners   = ["528339170479"]  
+  owners   = ["819633815198"]  
   filter {
     name   = "name"
     values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
