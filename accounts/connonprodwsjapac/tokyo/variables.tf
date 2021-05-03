@@ -49,6 +49,10 @@ variable "hkpk-jls-web2-qa-name" {
   default = "hkpk-jls-web2-qa"
 }
 
+variable "hkpk-jls-wrweb1-name" {
+  default = "hkpk-jls-wrweb1-qa"
+}
+
 variable "deployment_role" {
   description = "Name of role for deployment"
   default = "djif-admin"
