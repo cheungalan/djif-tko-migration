@@ -134,7 +134,6 @@ data "aws_ami" "hkpk-jls-wrweb1-qa" {
 }
 
 resource "aws_instance" "hkpk-jls-wrweb1-qa" {
-    count		   = 1 
     ami                    = "${data.aws_ami.hkpk-jls-wrweb1-qa.image_id}"
     instance_type          = "${var.instance_type}"
     key_name               = "${aws_key_pair.hkpk-jls-wrweb1-qa-key.id}" 
@@ -147,7 +146,7 @@ resource "aws_instance" "hkpk-jls-wrweb1-qa" {
     }
 
     tags = {
-        Name        = "${var.hkpk-jls-wrweb1-qa-name}${count.index + 1}" 
+        Name        = "${var.hkpk-jls-wrweb1-qa-name}" 
         bu          = "${var.TagBU}"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
