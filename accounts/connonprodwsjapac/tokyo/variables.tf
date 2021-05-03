@@ -49,7 +49,7 @@ variable "hkpk-jls-web2-qa-name" {
   default = "hkpk-jls-web2-qa"
 }
 
-variable "hkpk-jls-wrweb1-name" {
+variable "hkpk-jls-wrweb1-qa-name" {
   default = "hkpk-jls-wrweb1-qa"
 }
 
