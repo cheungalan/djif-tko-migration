@@ -10,6 +10,13 @@ data "aws_security_group" "djif-default-hkpc-cwsj-sql" {
     }
 }
 
+data "aws_security_group" "djif-cyberark-mssql-hkpc-cwsj-sql" {
+    filter {
+        name = "group-name"
+        values = ["djif_cyberark_mssql"]
+    }
+}
+
 resource "aws_security_group" "hkpc-cwsj-sql" {
   name        = "hkpc-cwsj-sql"
   description = "hkpc-cwsj-sql"
@@ -148,6 +155,12 @@ resource "aws_security_group" "hkpc-cwsj-sql" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  egress {
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     preserve = "true"
@@ -191,7 +204,7 @@ resource "aws_instance" "hkpc-cwsj-sql" {
     instance_type          = "${var.instance_type}"
     key_name               = "${aws_key_pair.hkpc-cwsj-sql-key.id}" 
     subnet_id              = "${var.subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cwsj-sql.id}","${aws_security_group.hkpc-cwsj-sql.id}"]
+    vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cwsj-sql.id}","${aws_security_group.hkpc-cwsj-sql.id}", "${data.aws_security_group.djif-cyberark-mssql-hkpc-cwsj-sql.id}"]
 
 
     root_block_device {

@@ -148,6 +148,12 @@ resource "aws_security_group" "hkpc-cls-recv" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  egress {
+    from_port   = 25 
+    to_port     = 25 
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     preserve = "true"
@@ -155,10 +161,11 @@ resource "aws_security_group" "hkpc-cls-recv" {
 }
 
 data "aws_ami" "hkpc-cls-recv" {
-  owners   = ["528339170479"]  
+  most_recent = true
+  owners   = ["819633815198"]  
   filter {
     name   = "name"
-    values = ["amigo-windows-2012-dowjones-base-201911150909"]
+    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
   }
 }
 
