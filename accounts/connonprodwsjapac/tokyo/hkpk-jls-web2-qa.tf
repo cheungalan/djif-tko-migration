@@ -44,6 +44,13 @@ resource "aws_security_group" "hkpk-jls-web2-qa" {
   }
 
   egress {
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  egress {
     from_port   = 21
     to_port     = 22
     protocol    = "tcp"

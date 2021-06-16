@@ -68,6 +68,13 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     from_port   = 1024
     to_port     = 65535
     protocol    = "tcp"
+    cidr_blocks = ["52.1.1.231/32"]
+  }
+
+  egress {
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
     cidr_blocks = ["152.1.1.231/32"]
   }
 
