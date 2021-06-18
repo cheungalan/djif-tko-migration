@@ -16,6 +16,13 @@ resource "aws_security_group" "hkpc-cln-dist" {
   vpc_id      =  var.vpc_id 
 
   ingress {
+    from_port   = 5000
+    to_port     = 5100
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
     from_port   = 3389 
     to_port     = 3389 
     protocol    = "tcp"

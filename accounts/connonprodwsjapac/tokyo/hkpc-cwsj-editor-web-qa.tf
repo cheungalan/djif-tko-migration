@@ -16,6 +16,20 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
   vpc_id      =  var.vpc_id 
 
   ingress {
+    from_port   = 80 
+    to_port     = 80 
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 443 
+    to_port     = 443 
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+  }
+
+  ingress {
     from_port   = 3389 
     to_port     = 3389 
     protocol    = "tcp"

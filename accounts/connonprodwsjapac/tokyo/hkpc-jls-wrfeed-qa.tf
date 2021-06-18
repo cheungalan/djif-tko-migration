@@ -16,6 +16,13 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   vpc_id      =  var.vpc_id 
 
   ingress {
+    from_port   = 20000
+    to_port     = 20100
+    protocol    = "tcp"
+    cidr_blocks = ["10.150.86.0/23","10.150.88.0/23","10.243.6.0/24", "10.243.135.0/24"]
+  }
+
+  ingress {
     from_port   = 3389 
     to_port     = 3389 
     protocol    = "tcp"
@@ -54,6 +61,34 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     from_port   = -1 
     to_port     = -1 
     protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  egress {
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["52.1.1.231/32"]
+  }
+
+  egress {
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["152.1.1.231/32"]
+  }
+
+  egress {
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["10.32.176.211/32"]
+  }
+
+  egress {
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 

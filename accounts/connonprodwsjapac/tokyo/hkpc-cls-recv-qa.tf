@@ -23,6 +23,20 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   ingress {
+    from_port   = 5000 
+    to_port     = 5100 
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
+    from_port   = 8880 
+    to_port     = 8880 
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
     from_port   = 21 
     to_port     = 21 
     protocol    = "tcp"
