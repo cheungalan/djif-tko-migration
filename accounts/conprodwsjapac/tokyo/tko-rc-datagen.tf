@@ -37,13 +37,22 @@ resource "aws_security_group" "djif-datagen-sg" {
 
   //IP-6495
 
+  // ICMP 
+  ingress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
   // RDP Access
   ingress {
     description = "RDP Access"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.146.86.15/32"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.146.86.15/32", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
   // FTP Access 21
@@ -52,7 +61,7 @@ resource "aws_security_group" "djif-datagen-sg" {
     from_port   = 21
     to_port     = 21
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.74/32", "10.167.16.70/32"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.74/32", "10.167.16.70/32", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
   // SMB Access
@@ -61,7 +70,7 @@ resource "aws_security_group" "djif-datagen-sg" {
     from_port   = 445
     to_port     = 445
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
    egress {
@@ -90,6 +99,23 @@ resource "aws_security_group" "djif-datagen-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+   egress {
+    description = "SMTP"
+    from_port   = 25 
+    to_port     = 25 
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  // SSH 
+   egress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.167.16.74/32", "10.167.16.70/32"]
+  }
+
   tags = {
     preserve = "true"
   }
@@ -116,7 +142,7 @@ resource "aws_instance" "tko-rc-datagen" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
     }
 }

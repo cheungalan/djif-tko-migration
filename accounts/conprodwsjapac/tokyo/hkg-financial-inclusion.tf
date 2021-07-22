@@ -61,7 +61,7 @@ resource "aws_security_group" "djif-financial-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
   // ICMP 
@@ -136,7 +136,7 @@ resource "aws_instance" "hkg-financial-inclusion" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "djcs_wsj_web_financialasia"       
         preserve    = true
     }
 }
