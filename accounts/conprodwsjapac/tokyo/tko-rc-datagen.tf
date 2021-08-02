@@ -121,6 +121,16 @@ resource "aws_security_group" "djif-datagen-sg" {
   }
 }
 
+resource "aws_security_group_rule" "allow_rds_egress" {
+    description = "Access to RDS"
+    security_group_id        = "${aws_security_group.djif-datagen-sg.id}"
+    type                     = "egress"
+    from_port                = 3306
+    to_port                  = 3306
+    protocol                 = "tcp"
+    source_security_group_id = data.aws_security_group.wsj_prod_db.id
+}
+
 resource "aws_instance" "tko-rc-datagen" {
     count		   = 4
     ami                    = "${data.aws_ami.datagen_image.image_id}"
