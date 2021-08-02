@@ -110,6 +110,15 @@ resource "aws_security_group" "djif-financial-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  // Access to RDS
+  egress {
+    description = "Access to RDS"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    source_security_group_id = data.aws_security_group.wsj_prod_db.id
+  }
+
   tags = {
     preserve = "true"
   }
