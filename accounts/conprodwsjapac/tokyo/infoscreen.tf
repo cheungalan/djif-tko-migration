@@ -114,7 +114,7 @@ resource "aws_security_group" "djif-infoscreen-sg" {
   }
 }
 
-resource "aws_security_group_rule" "allow_rds_egress" {
+resource "aws_security_group_rule" "allow_rds_info_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-infoscreen-sg.id}"
     type                     = "egress"

@@ -122,7 +122,7 @@ resource "aws_security_group" "djif-rc-web-sg" {
   }
 }
 
-resource "aws_security_group_rule" "allow_rds_egress" {
+resource "aws_security_group_rule" "allow_rds_web_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-default-web.id}"
     type                     = "egress"

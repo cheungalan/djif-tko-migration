@@ -114,7 +114,7 @@ resource "aws_security_group" "djif-archive-sg" {
   }
 }
 
-resource "aws_security_group_rule" "allow_rds_egress" {
+resource "aws_security_group_rule" "allow_rds_archive_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-default-archive.id}"
     type                     = "egress"

@@ -121,7 +121,7 @@ resource "aws_security_group" "djif-datagen-sg" {
   }
 }
 
-resource "aws_security_group_rule" "allow_rds_egress" {
+resource "aws_security_group_rule" "allow_rds_datagen_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-datagen-sg.id}"
     type                     = "egress"

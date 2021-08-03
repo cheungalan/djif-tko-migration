@@ -116,7 +116,7 @@ resource "aws_security_group" "djif-financial-sg" {
 
 }
 
-resource "aws_security_group_rule" "allow_rds_egress" {
+resource "aws_security_group_rule" "allow_rds_fin_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-financial-sg.id}"
     type                     = "egress"
