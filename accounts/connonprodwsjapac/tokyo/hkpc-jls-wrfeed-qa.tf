@@ -225,7 +225,7 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "in_newswires_web_jlswireryter"       
         preserve    = true
     }
 }

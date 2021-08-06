@@ -154,7 +154,7 @@ resource "aws_instance" "hkpc-financialinclusion-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "djcs_wsj_web_financialasia"       
         preserve    = true
     }
 }
