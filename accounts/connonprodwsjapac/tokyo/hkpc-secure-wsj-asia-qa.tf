@@ -154,7 +154,7 @@ resource "aws_instance" "hkpc-secure-wsj-asia-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "djcs_wsj_web_securewsja"       
         preserve    = true
     }
 }

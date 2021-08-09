@@ -122,6 +122,16 @@ resource "aws_security_group" "djif-rc-web-sg" {
   }
 }
 
+resource "aws_security_group_rule" "allow_rds_web_egress" {
+    description = "Access to RDS"
+    security_group_id        = "${aws_security_group.djif-rc-web-sg.id}"
+    type                     = "egress"
+    from_port                = 3306
+    to_port                  = 3306
+    protocol                 = "tcp"
+    source_security_group_id = data.aws_security_group.wsj_prod_db.id
+}
+
 resource "aws_instance" "tko-rc-web" {
     count		   = 2 
     ami                    = "${data.aws_ami.tko_rc_web_image.image_id}"

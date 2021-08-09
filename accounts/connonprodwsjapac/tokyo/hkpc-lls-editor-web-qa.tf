@@ -204,7 +204,7 @@ resource "aws_instance" "hkpc-lls-editor-web" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "in_newswires_web_lls"       
         preserve    = true
     }
 }

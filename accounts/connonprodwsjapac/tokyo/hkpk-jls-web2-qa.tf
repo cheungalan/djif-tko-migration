@@ -161,7 +161,7 @@ resource "aws_instance" "hkpk-jls-web2-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "in_newswires_djnews_jlsnews"       
         preserve    = true
     }
 }

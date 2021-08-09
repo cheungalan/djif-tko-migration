@@ -190,7 +190,7 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "djcs_wsj_backend_cwsjsupport"       
         preserve    = true
     }
 }

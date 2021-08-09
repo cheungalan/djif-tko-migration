@@ -153,7 +153,7 @@ resource "aws_instance" "hkpk-jls-wrweb1-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "in_newswires_web_jlswireryter"       
         preserve    = true
     }
 }

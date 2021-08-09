@@ -186,7 +186,7 @@ resource "aws_ebs_volume" "hkpc-cwsj-sql" {
       product     = "${var.TagProduct}"
       component   = "${var.TagComponent}"
       servicename = "${var.TagServiceName}"
-      appid       = "${var.appid}"      
+      appid       = "djcs_edttools_web_cwsjediting"      
     }    
   
 }
@@ -220,7 +220,7 @@ resource "aws_instance" "hkpc-cwsj-sql" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "${var.appid}"       
+        appid       = "djcs_edttools_web_cwsjediting"       
         preserve    = true
     }
 }
