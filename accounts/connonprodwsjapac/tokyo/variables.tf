@@ -18,7 +18,7 @@ variable "hkpc-cwsj-mobile-converter-qa-name" {
 }
 
 variable "hkpc-secure-wsj-asia-qa-name" {
-  default = "hkpc-secure-wsj-asia-qa"
+  default = "hkpk-secure-wsj-asia-qa"
 }
 
 variable "hkpc-infosceen-qa-name" {
