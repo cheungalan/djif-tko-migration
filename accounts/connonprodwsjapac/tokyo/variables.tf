@@ -42,7 +42,7 @@ variable "hkpc-dist-admin-qa-name" {
 }
 
 variable "hkpc-financialinclusion-qa-name" {
-  default = "hkpc-financialinclusion-qa"
+  default = "hkpk-financialinclusion-qa"
 }
 
 variable "hkpk-jls-web2-qa-name" {
