@@ -198,12 +198,12 @@ resource "aws_instance" "hkpc-lls-editor-web" {
 
     tags = {
         Name        = "${var.hkpc-lls-editor-web-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin""
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_web_lls"       
         preserve    = true
     }
