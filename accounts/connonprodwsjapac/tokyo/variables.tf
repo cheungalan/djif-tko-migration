@@ -85,7 +85,7 @@ variable "TagServiceName" {
 }
 
 variable "TagOwner" {
-  default = "Alan.Cheung@dowjones.com "
+  default = "Alan.Cheung@dowjones.com"
 }
 
 variable "TagBU" {
