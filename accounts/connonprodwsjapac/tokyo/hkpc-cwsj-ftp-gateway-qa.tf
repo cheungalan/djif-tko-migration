@@ -184,12 +184,12 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
 
     tags = {
         Name        = "${var.hkpc-cwsj-ftp-gateway-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djcs"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
+        product     = "wsj"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_backend_cwsjsupport"       
         preserve    = true
     }
