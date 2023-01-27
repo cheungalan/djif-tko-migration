@@ -198,7 +198,7 @@ resource "aws_instance" "hkpc-lls-editor-web" {
 
     tags = {
         Name        = "${var.hkpc-lls-editor-web-name}" 
-        bu          = "djin""
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
