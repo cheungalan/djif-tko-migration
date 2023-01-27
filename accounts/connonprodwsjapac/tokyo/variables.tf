@@ -38,7 +38,7 @@ variable "hkpk-tko-rc-04-qa-name" {
 }
 
 variable "hkpc-dist-admin-qa-name" {
-  default = "hkpc-dist-admin-qa"
+  default = "hkpk-dist-admin-qa"
 }
 
 variable "hkpc-financialinclusion-qa-name" {
