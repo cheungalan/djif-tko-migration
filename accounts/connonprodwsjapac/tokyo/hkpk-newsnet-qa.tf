@@ -148,12 +148,12 @@ resource "aws_instance" "hkpk-newsnet-qa" {
 
     tags = {
         Name        = "${var.hkpk-newsnet-qa-name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
+        bu          = "djcs"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "${var.appid}"       
         preserve    = true
     }
