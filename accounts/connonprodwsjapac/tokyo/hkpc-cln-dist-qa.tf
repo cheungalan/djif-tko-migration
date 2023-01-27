@@ -191,12 +191,12 @@ resource "aws_instance" "hkpc-cln-dist" {
 
     tags = {
         Name        = "${var.hkpc-cln-dist-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_djnews_clsdist"       
         preserve    = true
     }
