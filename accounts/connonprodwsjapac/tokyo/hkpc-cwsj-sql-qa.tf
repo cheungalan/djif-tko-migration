@@ -188,7 +188,9 @@ resource "aws_ebs_volume" "hkpc-cwsj-sql" {
       servicename = "${var.TagServiceName}"
       appid       = "djcs_edttools_web_cwsjediting"      
     }    
-  
+    lifecycle {
+     ignore_changes = all
+    }   
 }
 
 data "aws_ami" "hkpc-cwsj-sql" {
@@ -211,6 +213,10 @@ resource "aws_instance" "hkpc-cwsj-sql" {
         volume_size = "${var.root_v_size}"
         volume_type = "${var.root_v_type}"
     }
+  
+    lifecycle {
+     ignore_changes = all
+    }  
 
     tags = {
         Name        = "${var.hkpc-cwsj-sql-name}" 
