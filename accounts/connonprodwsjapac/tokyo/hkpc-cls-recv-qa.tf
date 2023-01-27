@@ -198,12 +198,12 @@ resource "aws_instance" "hkpc-cls-recv" {
 
     tags = {
         Name        = "${var.hkpc-cls-recv-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_djnews_clsdist"       
         preserve    = true
     }
