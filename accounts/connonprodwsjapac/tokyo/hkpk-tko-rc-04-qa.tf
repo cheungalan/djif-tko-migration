@@ -145,7 +145,9 @@ resource "aws_instance" "hkpk-tko-rc-04-qa" {
         volume_size = "${var.root_v_size}"
         volume_type = "${var.root_v_type}"
     }
-
+    lifecycle {
+     ignore_changes = all
+    }
     tags = {
         Name        = "${var.hkpk-tko-rc-04-qa-name}${count.index + 1}" 
         bu          = "${var.TagBU}"
