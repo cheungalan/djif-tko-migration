@@ -219,12 +219,12 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
 
     tags = {
         Name        = "${var.hkpc-jls-wrfeed-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web""
         appid       = "in_newswires_web_jlswireryter"       
         preserve    = true
     }
