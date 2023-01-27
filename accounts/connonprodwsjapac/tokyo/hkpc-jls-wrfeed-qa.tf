@@ -224,7 +224,7 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "djin/newswires/web""
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_web_jlswireryter"       
         preserve    = true
     }
