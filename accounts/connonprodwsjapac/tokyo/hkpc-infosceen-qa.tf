@@ -148,12 +148,12 @@ resource "aws_instance" "hkpc-infosceen-qa" {
 
     tags = {
         Name        = "${var.hkpc-infosceen-qa-name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
+        bu          = "djcs"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_infoscreen"       
         preserve    = true
     }
