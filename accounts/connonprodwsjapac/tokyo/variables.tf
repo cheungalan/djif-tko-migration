@@ -22,7 +22,7 @@ variable "hkpc-secure-wsj-asia-qa-name" {
 }
 
 variable "hkpc-infosceen-qa-name" {
-  default = "hkpc-infosceen-qa"
+  default = "hkpk-infosceen-qa"
 }
 
 variable "hkpk-cwsj-enews-tools-qa-name" {
