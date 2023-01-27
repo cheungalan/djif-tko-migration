@@ -81,7 +81,7 @@ variable "TagEnv" {
 variable "TagServiceName" {
   description = "Service Name"
   type        = "string"
-  default     = "djcs/newswires/web"
+  default     = "djin/newswires/web"
 }
 
 variable "TagOwner" {
@@ -89,7 +89,7 @@ variable "TagOwner" {
 }
 
 variable "TagBU" {
-  default = "djcs"
+  default = "djin"
 }
 
 variable "TagProduct" {
