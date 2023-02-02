@@ -65,6 +65,13 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
   }
 
   ingress {
+    from_port   = 20010
+    to_port     = 20011
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+  }
+  
+  ingress {
     from_port   = -1 
     to_port     = -1 
     protocol    = "icmp"
@@ -97,6 +104,13 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
+  }
+  
+  egress {
+    from_port   = 8880
+    to_port     = 8880
+    protocol    = "tcp"
+    cidr_blocks = ["10.32.0.0/16", "10.167.4.218/32"]
   }
   
   egress {
