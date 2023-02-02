@@ -18,11 +18,11 @@ variable "hkpc-cwsj-mobile-converter-qa-name" {
 }
 
 variable "hkpc-secure-wsj-asia-qa-name" {
-  default = "hkpc-secure-wsj-asia-qa"
+  default = "hkpk-secure-wsj-asia-qa"
 }
 
 variable "hkpc-infosceen-qa-name" {
-  default = "hkpc-infosceen-qa"
+  default = "hkpk-infosceen-qa"
 }
 
 variable "hkpk-cwsj-enews-tools-qa-name" {
@@ -38,11 +38,11 @@ variable "hkpk-tko-rc-04-qa-name" {
 }
 
 variable "hkpc-dist-admin-qa-name" {
-  default = "hkpc-dist-admin-qa"
+  default = "hkpk-dist-admin-qa"
 }
 
 variable "hkpc-financialinclusion-qa-name" {
-  default = "hkpc-financialinclusion-qa"
+  default = "hkpk-financialinclusion-qa"
 }
 
 variable "hkpk-jls-web2-qa-name" {
@@ -85,7 +85,7 @@ variable "TagServiceName" {
 }
 
 variable "TagOwner" {
-  default = "Alan.Cheung@dowjones.com "
+  default = "Alan.Cheung@dowjones.com"
 }
 
 variable "TagBU" {

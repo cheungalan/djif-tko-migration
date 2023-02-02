@@ -31,7 +31,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
 
   ingress {
     from_port   = 21 
-    to_port     = 21 
+    to_port     = 22 
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -43,6 +43,13 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  ingress {
+    from_port   = 443 
+    to_port     = 443 
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
   ingress {
     from_port   = 445 
     to_port     = 445 
@@ -191,12 +198,12 @@ resource "aws_instance" "hkpc-cln-dist" {
 
     tags = {
         Name        = "${var.hkpc-cln-dist-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_djnews_clsdist"       
         preserve    = true
     }

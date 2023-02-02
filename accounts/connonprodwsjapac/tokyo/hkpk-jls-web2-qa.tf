@@ -155,12 +155,12 @@ resource "aws_instance" "hkpk-jls-web2-qa" {
 
     tags = {
         Name        = "${var.hkpk-jls-web2-qa-name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
+        bu          = "djin"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djin/newswires/web"
         appid       = "in_newswires_djnews_jlsnews"       
         preserve    = true
     }

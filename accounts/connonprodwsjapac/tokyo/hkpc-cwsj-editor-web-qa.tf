@@ -198,12 +198,12 @@ resource "aws_instance" "hkpc-cwsj-editor-web" {
 
     tags = {
         Name        = "${var.hkpc-cwsj-editor-web-name}" 
-        bu          = "${var.TagBU}"
+        bu          = "djcs"
         owner       = "${var.TagOwner}"
         environment = "${var.TagEnv}"
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_edttools_web_cwsjediting"       
         preserve    = true
     }
