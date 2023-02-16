@@ -7,6 +7,10 @@ resource "aws_eip_association" "tko-rc-web-eip-assoc" {
   count		= 2 
   instance_id   = element(aws_instance.tko-rc-web.*.id, count.index)
   allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)
+  
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_key_pair" "tko_rc_web_key" {
