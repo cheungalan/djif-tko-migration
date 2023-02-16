@@ -115,12 +115,22 @@ resource "aws_security_group" "djif-datagen-sg" {
     protocol    = "tcp"
     cidr_blocks = ["10.167.16.74/32", "10.167.16.70/32"]
   }
-
+  
+  // Allow rDS access 
+  egress {
+    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port   = "3306"
+    to_port     = "3306"
+    protocol    = "tcp"
+    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+  }
+  
   tags = {
     preserve = "true"
   }
 }
 
+/*
 resource "aws_security_group_rule" "allow_rds_datagen_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-datagen-sg.id}"
@@ -130,6 +140,7 @@ resource "aws_security_group_rule" "allow_rds_datagen_egress" {
     protocol                 = "tcp"
     source_security_group_id = data.aws_security_group.wsj_prod_db.id
 }
+*/
 
 resource "aws_instance" "tko-rc-datagen" {
     count		   = 4

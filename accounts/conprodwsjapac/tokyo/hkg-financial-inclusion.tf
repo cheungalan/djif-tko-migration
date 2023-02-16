@@ -109,13 +109,23 @@ resource "aws_security_group" "djif-financial-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
+  // Allow rDS access 
+  egress {
+    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port   = "3306"
+    to_port     = "3306"
+    protocol    = "tcp"
+    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+  }
+  
   tags = {
     preserve = "true"
   }
 
 }
 
+/*
 resource "aws_security_group_rule" "allow_rds_fin_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-financial-sg.id}"
@@ -125,6 +135,7 @@ resource "aws_security_group_rule" "allow_rds_fin_egress" {
     protocol                 = "tcp"
     source_security_group_id = data.aws_security_group.wsj_prod_db.id
 }
+*/
 
 resource "aws_instance" "hkg-financial-inclusion" {
     count		   = 1 

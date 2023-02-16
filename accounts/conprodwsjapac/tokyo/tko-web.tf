@@ -116,12 +116,22 @@ resource "aws_security_group" "djif-rc-web-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  
+  // Allow rDS access 
+  egress {
+    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port   = "3306"
+    to_port     = "3306"
+    protocol    = "tcp"
+    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+  }
+  
   tags = {
     preserve = "true"
   }
 }
 
+/*
 resource "aws_security_group_rule" "allow_rds_web_egress" {
     description = "Access to RDS"
     security_group_id        = "${aws_security_group.djif-rc-web-sg.id}"
@@ -131,7 +141,8 @@ resource "aws_security_group_rule" "allow_rds_web_egress" {
     protocol                 = "tcp"
     source_security_group_id = data.aws_security_group.wsj_prod_db.id
 }
-
+*/
+  
 resource "aws_instance" "tko-rc-web" {
     count		   = 2 
     ami                    = "${data.aws_ami.tko_rc_web_image.image_id}"
