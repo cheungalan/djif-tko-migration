@@ -3,12 +3,14 @@ resource "aws_eip" "tko-rc-web-eip" {
   vpc  = true   
 }
 
+/*
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {
   count		= 2 
   instance_id   = element(aws_instance.tko-rc-web.*.id, count.index)
   allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)  
   allow_reassociation = false
 }
+/*
 
 resource "aws_key_pair" "tko_rc_web_key" {
   key_name   = "tko_rc_web_key"
