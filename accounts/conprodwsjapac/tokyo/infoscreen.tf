@@ -109,6 +109,15 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   
+  // Internet Access 1433
+  egress {
+    description = "MSSQL access"
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
   // Allow rDS access 
   egress {
     description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
