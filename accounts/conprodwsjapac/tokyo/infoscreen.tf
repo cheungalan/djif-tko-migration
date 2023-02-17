@@ -159,12 +159,12 @@ resource "aws_instance" "infoscreen" {
 
     tags = {
         Name        = "${var.infoscreen_name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
+        bu          = "djcs"
+        owner       = "Alan.Cheung@dowjones.com"
         environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
+        product     = "wsj"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_infoscreen"       
         preserve    = true
     }
