@@ -1,9 +1,6 @@
-// EIP migration has been done on tko-rc-web1 locally
-// New EIP is going to be assigned to tko-rc-web2 locally
-// Below EIP assignment is going to be no longer in use to prevent EIP reassignment
+
 // Bring back tfstate in sync
 
-/*
 resource "aws_eip" "tko-rc-web-eip" {
   count = 2 
   vpc  = true   
@@ -15,7 +12,7 @@ resource "aws_eip_association" "tko-rc-web-eip-assoc" {
   allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)  
   allow_reassociation = false
 }
-*/
+
 
 resource "aws_key_pair" "tko_rc_web_key" {
   key_name   = "tko_rc_web_key"
