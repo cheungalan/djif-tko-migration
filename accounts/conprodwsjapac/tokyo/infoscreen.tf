@@ -61,7 +61,7 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.140.16.0/20", "10.32.120.0/24","10.32.212.67/32","10.193.240.0/20"]
   }
 
   // ICMP 
@@ -109,6 +109,15 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   
+  // Internet Access 1433
+  egress {
+    description = "MSSQL access"
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
   // Allow rDS access 
   egress {
     description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
@@ -150,12 +159,12 @@ resource "aws_instance" "infoscreen" {
 
     tags = {
         Name        = "${var.infoscreen_name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
+        bu          = "djcs"
+        owner       = "Alan.Cheung@dowjones.com"
         environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
+        product     = "wsj"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_infoscreen"       
         preserve    = true
     }

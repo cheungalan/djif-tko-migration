@@ -152,12 +152,12 @@ resource "aws_instance" "hkg-financial-inclusion" {
 
     tags = {
         Name        = "${var.hkg_financial_inclusion_name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
+        bu          = "djcs"
+        owner       = "Alan.Cheung@dowjones.com"
         environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
+        product     = "wsj"
         component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_financialasia"       
         preserve    = true
     }

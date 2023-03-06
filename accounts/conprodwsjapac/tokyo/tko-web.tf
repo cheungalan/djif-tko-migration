@@ -1,13 +1,18 @@
+
+// Bring back tfstate in sync
+
 resource "aws_eip" "tko-rc-web-eip" {
   count = 2 
-  vpc  = true
+  vpc  = true   
 }
 
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {
   count		= 2 
   instance_id   = element(aws_instance.tko-rc-web.*.id, count.index)
-  allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)
+  allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)  
+  allow_reassociation = false
 }
+
 
 resource "aws_key_pair" "tko_rc_web_key" {
   key_name   = "tko_rc_web_key"
@@ -61,7 +66,7 @@ resource "aws_security_group" "djif-rc-web-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.34/32","10.167.16.226/32","10.167.16.181/32","10.167.16.250/32", "10.32.212.66/32", "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.0/24","10.167.17.0/24","10.167.20.0/24","10.167.22.0/24", "10.32.212.66/32", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
    ingress {
@@ -167,4 +172,9 @@ resource "aws_instance" "tko-rc-web" {
         appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
     }
+  
+    lifecycle {
+     ignore_changes = all
+    }
+  
 }

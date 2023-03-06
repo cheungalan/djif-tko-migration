@@ -107,6 +107,14 @@ resource "aws_security_group" "djif-datagen-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+   egress {
+    description = "TELNET to hkgproxy.dowjones.net"
+    from_port   = 23 
+    to_port     = 23 
+    protocol    = "tcp"
+    cidr_blocks = ["10.32.2.39/32"]
+  }
+  
   // SSH 
    egress {
     description = "SSH"
