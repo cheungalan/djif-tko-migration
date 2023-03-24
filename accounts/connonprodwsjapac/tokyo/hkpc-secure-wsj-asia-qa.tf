@@ -37,6 +37,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
+    description = ""
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -44,6 +45,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
   
   egress {
+    description = ""
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -51,6 +53,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
   
   egress {
+    description = ""
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -58,6 +61,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
   
   egress {
+    description = ""
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -65,6 +69,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
   
   egress {
+    description = ""
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
@@ -72,6 +77,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   } 
   
   egress {
+    description = ""
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
@@ -86,6 +92,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
+    description = ""
     from_port   = 21
     to_port     = 22
     protocol    = "tcp"
@@ -100,6 +107,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
+    description = ""
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -107,6 +115,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
+    description = ""
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
@@ -114,10 +123,29 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
+    description = ""
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  // SMTP
+  egress {
+    description = "smtp.dowjones.net"
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["10.13.32.134/32"]
+  }
+  
+  // 4001
+  egress {
+    description = "CWSJ Convertor"
+    from_port   = 4001
+    to_port     = 4001
+    protocol    = "tcp"
+    cidr_blocks = ["10.167.4.26/32"]
   }
 
   tags = {
