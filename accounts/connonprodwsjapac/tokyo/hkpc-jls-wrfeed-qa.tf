@@ -36,6 +36,16 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  // FTP-Pasv
+  ingress {
+    description = "FTP-Pasv"
+    from_port   = 5000
+    to_port     = 5100
+    protocol    = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  } 
+
+  
   ingress {
     from_port   = 139 
     to_port     = 139 
@@ -84,6 +94,15 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     protocol    = "tcp"
     cidr_blocks = ["10.32.176.211/32"]
   }
+  
+  // FTP-Data
+  egress {
+    description = "FTP-Data"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  } 
 
   egress {
     from_port   = 1433
