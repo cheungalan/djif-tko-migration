@@ -176,5 +176,6 @@ resource "aws_instance" "hkg-jwsj-archive" {
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_jwsjarchive"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }
