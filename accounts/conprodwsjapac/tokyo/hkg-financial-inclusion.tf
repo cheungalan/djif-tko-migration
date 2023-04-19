@@ -160,5 +160,6 @@ resource "aws_instance" "hkg-financial-inclusion" {
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_financialasia"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }
