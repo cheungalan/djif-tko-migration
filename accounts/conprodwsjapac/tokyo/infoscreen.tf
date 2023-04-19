@@ -167,5 +167,6 @@ resource "aws_instance" "infoscreen" {
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_infoscreen"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }
