@@ -171,6 +171,7 @@ resource "aws_instance" "tko-rc-web" {
         servicename = "${var.TagServiceName}"
         appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
   
     lifecycle {
