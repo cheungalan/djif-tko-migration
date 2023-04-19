@@ -173,5 +173,6 @@ resource "aws_instance" "tko-rc-datagen" {
         servicename = "${var.TagServiceName}"
         appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }
