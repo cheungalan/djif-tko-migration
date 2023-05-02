@@ -191,6 +191,7 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_backend_cwsjsupport"       
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
