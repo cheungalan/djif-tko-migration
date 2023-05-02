@@ -163,6 +163,7 @@ resource "aws_instance" "hkpc-cwsj-mobile-converter-qa" {
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
         appid       = "djcs_wsj_backend_cwsjsupport"       
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
