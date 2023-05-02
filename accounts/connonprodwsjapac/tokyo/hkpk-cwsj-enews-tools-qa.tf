@@ -154,7 +154,8 @@ resource "aws_instance" "hkpk-cwsj-enews-tools-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_edttools_web_cwsjenews"       
+        appid       = "djcs_edttools_web_cwsjenews"   
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
