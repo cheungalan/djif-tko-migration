@@ -162,6 +162,7 @@ resource "aws_instance" "hkpk-jls-web2-qa" {
         component   = "${var.TagComponent}"
         servicename = "djin/newswires/web"
         appid       = "in_newswires_djnews_jlsnews"       
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
