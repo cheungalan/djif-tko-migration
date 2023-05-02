@@ -156,7 +156,8 @@ resource "aws_instance" "hkpk-tko-rc-04-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "${var.TagServiceName}"
-        appid       = "in_platform_randc_datagenjapan"       
+        appid       = "in_platform_randc_datagenjapan"      
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
