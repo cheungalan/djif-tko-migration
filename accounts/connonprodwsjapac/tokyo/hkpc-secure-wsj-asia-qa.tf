@@ -182,7 +182,8 @@ resource "aws_instance" "hkpc-secure-wsj-asia-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_securewsja"       
+        appid       = "djcs_wsj_web_securewsja"    
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
