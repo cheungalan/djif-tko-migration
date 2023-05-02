@@ -42,7 +42,8 @@ resource "aws_instance" "hkpc-jls-wrfeed2" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djin/newswires/web"
-        appid       = "in_newswires_web_jlswireryter"       
+        appid       = "in_newswires_web_jlswireryter"    
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
