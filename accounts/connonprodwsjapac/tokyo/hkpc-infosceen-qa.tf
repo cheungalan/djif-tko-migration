@@ -154,7 +154,8 @@ resource "aws_instance" "hkpc-infosceen-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_infoscreen"       
+        appid       = "djcs_wsj_web_infoscreen"      
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
