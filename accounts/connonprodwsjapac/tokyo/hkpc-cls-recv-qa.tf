@@ -204,7 +204,8 @@ resource "aws_instance" "hkpc-cls-recv" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djin/newswires/web"
-        appid       = "in_newswires_djnews_clsdist"       
+        appid       = "in_newswires_djnews_clsdist"   
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }
