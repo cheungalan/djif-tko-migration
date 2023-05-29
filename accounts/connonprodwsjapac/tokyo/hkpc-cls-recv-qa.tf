@@ -77,6 +77,14 @@ resource "aws_security_group" "hkpc-cls-recv" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
+  egress {
+    description = "Passive Port connection"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["10.167.4.97/32"]
+  }
 
   egress {
     from_port   = 80
