@@ -10,7 +10,7 @@ variable "vpc_id" {
 
 variable "account_id" {
   description = "AWS Account Number"
-  default = "830903312882"
+  default     = "830903312882"
 }
 
 variable "hkpc-cwsj-mobile-converter-qa-name" {
@@ -55,7 +55,7 @@ variable "hkpk-jls-wrweb1-qa-name" {
 
 variable "deployment_role" {
   description = "Name of role for deployment"
-  default = "djif-admin"
+  default     = "djif-admin"
 }
 
 variable "subnet_id" {
@@ -63,11 +63,11 @@ variable "subnet_id" {
 }
 
 variable "instance_type" {
-  default = "t3.medium" 
+  default = "t3.medium"
 }
 
 variable "root_v_type" {
-  default = "gp2"
+  default = "gp3"
 }
 
 variable "root_v_size" {
@@ -80,7 +80,7 @@ variable "TagEnv" {
 
 variable "TagServiceName" {
   description = "Service Name"
-  type        = "string"
+  type        = string
   default     = "djin/newswires/web"
 }
 
@@ -105,29 +105,29 @@ variable "appid" {
 }
 
 variable "hkpc-cwsj-editor-web-name" {
-default = "cwsj-editor-qa"
+  default = "cwsj-editor-qa"
 }
 
 variable "hkpc-cwsj-sql-name" {
-default = "cwsj-sql-qa"
+  default = "cwsj-sql-qa"
 }
 
 variable "hkpc-lls-editor-web-name" {
-default = "lls-editor-qa"
+  default = "lls-editor-qa"
 }
 
 variable "hkpc-cln-dist-name" {
-default = "cln-dist5-qa"
+  default = "cln-dist5-qa"
 }
 
 variable "hkpc-jls-wrfeed-name" {
-default = "jls-wrfeed01-qa"
+  default = "jls-wrfeed01-qa"
 }
 
 variable "hkpc-cls-recv-name" {
-default = "cls-receiver-qa"
+  default = "cls-receiver-qa"
 }
 
 variable "hkpc-cwsj-ftp-gateway-name" {
-default = "cwsj-ftp-qa"
+  default = "cwsj-ftp-qa"
 }
