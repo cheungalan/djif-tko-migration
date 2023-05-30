@@ -79,7 +79,7 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     from_port   = 25 
     to_port     = 25 
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
   // ICMP 
@@ -167,5 +167,6 @@ resource "aws_instance" "infoscreen" {
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_infoscreen"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }

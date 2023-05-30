@@ -154,7 +154,8 @@ resource "aws_instance" "hkpc-financialinclusion-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_financialasia"       
+        appid       = "djcs_wsj_web_financialasia" 
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }

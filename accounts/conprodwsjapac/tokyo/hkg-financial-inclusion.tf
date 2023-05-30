@@ -79,7 +79,7 @@ resource "aws_security_group" "djif-financial-sg" {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
 
   }
 
@@ -160,5 +160,6 @@ resource "aws_instance" "hkg-financial-inclusion" {
         servicename = "djcs/wsj/web"
         appid       = "djcs_wsj_web_financialasia"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }

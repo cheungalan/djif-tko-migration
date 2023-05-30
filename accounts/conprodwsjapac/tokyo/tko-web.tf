@@ -92,7 +92,7 @@ resource "aws_security_group" "djif-rc-web-sg" {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
   // ICMP 
@@ -171,6 +171,7 @@ resource "aws_instance" "tko-rc-web" {
         servicename = "${var.TagServiceName}"
         appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
   
     lifecycle {

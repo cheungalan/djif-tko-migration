@@ -20,7 +20,8 @@ resource "aws_instance" "hkpk-jls-wrweb2-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djin/newswires/web"
-        appid       = "in_newswires_web_jlswireryter"       
+        appid       = "in_newswires_web_jlswireryter"      
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }

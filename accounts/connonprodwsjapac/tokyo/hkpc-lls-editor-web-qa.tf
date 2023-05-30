@@ -218,7 +218,8 @@ resource "aws_instance" "hkpc-lls-editor-web" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djin/newswires/web"
-        appid       = "in_newswires_web_lls"       
+        appid       = "in_newswires_web_lls"  
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }

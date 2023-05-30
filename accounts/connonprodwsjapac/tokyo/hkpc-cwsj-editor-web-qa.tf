@@ -204,7 +204,8 @@ resource "aws_instance" "hkpc-cwsj-editor-web" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_edttools_web_cwsjediting"       
+        appid       = "djcs_edttools_web_cwsjediting"   
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }

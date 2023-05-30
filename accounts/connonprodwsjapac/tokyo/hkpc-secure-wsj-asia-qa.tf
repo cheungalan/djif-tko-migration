@@ -136,7 +136,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["10.13.32.134/32"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
   
   // 4001
@@ -182,7 +182,8 @@ resource "aws_instance" "hkpc-secure-wsj-asia-qa" {
         product     = "${var.TagProduct}"
         component   = "${var.TagComponent}"
         servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_securewsja"       
+        appid       = "djcs_wsj_web_securewsja"    
+        autosnap    = "bkp=a"
         preserve    = true
     }
 }

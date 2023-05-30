@@ -104,7 +104,7 @@ resource "aws_security_group" "djif-datagen-sg" {
     from_port   = 25 
     to_port     = 25 
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
    egress {
@@ -173,5 +173,6 @@ resource "aws_instance" "tko-rc-datagen" {
         servicename = "${var.TagServiceName}"
         appid       = "in_platform_randc_datagenjapan"       
         preserve    = true
+        autosnap    = "bkp=o"
     }
 }
