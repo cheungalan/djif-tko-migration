@@ -57,7 +57,7 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH Access 
   ingress {
-    description = "SSH Access"
+    description = "SSH inbound Access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -66,7 +66,7 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH Access
   ingress {
-    description = "SSH Access"
+    description = "SSH self inbound access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -85,7 +85,7 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH
   egress {
-    description = "SSH"
+    description = "SSH self outboudn access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
