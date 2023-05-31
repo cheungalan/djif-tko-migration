@@ -1,6 +1,6 @@
 resource "aws_eip" "hkg-jwsj-archive-eip" {
   count  = 2
-  domain = true
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "hkg-jwsj-archive-eip-assoc" {

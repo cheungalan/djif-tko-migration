@@ -1,6 +1,6 @@
 resource "aws_eip" "hkg-financial-inclusion-eip" {
   count  = 1
-  domain = true
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "hkg-financial-inclusion-eip-assoc" {

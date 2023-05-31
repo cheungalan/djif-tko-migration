@@ -3,7 +3,7 @@
 
 resource "aws_eip" "tko-rc-web-eip" {
   count  = 2
-  domain = true
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {

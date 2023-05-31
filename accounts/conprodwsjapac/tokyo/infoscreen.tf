@@ -1,6 +1,6 @@
 resource "aws_eip" "infoscreen-eip" {
   count  = 2
-  domain = true
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "infoscreen-eip-assoc" {
