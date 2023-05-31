@@ -10,12 +10,12 @@ variable "vpc_env" {
 
 variable "account_id" {
   description = "AWS Account Number"
-  default = "261053699423"
+  default     = "261053699423"
 }
 
 variable "vpc_id" {
   description = "VPC Id"
-  default = "vpc-09745522ce354a0f3"
+  default     = "vpc-09745522ce354a0f3"
 }
 
 variable "tko_rc_datagen_name" {
@@ -40,7 +40,7 @@ variable "infoscreen_name" {
 
 variable "deployment_role" {
   description = "Name of role for deployment"
-  default = "djif-admin"
+  default     = "djif-admin"
 }
 
 variable "tko_rc_datagen_subnet_id" {
@@ -64,11 +64,11 @@ variable "infoscreen_subnet_id" {
 }
 
 variable "tko_rc_datagen_instance_type" {
-  default = "t3.large" 
+  default = "t3.large"
 }
 
 variable "tko_rc_web_instance_type" {
-  default = "t3.large" 
+  default = "t3.large"
 }
 
 variable "hkg_jswj_archive_instance_type" {
@@ -97,7 +97,7 @@ variable "TagEnv" {
 
 variable "TagServiceName" {
   description = "Service Name"
-  type        = "string"
+  type        = string
   default     = "djin/newswires/web"
 }
 

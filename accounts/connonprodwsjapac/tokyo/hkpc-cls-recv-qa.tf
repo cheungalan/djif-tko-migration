@@ -4,80 +4,80 @@ resource "aws_key_pair" "hkpc-cls-recv-key" {
 }
 
 data "aws_security_group" "djif-default-hkpc-cls-recv" {
-    filter {
-        name = "group-name"
-        values = ["djif_default"]
-    }
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
 }
 
 resource "aws_security_group" "hkpc-cls-recv" {
   name        = "hkpc-cls-recv"
   description = "hkpc-cls-recv"
-  vpc_id      =  var.vpc_id 
+  vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 3389 
-    to_port     = 3389 
+    from_port   = 3389
+    to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 5000 
-    to_port     = 5100 
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port   = 8880 
-    to_port     = 8880 
+    from_port   = 5000
+    to_port     = 5100
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = 21 
-    to_port     = 21 
+    from_port   = 8880
+    to_port     = 8880
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = 139 
-    to_port     = 139 
+    from_port   = 21
+    to_port     = 21
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = 445 
-    to_port     = 445 
+    from_port   = 139
+    to_port     = 139
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = 1433 
-    to_port     = 1433 
+    from_port   = 445
+    to_port     = 445
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = -1 
-    to_port     = -1 
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
     from_port   = 21
-    to_port     = 22 
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     description = "Passive Port connection"
     from_port   = 1024
@@ -106,49 +106,49 @@ resource "aws_security_group" "hkpc-cls-recv" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  } 
-  
+  }
+
   egress {
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
-  }  
-  
+  }
+
   egress {
     from_port   = -1
     to_port     = -1
@@ -157,22 +157,22 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
-    from_port   = 1433 
-    to_port     = 1433 
+    from_port   = 1433
+    to_port     = 1433
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
-    from_port   = 445 
-    to_port     = 445 
+    from_port   = 445
+    to_port     = 445
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
-    from_port   = 25 
-    to_port     = 25 
+    from_port   = 25
+    to_port     = 25
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -184,7 +184,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
 
 data "aws_ami" "hkpc-cls-recv" {
   most_recent = true
-  owners   = ["819633815198"]  
+  owners      = ["819633815198"]
   filter {
     name   = "name"
     values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
@@ -192,28 +192,28 @@ data "aws_ami" "hkpc-cls-recv" {
 }
 
 resource "aws_instance" "hkpc-cls-recv" {
-    ami                    = "${data.aws_ami.hkpc-cls-recv.image_id}"
-    instance_type          = "${var.instance_type}"
-    key_name               = "${aws_key_pair.hkpc-cls-recv-key.id}" 
-    subnet_id              = "${var.subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cls-recv.id}","${aws_security_group.hkpc-cls-recv.id}"]
+  ami                    = data.aws_ami.hkpc-cls-recv.image_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.hkpc-cls-recv-key.id
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cls-recv.id}", "${aws_security_group.hkpc-cls-recv.id}"]
 
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.hkpc-cls-recv-name}" 
-        bu          = "djin"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "djin/newswires/web"
-        appid       = "in_newswires_djnews_clsdist"   
-        autosnap    = "bkp=a"
-        preserve    = true
-    }
+  tags = {
+    Name        = "${var.hkpc-cls-recv-name}"
+    bu          = "djin"
+    owner       = "${var.TagOwner}"
+    environment = "${var.TagEnv}"
+    product     = "${var.TagProduct}"
+    component   = "${var.TagComponent}"
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    autosnap    = "bkp=a"
+    preserve    = true
+  }
 }

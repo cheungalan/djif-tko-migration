@@ -6,32 +6,32 @@ resource "aws_key_pair" "hkpc-secure-wsj-asia-qa-key" {
 resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   name        = "hkpc-secure-wsj-asia-qa"
   description = "hkpc-secure-wsj-asia-qa"
-  vpc_id      =  var.vpc_id 
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 80 
-    to_port     = 80 
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 443 
-    to_port     = 443 
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 3306 
-    to_port     = 3306 
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -43,7 +43,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     description = ""
     from_port   = 53
@@ -51,7 +51,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "tcp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     description = ""
     from_port   = 53
@@ -59,7 +59,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "udp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     description = ""
     from_port   = 53
@@ -67,26 +67,26 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "udp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     description = ""
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
-  } 
-  
+  }
+
   egress {
     description = ""
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
     cidr_blocks = ["10.0.0.0/8"]
-  }  
-  
+  }
+
   ingress {
-    from_port   = -1 
-    to_port     = -1 
+    from_port   = -1
+    to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -129,7 +129,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   // SMTP
   egress {
     description = "smtp.dowjones.net"
@@ -138,7 +138,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "tcp"
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
-  
+
   // 4001
   egress {
     description = "CWSJ Convertor"
@@ -154,7 +154,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
 }
 
 data "aws_ami" "hkpc-secure-wsj-asia-qa" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-centos-7-dowjones-base-202010190921"]
@@ -162,28 +162,28 @@ data "aws_ami" "hkpc-secure-wsj-asia-qa" {
 }
 
 resource "aws_instance" "hkpc-secure-wsj-asia-qa" {
-    count		   = 1 
-    ami                    = "${data.aws_ami.hkpc-secure-wsj-asia-qa.image_id}"
-    instance_type          = "${var.instance_type}"
-    key_name               = "${aws_key_pair.hkpc-secure-wsj-asia-qa-key.id}" 
-    subnet_id              = "${var.subnet_id}" 
-    vpc_security_group_ids = ["${aws_security_group.hkpc-secure-wsj-asia-qa.id}"]
+  count                  = 1
+  ami                    = data.aws_ami.hkpc-secure-wsj-asia-qa.image_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.hkpc-secure-wsj-asia-qa-key.id
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = ["${aws_security_group.hkpc-secure-wsj-asia-qa.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.hkpc-secure-wsj-asia-qa-name}${count.index + 1}" 
-        bu          = "djcs"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_securewsja"    
-        autosnap    = "bkp=a"
-        preserve    = true
-    }
+  tags = {
+    Name        = "${var.hkpc-secure-wsj-asia-qa-name}${count.index + 1}"
+    bu          = "djcs"
+    owner       = "${var.TagOwner}"
+    environment = "${var.TagEnv}"
+    product     = "${var.TagProduct}"
+    component   = "${var.TagComponent}"
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_securewsja"
+    autosnap    = "bkp=a"
+    preserve    = true
+  }
 }
