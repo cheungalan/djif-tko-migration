@@ -2,8 +2,8 @@
 // Bring back tfstate in sync
 
 resource "aws_eip" "tko-rc-web-eip" {
-  count = 2
-  vpc   = true
+  count  = 2
+  domain = true
 }
 
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {
