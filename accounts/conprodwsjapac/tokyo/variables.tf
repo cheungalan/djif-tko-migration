@@ -47,8 +47,11 @@ variable "tko_rc_datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
-variable "tko_rc_web_subnet_id" {
-  default = "subnet-01908a38bc2ac7a5b"
+variable "tko_rc_web_subnet_ids" {
+  description = "A list of the subnet IDs for tko_rc_web"
+  type        = list(string)
+  // inet-1a="subnet-01908a38bc2ac7a5b" inet-1c="subnet-0b34268b239f2ae40" inet-1d="subnet-019bbfa4426be92fa"
+  default = ["subnet-01908a38bc2ac7a5b", "subnet-01908a38bc2ac7a5b", "subnet-0b34268b239f2ae40"] // inet subnets. first 2 in ia to match existing
 }
 
 variable "hkg_jswj_archive_subnet_id" {

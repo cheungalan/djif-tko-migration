@@ -2,12 +2,12 @@
 // Bring back tfstate in sync
 
 resource "aws_eip" "tko-rc-web-eip" {
-  count  = 2
+  count  = 3
   domain = "vpc"
 }
 
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {
-  count               = 2
+  count               = 3
   instance_id         = element(aws_instance.tko-rc-web.*.id, count.index)
   allocation_id       = element(aws_eip.tko-rc-web-eip.*.id, count.index)
   allow_reassociation = false
@@ -20,6 +20,14 @@ resource "aws_key_pair" "tko_rc_web_key" {
 }
 
 data "aws_ami" "tko_rc_web_image" {
+  owners = ["528339170479"]
+  filter {
+    name   = "name"
+    values = ["amigo-centos-7-dowjones-base-202305010920"]
+  }
+}
+
+data "aws_ami" "tko_rc_web_image_old" {
   owners = ["528339170479"]
   filter {
     name   = "name"
@@ -149,11 +157,12 @@ resource "aws_security_group_rule" "allow_rds_web_egress" {
 */
 
 resource "aws_instance" "tko-rc-web" {
-  count                  = 2
-  ami                    = data.aws_ami.tko_rc_web_image.image_id
+  count = 3
+  // keep the same config AMI  for the first two instances and let the new instances use the current AMI
+  ami                    = count.index < 2 ? data.aws_ami.tko_rc_web_image_old.image_id : data.aws_ami.tko_rc_web_image.image_id
   instance_type          = var.tko_rc_web_instance_type
   key_name               = aws_key_pair.tko_rc_web_key.id
-  subnet_id              = var.tko_rc_web_subnet_id
+  subnet_id              = var.tko_rc_web_subnet_ids[count.index]
   vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}", "${aws_security_group.djif-rc-web-sg.id}"]
 
   root_block_device {
