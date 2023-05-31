@@ -87,7 +87,7 @@ variable "infoscreen_instance_type" {
 }
 
 variable "root_v_type" {
-  default = "gp2"
+  default = "gp3"
 }
 
 variable "root_v_size" {
