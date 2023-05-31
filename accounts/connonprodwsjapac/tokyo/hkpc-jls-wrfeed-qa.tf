@@ -210,14 +210,6 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description = "MSSQL outbound to internal"
-    from_port   = 1433
-    to_port     = 1433
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
     description = "SMB outbout to internal"
     from_port   = 445
     to_port     = 445
