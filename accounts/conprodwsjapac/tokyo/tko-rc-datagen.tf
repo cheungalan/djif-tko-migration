@@ -1,10 +1,10 @@
 resource "aws_eip" "tko-rc-datagen-eip" {
-  count = 4
-  vpc  = true
+  count  = 4
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "tko-rc-datagen-eip-assoc" {
-  count		= 4
+  count         = 4
   instance_id   = element(aws_instance.tko-rc-datagen.*.id, count.index)
   allocation_id = element(aws_eip.tko-rc-datagen-eip.*.id, count.index)
 }
@@ -15,7 +15,7 @@ resource "aws_key_pair" "tko_rc_datagen_key" {
 }
 
 data "aws_ami" "datagen_image" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-windows-2012-dowjones-base-201911150909"]
@@ -23,17 +23,17 @@ data "aws_ami" "datagen_image" {
 }
 
 data "aws_security_group" "djif-default-datagen" {
-    filter {
-        name = "group-name"
-        values = ["djif_default"] 
-    }
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
 }
 
 resource "aws_security_group" "djif-datagen-sg" {
   name        = "djif-datagen-sg"
   description = "djif-datagen-sg"
 
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
   //IP-6495
 
@@ -73,7 +73,7 @@ resource "aws_security_group" "djif-datagen-sg" {
     cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
-   egress {
+  egress {
     description = "FTP Access"
     from_port   = 21
     to_port     = 21
@@ -99,40 +99,40 @@ resource "aws_security_group" "djif-datagen-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   egress {
+  egress {
     description = "SMTP"
-    from_port   = 25 
-    to_port     = 25 
+    from_port   = 25
+    to_port     = 25
     protocol    = "tcp"
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
-   egress {
+  egress {
     description = "TELNET to hkgproxy.dowjones.net"
-    from_port   = 23 
-    to_port     = 23 
+    from_port   = 23
+    to_port     = 23
     protocol    = "tcp"
     cidr_blocks = ["10.32.2.39/32"]
   }
-  
+
   // SSH 
-   egress {
+  egress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["10.167.16.74/32", "10.167.16.70/32"]
   }
-  
+
   // Allow rDS access 
   egress {
-    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
-    from_port   = "3306"
-    to_port     = "3306"
-    protocol    = "tcp"
+    description     = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port       = "3306"
+    to_port         = "3306"
+    protocol        = "tcp"
     security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
   }
-  
+
   tags = {
     preserve = "true"
   }
@@ -151,28 +151,28 @@ resource "aws_security_group_rule" "allow_rds_datagen_egress" {
 */
 
 resource "aws_instance" "tko-rc-datagen" {
-    count		   = 4
-    ami                    = "${data.aws_ami.datagen_image.image_id}"
-    instance_type          = "${var.tko_rc_datagen_instance_type}"
-    key_name               = "${aws_key_pair.tko_rc_datagen_key.id}" 
-    subnet_id              = "${var.tko_rc_datagen_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-datagen.id}","${aws_security_group.djif-datagen-sg.id}"]
+  count                  = 4
+  ami                    = data.aws_ami.datagen_image.image_id
+  instance_type          = var.tko_rc_datagen_instance_type
+  key_name               = aws_key_pair.tko_rc_datagen_key.id
+  subnet_id              = var.tko_rc_datagen_subnet_id
+  vpc_security_group_ids = ["${data.aws_security_group.djif-default-datagen.id}", "${aws_security_group.djif-datagen-sg.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.tko_rc_datagen_name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
-        appid       = "in_platform_randc_datagenjapan"       
-        preserve    = true
-        autosnap    = "bkp=o"
-    }
+  tags = {
+    Name        = "${var.tko_rc_datagen_name}${count.index + 1}"
+    bu          = "${var.TagBU}"
+    owner       = "${var.TagOwner}"
+    environment = "${var.TagEnv}"
+    product     = "${var.TagProduct}"
+    component   = "${var.TagComponent}"
+    servicename = "${var.TagServiceName}"
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = true
+    autosnap    = "bkp=o"
+  }
 }

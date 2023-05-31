@@ -2,14 +2,14 @@
 // Bring back tfstate in sync
 
 resource "aws_eip" "tko-rc-web-eip" {
-  count = 2 
-  vpc  = true   
+  count  = 3
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "tko-rc-web-eip-assoc" {
-  count		= 2 
-  instance_id   = element(aws_instance.tko-rc-web.*.id, count.index)
-  allocation_id = element(aws_eip.tko-rc-web-eip.*.id, count.index)  
+  count               = 3
+  instance_id         = element(aws_instance.tko-rc-web.*.id, count.index)
+  allocation_id       = element(aws_eip.tko-rc-web-eip.*.id, count.index)
   allow_reassociation = false
 }
 
@@ -20,7 +20,15 @@ resource "aws_key_pair" "tko_rc_web_key" {
 }
 
 data "aws_ami" "tko_rc_web_image" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
+  filter {
+    name   = "name"
+    values = ["amigo-centos-7-dowjones-base-202305010920"]
+  }
+}
+
+data "aws_ami" "tko_rc_web_image_old" {
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-centos-7-dowjones-base-202010190921"]
@@ -28,17 +36,17 @@ data "aws_ami" "tko_rc_web_image" {
 }
 
 data "aws_security_group" "djif-default-web" {
-    filter {
-        name = "group-name"
-        values = ["djif_default"] 
-    }
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
 }
 
 resource "aws_security_group" "djif-rc-web-sg" {
   name        = "djif-rc-web-sg"
   description = "djif-rc-web-sg"
 
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
   //IP-6495
 
@@ -66,10 +74,10 @@ resource "aws_security_group" "djif-rc-web-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.0/24","10.167.17.0/24","10.167.20.0/24","10.167.22.0/24", "10.32.212.66/32", "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.0/24", "10.167.17.0/24", "10.167.20.0/24", "10.167.22.0/24", "10.32.212.66/32", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
-   ingress {
+  ingress {
     description = "FTP Access"
     from_port   = 21
     to_port     = 21
@@ -121,16 +129,16 @@ resource "aws_security_group" "djif-rc-web-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   // Allow rDS access 
   egress {
-    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
-    from_port   = "3306"
-    to_port     = "3306"
-    protocol    = "tcp"
+    description     = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port       = "3306"
+    to_port         = "3306"
+    protocol        = "tcp"
     security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
   }
-  
+
   tags = {
     preserve = "true"
   }
@@ -147,35 +155,36 @@ resource "aws_security_group_rule" "allow_rds_web_egress" {
     source_security_group_id = data.aws_security_group.wsj_prod_db.id
 }
 */
-  
+
 resource "aws_instance" "tko-rc-web" {
-    count		   = 2 
-    ami                    = "${data.aws_ami.tko_rc_web_image.image_id}"
-    instance_type          = "${var.tko_rc_web_instance_type}"
-    key_name               = "${aws_key_pair.tko_rc_web_key.id}" 
-    subnet_id              = "${var.tko_rc_web_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}","${aws_security_group.djif-rc-web-sg.id}"]
+  count = 3
+  // keep the same config AMI  for the first two instances and let the new instances use the current AMI
+  ami                    = count.index < 2 ? data.aws_ami.tko_rc_web_image_old.image_id : data.aws_ami.tko_rc_web_image.image_id
+  instance_type          = var.tko_rc_web_instance_type
+  key_name               = aws_key_pair.tko_rc_web_key.id
+  subnet_id              = var.tko_rc_web_subnet_ids[count.index]
+  vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}", "${aws_security_group.djif-rc-web-sg.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.tko_rc_web_name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
-        appid       = "in_platform_randc_datagenjapan"       
-        preserve    = true
-        autosnap    = "bkp=o"
-    }
-  
-    lifecycle {
-     ignore_changes = all
-    }
-  
+  tags = {
+    Name        = "${var.tko_rc_web_name}${count.index + 1}"
+    bu          = "${var.TagBU}"
+    owner       = "${var.TagOwner}"
+    environment = "${var.TagEnv}"
+    product     = "${var.TagProduct}"
+    component   = "${var.TagComponent}"
+    servicename = "${var.TagServiceName}"
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = true
+    autosnap    = "bkp=o"
+  }
+
+  lifecycle {
+    ignore_changes = all
+  }
+
 }

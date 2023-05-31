@@ -1,10 +1,10 @@
 resource "aws_eip" "hkg-jwsj-archive-eip" {
-  count = 2 
-  vpc  = true
+  count  = 2
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "hkg-jwsj-archive-eip-assoc" {
-  count		= 2 
+  count         = 2
   instance_id   = element(aws_instance.hkg-jwsj-archive.*.id, count.index)
   allocation_id = element(aws_eip.hkg-jwsj-archive-eip.*.id, count.index)
 }
@@ -15,7 +15,7 @@ resource "aws_key_pair" "hkg_jswj_archive_key" {
 }
 
 data "aws_ami" "hkg_jswj_archive_image" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-centos-7-dowjones-base-202010190921"]
@@ -23,17 +23,17 @@ data "aws_ami" "hkg_jswj_archive_image" {
 }
 
 data "aws_security_group" "djif-default-archive" {
-    filter {
-        name = "group-name"
-        values = ["djif_default"] 
-    }
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
 }
 
 resource "aws_security_group" "djif-archive-sg" {
   name        = "djif-archive-sg"
   description = "djif-archive-sg"
 
-  vpc_id      = var.vpc_id 
+  vpc_id = var.vpc_id
 
   //IP-6495
 
@@ -57,7 +57,7 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH Access 
   ingress {
-    description = "SSH Access"
+    description = "SSH inbound Access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -66,13 +66,14 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH Access
   ingress {
-    description = "SSH Access"
+    description = "SSH self inbound access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    security_groups = ["sg-088b2674b0a47373f"]
-  } 
-  
+    self        = true
+
+  }
+
   // ICMP 
   ingress {
     description = "ICMP"
@@ -84,13 +85,13 @@ resource "aws_security_group" "djif-archive-sg" {
 
   // SSH
   egress {
-    description = "SSH"
+    description = "SSH self outboudn access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    security_groups = ["sg-088b2674b0a47373f"]
-  } 
-  
+    self        = true
+  }
+
   // SMTP
   egress {
     description = "SMTP"
@@ -126,16 +127,16 @@ resource "aws_security_group" "djif-archive-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   // Allow rDS access 
   egress {
-    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
-    from_port   = "3306"
-    to_port     = "3306"
-    protocol    = "tcp"
+    description     = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port       = "3306"
+    to_port         = "3306"
+    protocol        = "tcp"
     security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
   }
-  
+
   tags = {
     preserve = "true"
   }
@@ -154,28 +155,28 @@ resource "aws_security_group_rule" "allow_rds_archive_egress" {
 */
 
 resource "aws_instance" "hkg-jwsj-archive" {
-    count		   = 2 
-    ami                    = "${data.aws_ami.hkg_jswj_archive_image.image_id}"
-    instance_type          = "${var.hkg_jswj_archive_instance_type}"
-    key_name               = "${aws_key_pair.hkg_jswj_archive_key.id}" 
-    subnet_id              = "${var.hkg_jswj_archive_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-archive.id}","${aws_security_group.djif-archive-sg.id}"]
+  count                  = 2
+  ami                    = data.aws_ami.hkg_jswj_archive_image.image_id
+  instance_type          = var.hkg_jswj_archive_instance_type
+  key_name               = aws_key_pair.hkg_jswj_archive_key.id
+  subnet_id              = var.hkg_jswj_archive_subnet_id
+  vpc_security_group_ids = ["${data.aws_security_group.djif-default-archive.id}", "${aws_security_group.djif-archive-sg.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.hkg_jswj_archive_name}${count.index + 1}" 
-        bu          = "djcs"
-        owner       = "Alan.Cheung@dowjones.com"
-        environment = "${var.TagEnv}"
-        product     = "wsj"
-        component   = "${var.TagComponent}"
-        servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_jwsjarchive"       
-        preserve    = true
-        autosnap    = "bkp=o"
-    }
+  tags = {
+    Name        = "${var.hkg_jswj_archive_name}${count.index + 1}"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = "${var.TagEnv}"
+    product     = "wsj"
+    component   = "${var.TagComponent}"
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_jwsjarchive"
+    preserve    = true
+    autosnap    = "bkp=o"
+  }
 }

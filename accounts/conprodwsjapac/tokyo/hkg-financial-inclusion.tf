@@ -1,10 +1,10 @@
 resource "aws_eip" "hkg-financial-inclusion-eip" {
-  count = 1 
-  vpc  = true
+  count  = 1
+  domain = "vpc"
 }
 
 resource "aws_eip_association" "hkg-financial-inclusion-eip-assoc" {
-  count		= 1 
+  count         = 1
   instance_id   = element(aws_instance.hkg-financial-inclusion.*.id, count.index)
   allocation_id = element(aws_eip.hkg-financial-inclusion-eip.*.id, count.index)
 }
@@ -15,7 +15,7 @@ resource "aws_key_pair" "hkg_financial_inclusion_key" {
 }
 
 data "aws_ami" "hkg_financial_inclusion_image" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-centos-7-dowjones-base-202010190921"]
@@ -23,17 +23,17 @@ data "aws_ami" "hkg_financial_inclusion_image" {
 }
 
 data "aws_security_group" "djif-default-fi" {
-    filter {
-        name = "group-name"
-        values = ["djif_default"] 
-    }
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
 }
 
 resource "aws_security_group" "djif-financial-sg" {
   name        = "djif-financial-sg"
   description = "djif-financial-sg"
 
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
   //IP-6495
 
@@ -109,16 +109,16 @@ resource "aws_security_group" "djif-financial-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   // Allow rDS access 
   egress {
-    description = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
-    from_port   = "3306"
-    to_port     = "3306"
-    protocol    = "tcp"
+    description     = "Access to RDS djcs-wsja-rds-prod.cluster-c1qsnfwzpreu.ap-northeast-1.rds.amazonaws.com"
+    from_port       = "3306"
+    to_port         = "3306"
+    protocol        = "tcp"
     security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
   }
-  
+
   tags = {
     preserve = "true"
   }
@@ -138,28 +138,28 @@ resource "aws_security_group_rule" "allow_rds_fin_egress" {
 */
 
 resource "aws_instance" "hkg-financial-inclusion" {
-    count		   = 1 
-    ami                    = "${data.aws_ami.hkg_financial_inclusion_image.image_id}"
-    instance_type          = "${var.hkg_financial_inclusion_instance_type}"
-    key_name               = "${aws_key_pair.hkg_financial_inclusion_key.id}" 
-    subnet_id              = "${var.hkg_financial_inclusion_subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-fi.id}","${aws_security_group.djif-financial-sg.id}"]
+  count                  = 1
+  ami                    = data.aws_ami.hkg_financial_inclusion_image.image_id
+  instance_type          = var.hkg_financial_inclusion_instance_type
+  key_name               = aws_key_pair.hkg_financial_inclusion_key.id
+  subnet_id              = var.hkg_financial_inclusion_subnet_id
+  vpc_security_group_ids = ["${data.aws_security_group.djif-default-fi.id}", "${aws_security_group.djif-financial-sg.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
 
-    tags = {
-        Name        = "${var.hkg_financial_inclusion_name}${count.index + 1}" 
-        bu          = "djcs"
-        owner       = "Alan.Cheung@dowjones.com"
-        environment = "${var.TagEnv}"
-        product     = "wsj"
-        component   = "${var.TagComponent}"
-        servicename = "djcs/wsj/web"
-        appid       = "djcs_wsj_web_financialasia"       
-        preserve    = true
-        autosnap    = "bkp=o"
-    }
+  tags = {
+    Name        = "${var.hkg_financial_inclusion_name}${count.index + 1}"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = "${var.TagEnv}"
+    product     = "wsj"
+    component   = "${var.TagComponent}"
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_financialasia"
+    preserve    = true
+    autosnap    = "bkp=o"
+  }
 }

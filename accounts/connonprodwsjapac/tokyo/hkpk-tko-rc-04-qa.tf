@@ -6,39 +6,39 @@ resource "aws_key_pair" "hkpk-tko-rc-04-qa-key" {
 resource "aws_security_group" "hkpk-tko-rc-04-qa" {
   name        = "hkpk-tko-rc-04-qa"
   description = "hkpk-tko-rc-04-qa"
-  vpc_id      =  var.vpc_id 
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 80 
-    to_port     = 80 
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 443 
-    to_port     = 443 
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8","172.26.0.0/16","192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
   }
 
   ingress {
-    from_port   = 3306 
-    to_port     = 3306 
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    from_port   = -1 
-    to_port     = -1 
+    from_port   = -1
+    to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -77,56 +77,56 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
     cidr_blocks = ["10.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
     cidr_blocks = ["162.0.0.0/8"]
   }
-  
+
   egress {
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
-  } 
-  
+  }
+
   egress {
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
     cidr_blocks = ["10.0.0.0/8"]
-  }  
-  
+  }
+
   egress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   tags = {
     preserve = "true"
   }
 }
 
 data "aws_ami" "hkpk-tko-rc-04-qa" {
-  owners   = ["528339170479"]  
+  owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-centos-7-dowjones-base-202010190921"]
@@ -134,30 +134,30 @@ data "aws_ami" "hkpk-tko-rc-04-qa" {
 }
 
 resource "aws_instance" "hkpk-tko-rc-04-qa" {
-    count		   = 1 
-    ami                    = "${data.aws_ami.hkpk-tko-rc-04-qa.image_id}"
-    instance_type          = "${var.instance_type}"
-    key_name               = "${aws_key_pair.hkpk-tko-rc-04-qa-key.id}" 
-    subnet_id              = "${var.subnet_id}" 
-    vpc_security_group_ids = ["${aws_security_group.hkpk-tko-rc-04-qa.id}"]
+  count                  = 1
+  ami                    = data.aws_ami.hkpk-tko-rc-04-qa.image_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = ["${aws_security_group.hkpk-tko-rc-04-qa.id}"]
 
-    root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
-    }
-    lifecycle {
-     ignore_changes = all
-    }
-    tags = {
-        Name        = "${var.hkpk-tko-rc-04-qa-name}${count.index + 1}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
-        appid       = "in_platform_randc_datagenjapan"      
-        autosnap    = "bkp=a"
-        preserve    = true
-    }
+  root_block_device {
+    volume_size = var.root_v_size
+    volume_type = var.root_v_type
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name        = "${var.hkpk-tko-rc-04-qa-name}${count.index + 1}"
+    bu          = "${var.TagBU}"
+    owner       = "${var.TagOwner}"
+    environment = "${var.TagEnv}"
+    product     = "${var.TagProduct}"
+    component   = "${var.TagComponent}"
+    servicename = "${var.TagServiceName}"
+    appid       = "in_platform_randc_datagenjapan"
+    autosnap    = "bkp=a"
+    preserve    = true
+  }
 }
