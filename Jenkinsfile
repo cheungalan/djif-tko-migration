@@ -6,6 +6,7 @@ import groovy.io.FileType
 
 terraformBinary = 'terraform-0.13.7'
 lob = 'djif'   // part of the Terraform `subpath` definition. Change lob to whatever Business Unit owns the Jenkins server
+subPathPrefix = "${lob}/${env.JOB_NAME}"
 
 // BEGIN Jenkins job parameters menus
 properties([parameters([
@@ -359,8 +360,7 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
 }
 
 def runTfSteps(accountName, region, action, importScript, debug, tfLogLevel) {
-    def lob = "djif"  // Change lob to whatever Business Unit owns the Jenkins server
-    def subpath = "${lob}/${env.JOB_NAME}/${accountName}/${region}/"
+    def subpath = "${subPathPrefix}/${accountName}/${region}/"
     ansiColor('xterm') {
         if (debug) {
             print "calling tfCheckout with account: ${accountName} and region: ${region}"
