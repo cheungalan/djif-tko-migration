@@ -4,6 +4,9 @@
 import java.text.SimpleDateFormat
 import groovy.io.FileType
 
+terraformBinary = 'terraform-0.13.7'
+lob = 'djif'   // part of the Terraform `subpath` definition. Change lob to whatever Business Unit owns the Jenkins server
+
 // BEGIN Jenkins job parameters menus
 properties([parameters([
     booleanParam(defaultValue: true, description: 'Select to populate new accounts', name: 'populate_accounts'), 
@@ -14,8 +17,7 @@ properties([parameters([
     script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
     def  accountList = [] 
-    def jobName = "djif-tko-migration"
-    new File("/var/lib/jenkins/workspace/${jobName}/accounts/").eachDir()
+    new File("${env.WORKSPACE}/accounts/").eachDir()
     {
         dirs -> dirs.getName() 
         if (!dirs.getName().startsWith(\'.\')) {
@@ -27,7 +29,6 @@ properties([parameters([
     [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
     def  regionList = []
-    def jobName = "djif-tko-migration"
     if ("${account}" == "") {
         return regionList // empty
     }
@@ -35,7 +36,7 @@ properties([parameters([
         // "basename $(find . -depth 2)  | sort | uniq".execute()
         regionList.add("all regions found")
     } else {
-        new File("/var/lib/jenkins/workspace/${jobName}/accounts/${account}").eachDir()
+        new File("${env.WORKSPACE}/accounts/${account}").eachDir()
         {
             dirs -> dirs.getName()
             if (!dirs.getName().startsWith(\'.\')) {
@@ -219,7 +220,7 @@ def tfInit (accountName, region, subpath, importScript, debug, tfLogLevel){
         
         def execInit = """
             cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; \
-            yes yes 2>&1 | terraform init \
+            yes yes 2>&1 | ${terraformBinary} init \
             -backend-config="username=${USERNAME}" \
             -backend-config="password=${PASSWORD}" \
             -backend-config="subpath=${subpath}"
@@ -254,14 +255,14 @@ def tfValidate (accountName, region, debug, tfLogLevel){
         print "workspace is ${env.WORKSPACE}"
     }
     // Output Terraform version
-    def terraformVersionSh = "terraform --version"
+    def terraformVersionSh = "${terraformBinary} --version"
     def exitCode = sh(returnStatus: true, script: terraformVersionSh)
     if (exitCode != 0) {
         currentBuild.result = 'FAILED'
         error "${terraformVersionSh} failed for account: ${accountName} env= ${environment}"
     }
     // Validate Terraform files
-    def terraformValidate = "cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform validate"
+    def terraformValidate = "cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} validate"
     exitCode = sh(returnStatus: true, script: terraformValidate)
     if (exitCode != 0) {
         currentBuild.result = 'FAILED'
@@ -279,13 +280,13 @@ def tfPlan (accountName, region, action, debug, tfLogLevel){
     def execPlan
     if (action != "destroy"){
         execPlan = """
-            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform get -update; \
-            set +e; terraform plan -out=plan.out -detailed-exitcode; \
+            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
+            set +e; ${terraformBinary} plan -out=plan.out -detailed-exitcode; \
         """
     } else { // Else perform plan with destroy option
         execPlan = """ 
-            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform get -update; \
-            set +e; terraform plan -destroy -out=plan.out -detailed-exitcode; \
+            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
+            set +e; ${terraformBinary} plan -destroy -out=plan.out -detailed-exitcode; \
         """
     }
     def exitCode = sh(returnStatus: true, script: execPlan)
@@ -314,7 +315,7 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
         try {
             // Apply plan
             def execApply = """
-                cd ${env.WORKSPACE}/${environment}; set +e; export TF_LOG=${tfLogLevel}; terraform apply plan.out; \
+                cd ${env.WORKSPACE}/${environment}; set +e; export TF_LOG=${tfLogLevel}; ${terraformBinary} apply plan.out; \
             """
             def applyExitCode = sh(returnStatus: true, script: execApply)
             if (applyExitCode == 0) {
@@ -337,7 +338,7 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
                 if (tfApproval == true) {   
                     // Destroy apply
                     def execDestroy = """
-                        cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; terraform destroy -force; 
+                        cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; ${terraformBinary} destroy -force; 
                     """
                     def destroyExitCode = sh(returnStatus: true, script: execDestroy)
                     if (destroyExitCode == 0) {
@@ -411,10 +412,15 @@ node ('master') {
         checkoutRepo()
     }
     if (myParams["populate_accounts"]){  // if we're populating accounts data, then we only wanted to do that (checkout above), and exit with success.
+        currentBuild.displayName = "${BUILD_NUMBER} :: Populate accounts"
         print "accounts data populated\n"
         currentBuild.result = 'SUCCESS'
         return
     } else { // otherwise go run what the user asked for.
+        currentBuild.displayName = "${BUILD_NUMBER} :: ${myParams['action']} account:${myParams['account']} region:${myParams['region']}"
+        wrap([$class: 'BuildUser']) {
+            currentBuild.setDescription("by ${BUILD_USER}")
+        }
         build(myParams["account"], myParams["region"], myParams["action"], myParams["import_script"], myParams["debug"], myParams["TF_LOG"]) 
     }
 }
