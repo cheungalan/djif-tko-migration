@@ -284,7 +284,7 @@ def tfPlan (accountName, region, action, debug, tfLogLevel){
         print "workspace is ${env.WORKSPACE}"
     }
     def execPlan
-    if (action != "destroy"){
+    if (action == "destroy"){
         execPlan = """
             cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
             set +e; ${terraformBinary} plan -destroy -out=plan.out -detailed-exitcode; \
