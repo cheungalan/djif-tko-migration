@@ -26,7 +26,8 @@ properties([parameters([
             accountList.add(dirs.getName()) 
         }
     }
-    accountList.add(\'all\')
+    // accountList.add(\'all\') 
+    accountList.add(\'\') // default required to select an account
     return accountList.sort()''']]], 
     [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
