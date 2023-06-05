@@ -253,7 +253,7 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
   }
 
   tags = {
-    Name        = "${var.hkpc-jls-wrfeed-name}"
+    Name        = var.hkpc-jls-wrfeed-name
     bu          = "djin"
     owner       = var.TagOwner
     environment = var.TagEnv
