@@ -139,7 +139,7 @@ resource "aws_instance" "hkpc-financialinclusion-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-financialinclusion-qa-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${aws_security_group.hkpc-financialinclusion-qa.id}"]
+  vpc_security_group_ids = [aws_security_group.hkpc-financialinclusion-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -149,10 +149,10 @@ resource "aws_instance" "hkpc-financialinclusion-qa" {
   tags = {
     Name        = "${var.hkpc-financialinclusion-qa-name}${count.index + 1}"
     bu          = "djcs"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djcs/wsj/web"
     appid       = "djcs_wsj_web_financialasia"
     autosnap    = "bkp=a"

@@ -26,7 +26,7 @@ resource "aws_instance" "hkpc-jls-wrfeed2" {
   instance_type          = var.instance_type
   key_name               = "hkpc-jls-wrfeed-key"
   subnet_id              = "subnet-076c0f9457edadfc9"
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-jls-wrfeed2.id}", "${data.aws_security_group.hkpc-jls-wrfeed.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed2.id, data.aws_security_group.hkpc-jls-wrfeed.id]
 
 
   root_block_device {
@@ -37,10 +37,10 @@ resource "aws_instance" "hkpc-jls-wrfeed2" {
   tags = {
     Name        = "jls-wrfeed02-qa"
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_web_jlswireryter"
     autosnap    = "bkp=a"

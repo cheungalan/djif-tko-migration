@@ -160,7 +160,7 @@ resource "aws_instance" "hkg-jwsj-archive" {
   instance_type          = var.hkg_jswj_archive_instance_type
   key_name               = aws_key_pair.hkg_jswj_archive_key.id
   subnet_id              = var.hkg_jswj_archive_subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-archive.id}", "${aws_security_group.djif-archive-sg.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-archive.id, aws_security_group.djif-archive-sg.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -171,9 +171,9 @@ resource "aws_instance" "hkg-jwsj-archive" {
     Name        = "${var.hkg_jswj_archive_name}${count.index + 1}"
     bu          = "djcs"
     owner       = "Alan.Cheung@dowjones.com"
-    environment = "${var.TagEnv}"
+    environment = var.TagEnv
     product     = "wsj"
-    component   = "${var.TagComponent}"
+    component   = var.TagComponent
     servicename = "djcs/wsj/web"
     appid       = "djcs_wsj_web_jwsjarchive"
     preserve    = true

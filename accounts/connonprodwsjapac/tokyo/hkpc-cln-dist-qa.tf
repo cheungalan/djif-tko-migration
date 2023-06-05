@@ -188,8 +188,7 @@ resource "aws_instance" "hkpc-cln-dist" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-cln-dist-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cln-dist.id}", "${aws_security_group.hkpc-cln-dist.id}"]
-
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cln-dist.id, aws_security_group.hkpc-cln-dist.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -197,12 +196,12 @@ resource "aws_instance" "hkpc-cln-dist" {
   }
 
   tags = {
-    Name        = "${var.hkpc-cln-dist-name}"
+    Name        = var.hkpc-cln-dist-name
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_djnews_clsdist"
     autosnap    = "bkp=a"

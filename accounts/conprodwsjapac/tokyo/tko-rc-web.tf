@@ -163,7 +163,7 @@ resource "aws_instance" "tko-rc-web" {
   instance_type          = var.tko_rc_web_instance_type
   key_name               = aws_key_pair.tko_rc_web_key.id
   subnet_id              = var.tko_rc_web_subnet_ids[count.index]
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-web.id}", "${aws_security_group.djif-rc-web-sg.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-web.id, aws_security_group.djif-rc-web-sg.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -172,12 +172,12 @@ resource "aws_instance" "tko-rc-web" {
 
   tags = {
     Name        = "${var.tko_rc_web_name}${count.index + 1}"
-    bu          = "${var.TagBU}"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
-    servicename = "${var.TagServiceName}"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
     appid       = "in_platform_randc_datagenjapan"
     preserve    = true
     autosnap    = "bkp=o"

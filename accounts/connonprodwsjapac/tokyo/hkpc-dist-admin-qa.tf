@@ -139,7 +139,7 @@ resource "aws_instance" "hkpc-dist-admin-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-dist-admin-qa-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${aws_security_group.hkpc-dist-admin-qa.id}"]
+  vpc_security_group_ids = [aws_security_group.hkpc-dist-admin-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -149,10 +149,10 @@ resource "aws_instance" "hkpc-dist-admin-qa" {
   tags = {
     Name        = "${var.hkpc-dist-admin-qa-name}${count.index + 1}"
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_djnews_clsdist"
     autosnap    = "bkp=a"

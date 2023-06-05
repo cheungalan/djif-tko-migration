@@ -170,23 +170,23 @@ resource "aws_security_group" "hkpc-cwsj-sql" {
 
 resource "aws_volume_attachment" "ebs_hkpc-cwsj-sql" {
     device_name = "/dev/sdf"
-    volume_id   = "${aws_ebs_volume.hkpc-cwsj-sql.id}"
-    instance_id = "${aws_instance.hkpc-cwsj-sql.id}"
+    volume_id   = aws_ebs_volume.hkpc-cwsj-sql.id
+    instance_id = aws_instance.hkpc-cwsj-sql.id
 }
 
 resource "aws_ebs_volume" "hkpc-cwsj-sql" {
-    availability_zone = "${aws_instance.hkpc-cwsj-sql.availability_zone}"
-    type              = "gp2"
+    availability_zone = aws_instance.hkpc-cwsj-sql.availability_zone
+    type              = "gp3"
     size              = 1600 
   
     tags = {
-      Name        = "${var.hkpc-cwsj-sql-name}"
-      bu          = "${var.TagBU}"
-      owner       = "${var.TagOwner}"
-      environment = "${var.TagEnv}"
-      product     = "${var.TagProduct}"
-      component   = "${var.TagComponent}"
-      servicename = "${var.TagServiceName}"
+      Name        = var.hkpc-cwsj-sql-name
+      bu          = var.TagBU
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = var.TagServiceName
       appid       = "djcs_edttools_web_cwsjediting"      
     }    
     lifecycle {
@@ -203,16 +203,16 @@ data "aws_ami" "hkpc-cwsj-sql" {
 }
 
 resource "aws_instance" "hkpc-cwsj-sql" {
-    ami                    = "${data.aws_ami.hkpc-cwsj-sql.image_id}"
-    instance_type          = "${var.instance_type}"
-    key_name               = "${aws_key_pair.hkpc-cwsj-sql-key.id}" 
-    subnet_id              = "${var.subnet_id}" 
-    vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cwsj-sql.id}","${aws_security_group.hkpc-cwsj-sql.id}", "${data.aws_security_group.djif-cyberark-mssql-hkpc-cwsj-sql.id}"]
+    ami                    = data.aws_ami.hkpc-cwsj-sql.image_id
+    instance_type          = var.instance_type
+    key_name               = aws_key_pair.hkpc-cwsj-sql-key.id
+    subnet_id              = var.subnet_id
+    vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cwsj-sql.id, aws_security_group.hkpc-cwsj-sql.id, data.aws_security_group.djif-cyberark-mssql-hkpc-cwsj-sql.id]
 
 
     root_block_device {
-        volume_size = "${var.root_v_size}"
-        volume_type = "${var.root_v_type}"
+        volume_size = var.root_v_size
+        volume_type = var.root_v_type
     }
   
     lifecycle {
@@ -220,13 +220,13 @@ resource "aws_instance" "hkpc-cwsj-sql" {
     }  
 
     tags = {
-        Name        = "${var.hkpc-cwsj-sql-name}" 
-        bu          = "${var.TagBU}"
-        owner       = "${var.TagOwner}"
-        environment = "${var.TagEnv}"
-        product     = "${var.TagProduct}"
-        component   = "${var.TagComponent}"
-        servicename = "${var.TagServiceName}"
+        Name        = var.hkpc-cwsj-sql-name
+        bu          = var.TagBU
+        owner       = var.TagOwner
+        environment = var.TagEnv
+        product     = var.TagProduct
+        component   = var.TagComponent
+        servicename = var.TagServiceName
         appid       = "djcs_edttools_web_cwsjediting"       
         preserve    = true
     }

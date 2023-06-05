@@ -202,7 +202,7 @@ resource "aws_instance" "hkpc-lls-editor-web" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-lls-editor-web-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-lls-editor-web.id}", "${aws_security_group.hkpc-lls-editor-web.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-lls-editor-web.id, aws_security_group.hkpc-lls-editor-web.id]
 
 
   root_block_device {
@@ -211,12 +211,12 @@ resource "aws_instance" "hkpc-lls-editor-web" {
   }
 
   tags = {
-    Name        = "${var.hkpc-lls-editor-web-name}"
+    Name        = var.hkpc-lls-editor-web-name
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_web_lls"
     autosnap    = "bkp=a"

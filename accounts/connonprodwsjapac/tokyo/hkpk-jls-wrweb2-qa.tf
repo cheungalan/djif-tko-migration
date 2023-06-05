@@ -10,7 +10,7 @@ resource "aws_instance" "hkpk-jls-wrweb2-qa" {
   instance_type          = var.instance_type
   key_name               = "hkpk-jls-wrweb1-qa-key"
   subnet_id              = "subnet-076c0f9457edadfc9"
-  vpc_security_group_ids = ["${data.aws_security_group.hkpk-jls-wrweb1-qa.id}"]
+  vpc_security_group_ids = [data.aws_security_group.hkpk-jls-wrweb1-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -20,10 +20,10 @@ resource "aws_instance" "hkpk-jls-wrweb2-qa" {
   tags = {
     Name        = "hkpk-jls-wrweb2-qa"
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_web_jlswireryter"
     autosnap    = "bkp=a"
