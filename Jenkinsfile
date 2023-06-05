@@ -34,7 +34,7 @@ properties([parameters([
         return regionList // empty
     }
     if ( "${account}"=="all") {
-        ''' // "basename $(find . -depth 2)  | sort | uniq".execute() '''
+        // "basename \$5(find . -depth 2)  | sort | uniq".execute()
         regionList.add("all regions found")
     } else {
         new File("${env.WORKSPACE}/accounts/${account}").eachDir()
