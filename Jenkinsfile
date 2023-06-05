@@ -182,10 +182,12 @@ def tfApproval (action){
         } else if (action == "destroy"){
             input (message: 'Destroy Everything?', ok: 'Destroy')
             return true
+        } else {
+            return false
         }
     }
     catch (err) {
-        currentBuild.result = 'FAILURE'
+        echo "\u001B[31mAbort either by user or due to timeout\u001B[0m"
         return false
     }
 }
@@ -285,26 +287,26 @@ def tfPlan (accountName, region, action, debug, tfLogLevel){
     if (action != "destroy"){
         execPlan = """
             cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
-            set +e; ${terraformBinary} plan -out=plan.out -detailed-exitcode; \
+            set +e; ${terraformBinary} plan -destroy -out=plan.out -detailed-exitcode; \
         """
-    } else { // Else perform plan with destroy option
+    } else { // Else perform plan option
         execPlan = """ 
             cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
-            set +e; ${terraformBinary} plan -destroy -out=plan.out -detailed-exitcode; \
+            set +e; ${terraformBinary} plan -out=plan.out -detailed-exitcode; \
         """
     }
     def exitCode = sh(returnStatus: true, script: execPlan)
     if (exitCode == 0) {
-        echo "\u001B[34mTerraform plan succeeded with no changes\u001B[0m"
-        return false
+        echo "\u001B[34mterraform plan succeeded with no changes\u001B[0m"
+        return exitCode
     } else if (exitCode == 1) {
         echo "\u001B[34mTerraform plan plan error\u001B[0m"
         error ("Terraform plan error for account = ${accountName} , env = ${environment}")
         currentBuild.result = 'FAILURE'
-        return false
+        return exitCode
     } else if (exitCode == 2) {
         echo "\u001B[34mTerraform plan succeeded with changes present.\u001B[0m"
-        return true
+        return exitCode
     }
 }
 
@@ -315,7 +317,8 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
         print "account = ${accountName} env = ${environment}"
         print "tfApplyDestroy workspace is ${env.WORKSPACE}"
     }
-    if (action == "apply" && tfPlanOk == true) {
+    if (action == "apply" && tfPlanOk == 2) {
+        print_title("Terraform Apply", debug)
         try {
             // Apply plan
             def execApply = """
@@ -334,27 +337,21 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
             echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error caught applying!\u001B[0m"
             error ("Terraform apply error for account = ${accountName} , env = ${environment}")
         }
-    }
-    else if (action == "destroy" && tfPlanOk == true) {
+    } else if (action == "destroy" && tfPlanOk == 2) {
+        print_title("Terraform Destroy", debug)
         try {
-            timeout(time: 30, unit:'MINUTES') {
-                tfApproval = tfApproval(action)
-                if (tfApproval == true) {   
-                    // Destroy apply
-                    def execDestroy = """
-                        cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; ${terraformBinary} destroy -force; 
-                    """
-                    def destroyExitCode = sh(returnStatus: true, script: execDestroy)
-                    if (destroyExitCode == 0) {
-                        echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Infrastructure destroyed.\u001B[0m"
-                    } else if (destroyExitCode == 2) {
-                        echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Nothing to destroy for account = ${accountName} env = ${environment}.\u001B[0m"
-                    } else {
-                        currentBuild.result = 'FAILURE'
-                        echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error destroying!\u001B[0m"
-                    }   
-                }
-            } 
+            def execDestroy = """
+                cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; ${terraformBinary} apply plan.out; 
+            """
+            def destroyExitCode = sh(returnStatus: true, script: execDestroy)
+            if (destroyExitCode == 0) {
+                echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Infrastructure destroyed.\u001B[0m"
+            } else if (destroyExitCode == 2) {
+                echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Nothing to destroy for account = ${accountName} env = ${environment}.\u001B[0m"
+            } else {
+                currentBuild.result = 'FAILURE'
+                echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error destroying!\u001B[0m"
+            }
         } catch (err) {
             currentBuild.result = 'FAILURE'
             echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error caught destroying!\u001B[0m"
@@ -372,7 +369,24 @@ def runTfSteps(accountName, region, action, importScript, debug, tfLogLevel) {
         tfInit (accountName, region, subpath, importScript, debug, tfLogLevel)
         tfValidate(accountName, region, debug, tfLogLevel)
         def tfPlanOk = tfPlan (accountName, region, action, debug, tfLogLevel)
-        tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel)
+
+        if (debug) {
+            print "tfPlan exitCode: ${tfPlanOk}"
+        }
+
+        if ( (action == "apply" || action == "destroy") && tfPlanOk == 2 ) {          // Plan succeeds with changes detected
+            // approval
+            def l_tfApproval = false
+            timeout(time: 30, unit:'MINUTES') {
+                l_tfApproval = tfApproval(action)
+            }
+            if ( l_tfApproval != true ) {
+                currentBuild.result = 'FAILURE'
+                return
+            }
+
+            tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel)
+        }
     }
 }
 
