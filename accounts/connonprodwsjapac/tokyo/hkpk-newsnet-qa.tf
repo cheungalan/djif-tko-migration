@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpk-newsnet-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpk-newsnet-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = var.appid
+    preserve    = "true"
   }
 }
 

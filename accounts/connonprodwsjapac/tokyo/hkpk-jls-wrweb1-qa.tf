@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpk-jls-wrweb1-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_jlswireryter"
+    preserve    = "true"
   }
 }
 

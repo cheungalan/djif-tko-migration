@@ -130,6 +130,7 @@ resource "aws_security_group" "hkpc-cwsj-sql" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
+    Name     = "hkpc-cwsj-sql"
     preserve = "true"
   }
 }

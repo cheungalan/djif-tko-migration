@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpk-cwsj-enews-tools-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpk-cwsj-enews-tools-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_edttools_web_cwsjenews"
+    preserve    = "true"
   }
 }
 

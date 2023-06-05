@@ -170,7 +170,15 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-cln-dist"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    preserve    = "true"
   }
 }
 

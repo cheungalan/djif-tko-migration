@@ -226,7 +226,15 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-jls-wrfeed"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_jlswireryter"
+    preserve    = "true"
   }
 }
 

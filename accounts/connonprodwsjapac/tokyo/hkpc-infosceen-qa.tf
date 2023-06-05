@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpc-infosceen-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-infosceen-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_infoscreen"
+    preserve    = "true"
   }
 }
 

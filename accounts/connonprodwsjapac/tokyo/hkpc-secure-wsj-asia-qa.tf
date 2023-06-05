@@ -149,7 +149,15 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-secure-wsj-asia-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_securewsja"
+    preserve    = "true"
   }
 }
 

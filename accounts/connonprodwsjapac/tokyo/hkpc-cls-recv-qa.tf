@@ -178,7 +178,15 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-cls-recv"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    preserve    = "true"
   }
 }
 

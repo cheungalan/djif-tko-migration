@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpc-dist-admin-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-dist-admin-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    preserve    = "true"
   }
 }
 

@@ -184,7 +184,15 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-lls-editor-web"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_lls"
+    preserve    = "true"
   }
 }
 

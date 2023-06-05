@@ -156,7 +156,15 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-cwsj-ftp-gateway"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_backend_cwsjsupport"
+    preserve    = "true"
   }
 }
 
