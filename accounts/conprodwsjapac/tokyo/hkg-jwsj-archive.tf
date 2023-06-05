@@ -134,7 +134,7 @@ resource "aws_security_group" "djif-archive-sg" {
     from_port       = "3306"
     to_port         = "3306"
     protocol        = "tcp"
-    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+    security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
 
   tags = {
