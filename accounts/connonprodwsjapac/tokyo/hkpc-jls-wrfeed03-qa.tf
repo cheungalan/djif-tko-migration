@@ -13,7 +13,7 @@ resource "aws_instance" "hkpc-jls-wrfeed03-qa" {
   ami                    = data.aws_ami.hkpc-jls-wrfeed03-qa.image_id
   instance_type          = var.instance_type
   key_name               = "hkpc-jls-wrfeed-key"
-  subnet_id              = "subnet-076c0f9457edadfc9"
+  subnet_id              = var.subnet_id
   vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-jls-wrfeed.id}", "${aws_security_group.hkpc-jls-wrfeed.id}"]
 
 

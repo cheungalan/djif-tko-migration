@@ -9,7 +9,7 @@ data "aws_ami" "hkpc-jls-wrfeed04-qa" {
   }
 }
 
-resource "aws_instance" "hkpc-jls-wrfeed3-qa" {
+resource "aws_instance" "hkpc-jls-wrfeed4-qa" {
   ami                    = data.aws_ami.hkpc-jls-wrfeed04-qa.image_id
   instance_type          = var.instance_type
   key_name               = "hkpc-jls-wrfeed-key"
