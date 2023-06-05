@@ -161,6 +161,14 @@ def checkoutRepo(){
     }
 }
 
+def print_title(pi_title, pi_debug) {
+    if (pi_debug) {
+        def line  = "Debug: ---------------------------------------------------------------"
+        def message = "Debug: ${pi_title}"
+        echo "\u001B[34m${line}\n${message}\n${line}\u001B[0m\n"
+    }
+}
+
 // Remove tfstate and status files to start clean
 def tfCleanState (environment){
     if (fileExists("${env.WORKSPACE}/${environment}/.terraform/terraform.tfstate")) {
