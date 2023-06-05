@@ -156,7 +156,15 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-cwsj-ftp-gateway"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_backend_cwsjsupport"
+    preserve    = "true"
   }
 }
 
@@ -174,8 +182,7 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-cwsj-ftp-gateway-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-hkpc-cwsj-ftp-gateway.id}", "${aws_security_group.hkpc-cwsj-ftp-gateway.id}"]
-
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cwsj-ftp-gateway.id, aws_security_group.hkpc-cwsj-ftp-gateway.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -183,12 +190,12 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
   }
 
   tags = {
-    Name        = "${var.hkpc-cwsj-ftp-gateway-name}"
+    Name        = var.hkpc-cwsj-ftp-gateway-name
     bu          = "djcs"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
     product     = "wsj"
-    component   = "${var.TagComponent}"
+    component   = var.TagComponent
     servicename = "djcs/wsj/web"
     appid       = "djcs_wsj_backend_cwsjsupport"
     autosnap    = "bkp=a"

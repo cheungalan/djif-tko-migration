@@ -116,11 +116,19 @@ resource "aws_security_group" "djif-financial-sg" {
     from_port       = "3306"
     to_port         = "3306"
     protocol        = "tcp"
-    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+    security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-financial-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_financialasia"
+    preserve    = "true"
   }
 
 }
@@ -143,7 +151,7 @@ resource "aws_instance" "hkg-financial-inclusion" {
   instance_type          = var.hkg_financial_inclusion_instance_type
   key_name               = aws_key_pair.hkg_financial_inclusion_key.id
   subnet_id              = var.hkg_financial_inclusion_subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-fi.id}", "${aws_security_group.djif-financial-sg.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-fi.id, aws_security_group.djif-financial-sg.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -154,9 +162,9 @@ resource "aws_instance" "hkg-financial-inclusion" {
     Name        = "${var.hkg_financial_inclusion_name}${count.index + 1}"
     bu          = "djcs"
     owner       = "Alan.Cheung@dowjones.com"
-    environment = "${var.TagEnv}"
+    environment = var.TagEnv
     product     = "wsj"
-    component   = "${var.TagComponent}"
+    component   = var.TagComponent
     servicename = "djcs/wsj/web"
     appid       = "djcs_wsj_web_financialasia"
     preserve    = true

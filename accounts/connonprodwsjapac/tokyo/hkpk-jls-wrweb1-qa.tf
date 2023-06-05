@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpk-jls-wrweb1-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_jlswireryter"
+    preserve    = "true"
   }
 }
 
@@ -138,7 +146,7 @@ resource "aws_instance" "hkpk-jls-wrweb1-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpk-jls-wrweb1-qa-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${aws_security_group.hkpk-jls-wrweb1-qa.id}"]
+  vpc_security_group_ids = [aws_security_group.hkpk-jls-wrweb1-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -146,12 +154,12 @@ resource "aws_instance" "hkpk-jls-wrweb1-qa" {
   }
 
   tags = {
-    Name        = "${var.hkpk-jls-wrweb1-qa-name}"
+    Name        = var.hkpk-jls-wrweb1-qa-name
     bu          = "djin"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
     servicename = "djin/newswires/web"
     appid       = "in_newswires_web_jlswireryter"
     autosnap    = "bkp=a"

@@ -129,7 +129,15 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
 
 
   tags = {
-    preserve = "true"
+    Name        = "hkpc-cwsj-mobile-converter-qa"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "djcs_wsj_backend_cwsjsupport"
+    preserve    = "true"
   }
 }
 
@@ -147,7 +155,7 @@ resource "aws_instance" "hkpc-cwsj-mobile-converter-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-cwsj-mobile-converter-qa-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${aws_security_group.hkpc-cwsj-mobile-converter-qa.id}"]
+  vpc_security_group_ids = [aws_security_group.hkpc-cwsj-mobile-converter-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -156,12 +164,12 @@ resource "aws_instance" "hkpc-cwsj-mobile-converter-qa" {
 
   tags = {
     Name        = "${var.hkpc-cwsj-mobile-converter-qa-name}${count.index + 1}"
-    bu          = "${var.TagBU}"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
-    servicename = "${var.TagServiceName}"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
     appid       = "djcs_wsj_backend_cwsjsupport"
     autosnap    = "bkp=a"
     preserve    = true

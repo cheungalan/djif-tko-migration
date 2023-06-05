@@ -121,7 +121,15 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "hkpk-tko-rc-04-qa"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
   }
 }
 
@@ -139,7 +147,7 @@ resource "aws_instance" "hkpk-tko-rc-04-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = ["${aws_security_group.hkpk-tko-rc-04-qa.id}"]
+  vpc_security_group_ids = [aws_security_group.hkpk-tko-rc-04-qa.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -150,12 +158,12 @@ resource "aws_instance" "hkpk-tko-rc-04-qa" {
   }
   tags = {
     Name        = "${var.hkpk-tko-rc-04-qa-name}${count.index + 1}"
-    bu          = "${var.TagBU}"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
-    servicename = "${var.TagServiceName}"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
     appid       = "in_platform_randc_datagenjapan"
     autosnap    = "bkp=a"
     preserve    = true

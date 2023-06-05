@@ -130,11 +130,19 @@ resource "aws_security_group" "djif-datagen-sg" {
     from_port       = "3306"
     to_port         = "3306"
     protocol        = "tcp"
-    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+    security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-datagen-sg"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
   }
 }
 
@@ -156,7 +164,7 @@ resource "aws_instance" "tko-rc-datagen" {
   instance_type          = var.tko_rc_datagen_instance_type
   key_name               = aws_key_pair.tko_rc_datagen_key.id
   subnet_id              = var.tko_rc_datagen_subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-datagen.id}", "${aws_security_group.djif-datagen-sg.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, aws_security_group.djif-datagen-sg.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -165,12 +173,12 @@ resource "aws_instance" "tko-rc-datagen" {
 
   tags = {
     Name        = "${var.tko_rc_datagen_name}${count.index + 1}"
-    bu          = "${var.TagBU}"
-    owner       = "${var.TagOwner}"
-    environment = "${var.TagEnv}"
-    product     = "${var.TagProduct}"
-    component   = "${var.TagComponent}"
-    servicename = "${var.TagServiceName}"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
     appid       = "in_platform_randc_datagenjapan"
     preserve    = true
     autosnap    = "bkp=o"

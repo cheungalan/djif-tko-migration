@@ -4,6 +4,10 @@
 import java.text.SimpleDateFormat
 import groovy.io.FileType
 
+terraformBinary = 'terraform-1.1.7'
+lob = 'djif'   // part of the Terraform `subpath` definition. Change lob to whatever Business Unit owns the Jenkins server
+subPathPrefix = "${lob}/${env.JOB_NAME}"
+
 // BEGIN Jenkins job parameters menus
 properties([parameters([
     booleanParam(defaultValue: true, description: 'Select to populate new accounts', name: 'populate_accounts'), 
@@ -22,7 +26,8 @@ properties([parameters([
             accountList.add(dirs.getName()) 
         }
     }
-    accountList.add(\'all\')
+    // accountList.add(\'all\') 
+    accountList.add(\'\') // default required to select an account
     return accountList.sort()''']]], 
     [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
@@ -156,6 +161,14 @@ def checkoutRepo(){
     }
 }
 
+def print_title(pi_title, pi_debug) {
+    if (pi_debug) {
+        def line  = "Debug: ---------------------------------------------------------------"
+        def message = "Debug: ${pi_title}"
+        echo "\u001B[34m${line}\n${message}\n${line}\u001B[0m\n"
+    }
+}
+
 // Remove tfstate and status files to start clean
 def tfCleanState (environment){
     if (fileExists("${env.WORKSPACE}/${environment}/.terraform/terraform.tfstate")) {
@@ -177,10 +190,12 @@ def tfApproval (action){
         } else if (action == "destroy"){
             input (message: 'Destroy Everything?', ok: 'Destroy')
             return true
+        } else {
+            return false
         }
     }
     catch (err) {
-        currentBuild.result = 'FAILURE'
+        echo "\u001B[31mAbort either by user or due to timeout\u001B[0m"
         return false
     }
 }
@@ -219,7 +234,7 @@ def tfInit (accountName, region, subpath, importScript, debug, tfLogLevel){
         
         def execInit = """
             cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; \
-            yes yes 2>&1 | terraform init \
+            yes yes 2>&1 | ${terraformBinary} init \
             -backend-config="username=${USERNAME}" \
             -backend-config="password=${PASSWORD}" \
             -backend-config="subpath=${subpath}"
@@ -254,14 +269,14 @@ def tfValidate (accountName, region, debug, tfLogLevel){
         print "workspace is ${env.WORKSPACE}"
     }
     // Output Terraform version
-    def terraformVersionSh = "terraform --version"
+    def terraformVersionSh = "${terraformBinary} --version"
     def exitCode = sh(returnStatus: true, script: terraformVersionSh)
     if (exitCode != 0) {
         currentBuild.result = 'FAILED'
         error "${terraformVersionSh} failed for account: ${accountName} env= ${environment}"
     }
     // Validate Terraform files
-    def terraformValidate = "cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform validate"
+    def terraformValidate = "cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} validate"
     exitCode = sh(returnStatus: true, script: terraformValidate)
     if (exitCode != 0) {
         currentBuild.result = 'FAILED'
@@ -277,29 +292,29 @@ def tfPlan (accountName, region, action, debug, tfLogLevel){
         print "workspace is ${env.WORKSPACE}"
     }
     def execPlan
-    if (action != "destroy"){
+    if (action == "destroy"){ // perform plan with destroy option
         execPlan = """
-            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform get -update; \
-            set +e; terraform plan -out=plan.out -detailed-exitcode; \
+            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
+            set +e; ${terraformBinary} plan -destroy -out=plan.out -detailed-exitcode; \
         """
-    } else { // Else perform plan with destroy option
+    } else { // Else perform plan option
         execPlan = """ 
-            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; terraform get -update; \
-            set +e; terraform plan -destroy -out=plan.out -detailed-exitcode; \
+            cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel}; ${terraformBinary} get -update; \
+            set +e; ${terraformBinary} plan -out=plan.out -detailed-exitcode; \
         """
     }
     def exitCode = sh(returnStatus: true, script: execPlan)
     if (exitCode == 0) {
-        echo "\u001B[34mTerraform plan succeeded with no changes\u001B[0m"
-        return false
+        echo "\u001B[34mterraform plan succeeded with no changes\u001B[0m"
+        return exitCode
     } else if (exitCode == 1) {
         echo "\u001B[34mTerraform plan plan error\u001B[0m"
         error ("Terraform plan error for account = ${accountName} , env = ${environment}")
         currentBuild.result = 'FAILURE'
-        return false
+        return exitCode
     } else if (exitCode == 2) {
         echo "\u001B[34mTerraform plan succeeded with changes present.\u001B[0m"
-        return true
+        return exitCode
     }
 }
 
@@ -310,11 +325,12 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
         print "account = ${accountName} env = ${environment}"
         print "tfApplyDestroy workspace is ${env.WORKSPACE}"
     }
-    if (action == "apply" && tfPlanOk == true) {
+    if (action == "apply" && tfPlanOk == 2) {
+        print_title("Terraform Apply", debug)
         try {
             // Apply plan
             def execApply = """
-                cd ${env.WORKSPACE}/${environment}; set +e; export TF_LOG=${tfLogLevel}; terraform apply plan.out; \
+                cd ${env.WORKSPACE}/${environment}; set +e; export TF_LOG=${tfLogLevel}; ${terraformBinary} apply plan.out; \
             """
             def applyExitCode = sh(returnStatus: true, script: execApply)
             if (applyExitCode == 0) {
@@ -329,27 +345,21 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
             echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error caught applying!\u001B[0m"
             error ("Terraform apply error for account = ${accountName} , env = ${environment}")
         }
-    }
-    else if (action == "destroy" && tfPlanOk == true) {
+    } else if (action == "destroy" && tfPlanOk == 2) {
+        print_title("Terraform Destroy", debug)
         try {
-            timeout(time: 30, unit:'MINUTES') {
-                tfApproval = tfApproval(action)
-                if (tfApproval == true) {   
-                    // Destroy apply
-                    def execDestroy = """
-                        cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; terraform destroy -force; 
-                    """
-                    def destroyExitCode = sh(returnStatus: true, script: execDestroy)
-                    if (destroyExitCode == 0) {
-                        echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Infrastructure destroyed.\u001B[0m"
-                    } else if (destroyExitCode == 2) {
-                        echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Nothing to destroy for account = ${accountName} env = ${environment}.\u001B[0m"
-                    } else {
-                        currentBuild.result = 'FAILURE'
-                        echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error destroying!\u001B[0m"
-                    }   
-                }
-            } 
+            def execDestroy = """
+                cd ${env.WORKSPACE}/${environment}; export TF_LOG=${tfLogLevel};set +e; ${terraformBinary} apply plan.out; 
+            """
+            def destroyExitCode = sh(returnStatus: true, script: execDestroy)
+            if (destroyExitCode == 0) {
+                echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Infrastructure destroyed.\u001B[0m"
+            } else if (destroyExitCode == 2) {
+                echo "\u001B[34m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Nothing to destroy for account = ${accountName} env = ${environment}.\u001B[0m"
+            } else {
+                currentBuild.result = 'FAILURE'
+                echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error destroying!\u001B[0m"
+            }
         } catch (err) {
             currentBuild.result = 'FAILURE'
             echo "\u001B[31m${environment} ${env.JOB_NAME} - ${env.BUILD_NUMBER} - Error caught destroying!\u001B[0m"
@@ -358,8 +368,7 @@ def tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel){
 }
 
 def runTfSteps(accountName, region, action, importScript, debug, tfLogLevel) {
-    def lob = "djif"  // Change lob to whatever Business Unit owns the Jenkins server
-    def subpath = "${lob}/${env.JOB_NAME}/${accountName}/${region}/"
+    def subpath = "${subPathPrefix}/${accountName}/${region}/"
     ansiColor('xterm') {
         if (debug) {
             print "calling tfCheckout with account: ${accountName} and region: ${region}"
@@ -368,7 +377,24 @@ def runTfSteps(accountName, region, action, importScript, debug, tfLogLevel) {
         tfInit (accountName, region, subpath, importScript, debug, tfLogLevel)
         tfValidate(accountName, region, debug, tfLogLevel)
         def tfPlanOk = tfPlan (accountName, region, action, debug, tfLogLevel)
-        tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel)
+
+        if (debug) {
+            print "tfPlan exitCode: ${tfPlanOk}"
+        }
+
+        if ( (action == "apply" || action == "destroy") && tfPlanOk == 2 ) {          // Plan succeeds with changes detected
+            // approval
+            def l_tfApproval = false
+            timeout(time: 30, unit:'MINUTES') {
+                l_tfApproval = tfApproval(action)
+            }
+            if ( l_tfApproval != true ) {
+                currentBuild.result = 'FAILURE'
+                return
+            }
+
+            tfApplyDestroy(accountName, region, action, tfPlanOk, debug, tfLogLevel)
+        }
     }
 }
 
@@ -411,10 +437,15 @@ node ('master') {
         checkoutRepo()
     }
     if (myParams["populate_accounts"]){  // if we're populating accounts data, then we only wanted to do that (checkout above), and exit with success.
+        currentBuild.displayName = "${BUILD_NUMBER} :: Populate accounts"
         print "accounts data populated\n"
         currentBuild.result = 'SUCCESS'
         return
     } else { // otherwise go run what the user asked for.
+        currentBuild.displayName = "${BUILD_NUMBER} :: ${myParams['action']} account:${myParams['account']} region:${myParams['region']}"
+        wrap([$class: 'BuildUser']) {
+            currentBuild.setDescription("by ${BUILD_USER}")
+        }
         build(myParams["account"], myParams["region"], myParams["action"], myParams["import_script"], myParams["debug"], myParams["TF_LOG"]) 
     }
 }

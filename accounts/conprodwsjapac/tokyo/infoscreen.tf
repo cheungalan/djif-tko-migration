@@ -124,11 +124,19 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     from_port       = "3306"
     to_port         = "3306"
     protocol        = "tcp"
-    security_groups = ["${data.aws_security_group.wsj_prod_db.id}"]
+    security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-infoscreen-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_infoscreen"
+    preserve    = "true"
   }
 }
 
@@ -150,7 +158,7 @@ resource "aws_instance" "infoscreen" {
   instance_type          = var.infoscreen_instance_type
   key_name               = aws_key_pair.infoscreen_key.id
   subnet_id              = var.infoscreen_subnet_id
-  vpc_security_group_ids = ["${data.aws_security_group.djif-default-info.id}", "${aws_security_group.djif-infoscreen-sg.id}"]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-info.id, aws_security_group.djif-infoscreen-sg.id]
 
   root_block_device {
     volume_size = var.root_v_size
@@ -161,9 +169,9 @@ resource "aws_instance" "infoscreen" {
     Name        = "${var.infoscreen_name}${count.index + 1}"
     bu          = "djcs"
     owner       = "Alan.Cheung@dowjones.com"
-    environment = "${var.TagEnv}"
+    environment = var.TagEnv
     product     = "wsj"
-    component   = "${var.TagComponent}"
+    component   = var.TagComponent
     servicename = "djcs/wsj/web"
     appid       = "djcs_wsj_web_infoscreen"
     preserve    = true
