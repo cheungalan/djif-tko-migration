@@ -18,7 +18,7 @@ properties([parameters([
     script: [classpath: [], sandbox: true, script: '''
     import groovy.io.FileType
     def  accountList = [] 
-    new File("${env.WORKSPACE}/accounts/").eachDir()
+    new File("/var/lib/jenkins/workspace/${env.JOB_NAME}/accounts/").eachDir()
     {
         dirs -> dirs.getName() 
         if (!dirs.getName().startsWith(\'.\')) {
@@ -37,7 +37,7 @@ properties([parameters([
         // "basename $(find . -depth 2)  | sort | uniq".execute()
         regionList.add("all regions found")
     } else {
-        new File("${env.WORKSPACE}/accounts/${account}").eachDir()
+        new File("/var/lib/jenkins/workspace/${env.JOB_NAME}/accounts/${account}").eachDir()
         {
             dirs -> dirs.getName()
             if (!dirs.getName().startsWith(\'.\')) {
