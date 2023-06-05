@@ -15,10 +15,10 @@ properties([parameters([
     choice(choices: ["no","yes"], description: '', name: 'import_script'),
     [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose account', filterLength: 1, filterable: false, name: 'account', randomName: 'choice-parameter-11218045538499', 
     script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], 
-    script: [classpath: [], sandbox: true, script: '''
+    script: [classpath: [], sandbox: true, script: """
     import groovy.io.FileType
     def  accountList = [] 
-    new File("/var/lib/jenkins/workspace/${env.JOB_NAME}/accounts/").eachDir()
+    new File("${env.WORKSPACE}/accounts/").eachDir()
     {
         dirs -> dirs.getName() 
         if (!dirs.getName().startsWith(\'.\')) {
@@ -26,8 +26,8 @@ properties([parameters([
         }
     }
     accountList.add(\'all\')
-    return accountList.sort()''']]], 
-    [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: '''
+    return accountList.sort()"""]]], 
+    [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Choose region', filterLength: 1, filterable: false, name: 'region', randomName: 'choice-parameter-11218050093680', referencedParameters: 'account', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: true, script: """
     import groovy.io.FileType
     def  regionList = []
     if ("${account}" == "") {
@@ -37,7 +37,7 @@ properties([parameters([
         // "basename $(find . -depth 2)  | sort | uniq".execute()
         regionList.add("all regions found")
     } else {
-        new File("/var/lib/jenkins/workspace/${env.JOB_NAME}/accounts/${account}").eachDir()
+        new File("${env.WORKSPACE}/accounts/${account}").eachDir()
         {
             dirs -> dirs.getName()
             if (!dirs.getName().startsWith(\'.\')) {
@@ -45,7 +45,7 @@ properties([parameters([
             }
         }
     }
-    return regionList.sort()''']]], 
+    return regionList.sort()"""]]], 
     booleanParam(defaultValue: false, description: 'If on, more traces will be printed.', name: 'debug'), 
     choice(choices: ["NONE","ERROR","WARN","INFO","DEBUG","TRACE"], description: 'log level for TF_LOG ', name: 'tfLogLevel')])])
 // END Jenkins job parameters menus
