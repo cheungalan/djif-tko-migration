@@ -138,7 +138,15 @@ resource "aws_security_group" "djif-archive-sg" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-archive-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_jwsjarchive"
+    preserve    = "true"
   }
 }
 

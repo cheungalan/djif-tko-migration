@@ -140,7 +140,15 @@ resource "aws_security_group" "djif-rc-web-sg" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-rc-web-sg"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
   }
 }
 

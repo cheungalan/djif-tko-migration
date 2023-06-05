@@ -120,7 +120,15 @@ resource "aws_security_group" "djif-financial-sg" {
   }
 
   tags = {
-    preserve = "true"
+    Name        = "djif-financial-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_financialasia"
+    preserve    = "true"
   }
 
 }
