@@ -20,7 +20,7 @@ resource "aws_instance" "hkpc-cwsj-ftp01-gateway-qa" {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
     tags = {
-      Name        = "cwsj-ftp01-qa"
+      Name        = "cwsj-ftp01-qa-root"
       bu          = "djcs"
       owner       = var.TagOwner
       environment = var.TagEnv

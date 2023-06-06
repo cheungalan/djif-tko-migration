@@ -20,7 +20,7 @@ resource "aws_instance" "hkpc-cwsj-editor01-web-qa" {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
     tags = {
-      Name        = "cwsj-editor01-qa"
+      Name        = "cwsj-editor01-qa-root"
       bu          = "djcs"
       owner       = var.TagOwner
       environment = var.TagEnv

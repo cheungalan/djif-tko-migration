@@ -20,7 +20,7 @@ resource "aws_instance" "hkpc-cln-dist01-qa" {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
     tags = {
-      Name        = "cln-dist01-qa"
+      Name        = "cln-dist01-qa-root"
       bu          = "djin"
       owner       = var.TagOwner
       environment = var.TagEnv

@@ -21,7 +21,7 @@ resource "aws_instance" "hkpc-lls01-editor-qa" {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
     tags = {
-      Name        = "lls01-editor-qa"
+      Name        = "lls01-editor-qa-root"
       bu          = "djin"
       owner       = var.TagOwner
       environment = var.TagEnv
