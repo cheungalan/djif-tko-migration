@@ -1,3 +1,6 @@
+// CT-14851
+// data lookup and resources are queried from hkpc-lls-editor-web
+
 data "aws_ami" "hkpc-lls01-editor-qa" {
   owners = ["528339170479"]
   filter {
@@ -17,6 +20,16 @@ resource "aws_instance" "hkpc-lls01-editor-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "lls01-editor-qa-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_web_lls"
+    }
   }
 
   tags = {
