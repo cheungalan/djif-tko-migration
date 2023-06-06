@@ -20,6 +20,16 @@ resource "aws_instance" "hkpc-cls-recv01-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "cls-receiver01-qa"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_djnews_clsdist"
+    }
   }
 
   tags = {

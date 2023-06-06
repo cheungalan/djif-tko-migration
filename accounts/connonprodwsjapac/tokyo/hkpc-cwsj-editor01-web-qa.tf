@@ -19,6 +19,16 @@ resource "aws_instance" "hkpc-cwsj-editor01-web-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "cwsj-editor01-qa"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_edttools_web_cwsjediting"
+    }
   }
 
   tags = {

@@ -19,6 +19,16 @@ resource "aws_instance" "hkpc-cwsj-ftp01-gateway-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "cwsj-ftp01-qa"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = "wsj"
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_backend_cwsjsupport"
+    }
   }
 
   tags = {
