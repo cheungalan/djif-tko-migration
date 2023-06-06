@@ -1,3 +1,6 @@
+// CT-14851
+// data lookup and resources are queried from hkpc-lls-editor-web
+
 data "aws_ami" "hkpc-lls01-editor-qa" {
   owners = ["528339170479"]
   filter {
