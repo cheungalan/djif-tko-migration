@@ -134,7 +134,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
   }
 }
 
-data "aws_ami" "hkpk-tko-rc-web03-qa1" {
+data "aws_ami" "hkpk-tko-rc-web03-qa" {
   owners = ["528339170479"]
   filter {
     name   = "name"
@@ -142,9 +142,9 @@ data "aws_ami" "hkpk-tko-rc-web03-qa1" {
   }
 }
 
-resource "aws_instance" "hkpk-tko-rc-web03-qa1" {
+resource "aws_instance" "hkpk-tko-rc-web03-qa" {
   count                  = 1
-  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa1.image_id
+  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa.image_id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
   subnet_id              = var.subnet_id
