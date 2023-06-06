@@ -122,7 +122,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
 
   tags = {
     Name        = "hkpk-tko-rc-04-qa"
-    name        = "hkpk-tko-rc-03-qa"
+    alias       = "hkpk-tko-rc-03-qa"
     bu          = var.TagBU
     owner       = var.TagOwner
     environment = var.TagEnv
@@ -134,7 +134,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
   }
 }
 
-data "aws_ami" "hkpk-tko-rc-03-qa1" {
+data "aws_ami" "hkpk-tko-rc-web03-qa1" {
   owners = ["528339170479"]
   filter {
     name   = "name"
@@ -142,9 +142,9 @@ data "aws_ami" "hkpk-tko-rc-03-qa1" {
   }
 }
 
-resource "aws_instance" "hkpk-tko-rc-03-qa1" {
+resource "aws_instance" "hkpk-tko-rc-web03-qa1" {
   count                  = 1
-  ami                    = data.aws_ami.hkpk-tko-rc-03-qa1.image_id
+  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa1.image_id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
   subnet_id              = var.subnet_id
@@ -172,4 +172,45 @@ resource "aws_instance" "hkpk-tko-rc-03-qa1" {
     autosnap    = "bkp=a"
     preserve    = true
   }
+
+}
+
+
+data "aws_ami" "hkpk-tko-rc-web03-qa2" {
+  owners = ["830903312882"]
+  filter {
+    name   = "name"
+    values = ["hkpk-rc-web03_qa1"]
+  }
+}
+
+resource "aws_instance" "hkpk-tko-rc-web03-qa2" {
+  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa2.image_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
+  subnet_id              = "subnet-076c0f9457edadfc9"
+  vpc_security_group_ids = [aws_security_group.hkpk-tko-rc-04-qa.id]
+
+  root_block_device {
+    volume_size           = 200
+    volume_type           = "gp3"
+    delete_on_termination = false
+    tags = {
+      Name = "hkpk-rc-web03_qa2-root"
+    }
+  }
+
+  tags = {
+    Name        = "hkpk-rc-web03_qa2"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    autosnap    = "bkp=a"
+    preserve    = true
+  }
+
 }
