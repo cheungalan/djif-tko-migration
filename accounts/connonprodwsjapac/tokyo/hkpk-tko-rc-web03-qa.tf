@@ -1,9 +1,9 @@
-resource "aws_key_pair" "hkpk-tko-rc-04-qa-key" {
+resource "aws_key_pair" "hkpk-tko-rc-04-qa-key" { // use by hkpk-rc-web03_qa1 & hkpk-rc-web03_qa2
   key_name   = "hkpk-tko-rc-04-qa-key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDvFIrPz7DNwnVVl3XKd6trWoaRhIpo4xLYQO9G00PmWkRpssDZuDGwEeyVnGkV2R3h56ojIcQxeRa74s16+Drpu6Gf8OcbQvI0M+Z1EGVCd+R/DMxBfNGBJt33t1FIAh+xnqF5XxFdqvGpHKeLsHAEZs7zNAZHO09g6OSL5ivisjGIpOqyL3W2NGljj2ihYTYP3lr5TG52Gw5jpbXEtHTP+KHODfZxh79shFbo/q5aD11rU3sgMTO4jQIks0R5e4nzLcajG3kBVqcFfLX68cyT4ZWMQ4h21rdmUmgC2ZtNcMMtigANRvV86wCDcA3MgfJnnH+Eq9brGf+wZvlIfpxv6rTk9FisRx3ikBQNWNLvFYw+pHKLR61UWKBwoAUx1NRcdH/8qpjroyWADIVAffNcOXADSONuEep3b2ZWQatYoj6ZNDnTuOnC7qfm2hMtFN5/YzRyAaOVr6x91/fgwXMDJruq/8UMY08u4TEbmmN52gtlIo3rx9LQ7nh5lLTsoLQOufLe5n10BqYxQzbLOjyY1YeR8cuqNj5yAiTOPXfeAdDhztieWbj0Gt86DedNZOLvy7/b0XdErVYFhVjltjLpQMB4k4cvndYOWXbcMjPyGGkUtQXgmaThy5I05mZuDNdhEn7XWmBvc7iqS50rPl8Zhqi404NqV4zr0E2S3D1J5Q== hkpk-tko-rc-04-qa"
 }
 
-resource "aws_security_group" "hkpk-tko-rc-04-qa" {
+resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 & hkpk-rc-web03_qa2
   name        = "hkpk-tko-rc-04-qa"
   description = "hkpk-tko-rc-04-qa"
   vpc_id      = var.vpc_id
@@ -122,6 +122,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" {
 
   tags = {
     Name        = "hkpk-tko-rc-04-qa"
+    alias       = "hkpk-tko-rc-03-qa"
     bu          = var.TagBU
     owner       = var.TagOwner
     environment = var.TagEnv
@@ -133,7 +134,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" {
   }
 }
 
-data "aws_ami" "hkpk-tko-rc-04-qa" {
+data "aws_ami" "hkpk-tko-rc-web03-qa" {
   owners = ["528339170479"]
   filter {
     name   = "name"
@@ -141,23 +142,26 @@ data "aws_ami" "hkpk-tko-rc-04-qa" {
   }
 }
 
-resource "aws_instance" "hkpk-tko-rc-04-qa" {
+resource "aws_instance" "hkpk-tko-rc-web03-qa" {
   count                  = 1
-  ami                    = data.aws_ami.hkpk-tko-rc-04-qa.image_id
+  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa.image_id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [aws_security_group.hkpk-tko-rc-04-qa.id]
 
   root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
+    volume_size           = var.root_v_size
+    volume_type           = var.root_v_type
+    delete_on_termination = false
+    tags = {
+      Name = "hkpk-rc-web03_qa1_recovery_sda1"
+      name = "hkpk-rc-web03_qa1_recovery_sda1"
+    }
   }
-  lifecycle {
-    ignore_changes = all
-  }
+
   tags = {
-    Name        = "${var.hkpk-tko-rc-04-qa-name}${count.index + 1}"
+    Name        = "hkpk-rc-web03_qa${count.index + 1}"
     bu          = var.TagBU
     owner       = var.TagOwner
     environment = var.TagEnv
@@ -168,4 +172,45 @@ resource "aws_instance" "hkpk-tko-rc-04-qa" {
     autosnap    = "bkp=a"
     preserve    = true
   }
+
+}
+
+
+data "aws_ami" "hkpk-tko-rc-web03-qa2" {
+  owners = ["830903312882"]
+  filter {
+    name   = "name"
+    values = ["hkpk-rc-web03_qa1"]
+  }
+}
+
+resource "aws_instance" "hkpk-tko-rc-web03-qa2" {
+  ami                    = data.aws_ami.hkpk-tko-rc-web03-qa2.image_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.hkpk-tko-rc-04-qa-key.id
+  subnet_id              = "subnet-076c0f9457edadfc9"
+  vpc_security_group_ids = [aws_security_group.hkpk-tko-rc-04-qa.id]
+
+  root_block_device {
+    volume_size           = 200
+    volume_type           = "gp3"
+    delete_on_termination = false
+    tags = {
+      Name = "hkpk-rc-web03_qa2-root"
+    }
+  }
+
+  tags = {
+    Name        = "hkpk-rc-web03_qa2"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    autosnap    = "bkp=a"
+    preserve    = true
+  }
+
 }
