@@ -178,7 +178,7 @@ resource "aws_instance" "tko-rc-web" {
     volume_size           = var.root_v_size
     volume_type           = var.root_v_type
     tags = {
-      Name        = "tko-rc-web2"
+      Name        = "${var.tko_rc_web_name}${count.index + 1}"
       vollockname = "tko_rc_web_key-orig"
       bu          = var.TagBU
       owner       = var.TagOwner
