@@ -174,8 +174,20 @@ resource "aws_instance" "tko-rc-web" {
   vpc_security_group_ids = [data.aws_security_group.djif-default-web.id, aws_security_group.djif-rc-web-sg.id]
 
   root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
+    delete_on_termination = false
+    volume_size           = var.root_v_size
+    volume_type           = var.root_v_type
+    tags = {
+      Name        = "tko-rc-web2"
+      vollockname = "tko_rc_web_key-orig"
+      bu          = var.TagBU
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = var.TagServiceName
+      appid       = "in_platform_randc_datagenjapan"
+    }
   }
 
   tags = {
