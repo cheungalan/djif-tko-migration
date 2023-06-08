@@ -4,7 +4,7 @@
 import java.text.SimpleDateFormat
 import groovy.io.FileType
 
-terraformBinary = 'terraform-1.1.7'
+terraformBinary = 'terraform1'
 lob = 'djif'   // part of the Terraform `subpath` definition. Change lob to whatever Business Unit owns the Jenkins server
 subPathPrefix = "${lob}/${env.JOB_NAME}"
 
