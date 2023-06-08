@@ -190,9 +190,4 @@ resource "aws_instance" "tko-rc-web" {
     preserve    = true
     autosnap    = "bkp=o"
   }
-
-  lifecycle {
-    ignore_changes = all
-  }
-
 }
