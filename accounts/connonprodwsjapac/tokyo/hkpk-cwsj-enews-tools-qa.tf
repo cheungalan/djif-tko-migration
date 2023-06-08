@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpk-cwsj-enews-tools-qa" {
   description = "hkpk-cwsj-enews-tools-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpk-cwsj-enews-tools-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_edttools_web_cwsjenews"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,18 +131,6 @@ resource "aws_security_group" "hkpk-cwsj-enews-tools-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpk-cwsj-enews-tools-qa"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_edttools_web_cwsjenews"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpk-cwsj-enews-tools-qa" {
@@ -152,6 +152,16 @@ resource "aws_instance" "hkpk-cwsj-enews-tools-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpk-cwsj-enews-tools-qa-name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_edttools_web_cwsjenews"
+    }
   }
 
   tags = {

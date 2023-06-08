@@ -15,6 +15,18 @@ resource "aws_security_group" "hkpc-cln-dist" {
   description = "hkpc-cln-dist"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-cln-dist"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 5000
     to_port     = 5100
@@ -168,18 +180,6 @@ resource "aws_security_group" "hkpc-cln-dist" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-cln-dist"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_djnews_clsdist"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-cln-dist" {
@@ -201,6 +201,16 @@ resource "aws_instance" "hkpc-cln-dist" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-cln-dist-name}-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_djnews_clsdist"
+    }
   }
 
   tags = {

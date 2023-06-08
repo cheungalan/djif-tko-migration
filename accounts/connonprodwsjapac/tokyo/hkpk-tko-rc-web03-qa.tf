@@ -8,6 +8,19 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
   description = "hkpk-tko-rc-04-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpk-tko-rc-04-qa"
+    alias       = "hkpk-tko-rc-03-qa"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,19 +132,6 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpk-tko-rc-04-qa"
-    alias       = "hkpk-tko-rc-03-qa"
-    bu          = var.TagBU
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = var.TagServiceName
-    appid       = "in_platform_randc_datagenjapan"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpk-tko-rc-web03-qa" {
@@ -155,8 +155,15 @@ resource "aws_instance" "hkpk-tko-rc-web03-qa" {
     volume_type           = var.root_v_type
     delete_on_termination = false
     tags = {
-      Name = "hkpk-rc-web03_qa1_recovery_sda1"
-      name = "hkpk-rc-web03_qa1_recovery_sda1"
+      Name        = "hkpk-rc-web03_qa1_recovery_sda1"
+      name        = "hkpk-rc-web03_qa1_recovery_sda1"
+      bu          = var.TagBU
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = var.TagServiceName
+      appid       = "in_platform_randc_datagenjapan"
     }
   }
 

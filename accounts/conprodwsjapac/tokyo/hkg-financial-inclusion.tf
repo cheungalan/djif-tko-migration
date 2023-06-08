@@ -35,6 +35,18 @@ resource "aws_security_group" "djif-financial-sg" {
 
   vpc_id = var.vpc_id
 
+  tags = {
+    Name        = "djif-financial-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_financialasia"
+    preserve    = "true"
+  }
+
   //IP-6495
 
   // Web Access 80
@@ -118,19 +130,6 @@ resource "aws_security_group" "djif-financial-sg" {
     protocol        = "tcp"
     security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
-
-  tags = {
-    Name        = "djif-financial-sg"
-    bu          = "djcs"
-    owner       = "Alan.Cheung@dowjones.com"
-    environment = var.TagEnv
-    product     = "wsj"
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_financialasia"
-    preserve    = "true"
-  }
-
 }
 
 /*
@@ -156,6 +155,16 @@ resource "aws_instance" "hkg-financial-inclusion" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkg_financial_inclusion_name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = "Alan.Cheung@dowjones.com"
+      environment = var.TagEnv
+      product     = "wsj"
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_financialasia"
+    }
   }
 
   tags = {

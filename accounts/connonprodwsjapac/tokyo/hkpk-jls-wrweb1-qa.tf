@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
   description = "hkpk-jls-wrweb1-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpk-jls-wrweb1-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_jlswireryter"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,18 +131,6 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpk-jls-wrweb1-qa"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_web_jlswireryter"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpk-jls-wrweb1-qa" {
@@ -151,6 +151,16 @@ resource "aws_instance" "hkpk-jls-wrweb1-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpk-jls-wrweb1-qa-name}-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_web_jlswireryter"
+    }
   }
 
   tags = {

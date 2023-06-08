@@ -15,6 +15,18 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   description = "hkpc-jls-wrfeed"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-jls-wrfeed"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_jlswireryter"
+    preserve    = "true"
+  }
+
   ingress {
     description = "Custom inbound from Newswires feeds"
     from_port   = 20000
@@ -224,18 +236,6 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-jls-wrfeed"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_web_jlswireryter"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-jls-wrfeed" {
@@ -258,6 +258,16 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-jls-wrfeed-name}-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_web_jlswireryter"
+    }
   }
 
   tags = {

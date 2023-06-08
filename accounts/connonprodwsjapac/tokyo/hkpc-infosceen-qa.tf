@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpc-infosceen-qa" {
   description = "hkpc-infosceen-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-infosceen-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_infoscreen"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,18 +131,6 @@ resource "aws_security_group" "hkpc-infosceen-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-infosceen-qa"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_infoscreen"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-infosceen-qa" {
@@ -152,6 +152,16 @@ resource "aws_instance" "hkpc-infosceen-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-infosceen-qa-name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_infoscreen"
+    }
   }
 
   tags = {

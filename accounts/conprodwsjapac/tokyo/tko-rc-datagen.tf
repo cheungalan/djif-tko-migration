@@ -35,6 +35,18 @@ resource "aws_security_group" "djif-datagen-sg" {
 
   vpc_id = var.vpc_id
 
+  tags = {
+    Name        = "djif-datagen-sg"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
+  }
+
   //IP-6495
 
   // ICMP 
@@ -132,18 +144,6 @@ resource "aws_security_group" "djif-datagen-sg" {
     protocol        = "tcp"
     security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
-
-  tags = {
-    Name        = "djif-datagen-sg"
-    bu          = var.TagBU
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = var.TagServiceName
-    appid       = "in_platform_randc_datagenjapan"
-    preserve    = "true"
-  }
 }
 
 /*
@@ -169,6 +169,16 @@ resource "aws_instance" "tko-rc-datagen" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.tko_rc_datagen_name}${count.index + 1}-root"
+      bu          = var.TagBU
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = var.TagServiceName
+      appid       = "in_platform_randc_datagenjapan"
+    }
   }
 
   tags = {

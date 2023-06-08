@@ -15,6 +15,18 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
   description = "hkpc-lls-editor-web"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-lls-editor-web"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_web_lls"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -182,18 +194,6 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-lls-editor-web"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_web_lls"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-lls-editor-web" {
@@ -216,6 +216,16 @@ resource "aws_instance" "hkpc-lls-editor-web" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-lls-editor-web-name}-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_web_lls"
+    }
   }
 
   tags = {

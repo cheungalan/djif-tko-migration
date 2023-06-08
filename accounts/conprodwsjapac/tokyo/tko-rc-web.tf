@@ -48,6 +48,18 @@ resource "aws_security_group" "djif-rc-web-sg" {
 
   vpc_id = var.vpc_id
 
+  tags = {
+    Name        = "djif-rc-web-sg"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "in_platform_randc_datagenjapan"
+    preserve    = "true"
+  }
+
   //IP-6495
 
   // Web Access 80
@@ -137,18 +149,6 @@ resource "aws_security_group" "djif-rc-web-sg" {
     to_port         = "3306"
     protocol        = "tcp"
     security_groups = [data.aws_security_group.wsj_prod_db.id]
-  }
-
-  tags = {
-    Name        = "djif-rc-web-sg"
-    bu          = var.TagBU
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = var.TagServiceName
-    appid       = "in_platform_randc_datagenjapan"
-    preserve    = "true"
   }
 }
 

@@ -1,7 +1,20 @@
-resource "aws_security_group" "hkpc-cwsj-sql" {
+resource "aws_security_group" "hkpc-cwsj-sql" { // use by `cwsj-sql-qa` RDS SQL
   name        = "hkpc-cwsj-sql"
   description = "hkpc-cwsj-sql"
   vpc_id      = var.vpc_id
+
+  tags = {
+    Name        = "hkpc-cwsj-sql"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "djcs_edttools_web_cwsjediting"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 3389
     to_port     = 3389
@@ -128,9 +141,5 @@ resource "aws_security_group" "hkpc-cwsj-sql" {
     to_port     = 25
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name     = "hkpc-cwsj-sql"
-    preserve = "true"
   }
 }

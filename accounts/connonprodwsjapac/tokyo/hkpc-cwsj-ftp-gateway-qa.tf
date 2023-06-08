@@ -15,6 +15,18 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   description = "hkpc-cwsj-ftp-gateway"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-cwsj-ftp-gateway"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_backend_cwsjsupport"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 3389
     to_port     = 3389
@@ -154,18 +166,6 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-cwsj-ftp-gateway"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = "wsj"
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_backend_cwsjsupport"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-cwsj-ftp-gateway" {
@@ -187,6 +187,16 @@ resource "aws_instance" "hkpc-cwsj-ftp-gateway" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-cwsj-ftp-gateway-name}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = "wsj"
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_backend_cwsjsupport"
+    }
   }
 
   tags = {

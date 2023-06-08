@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpk-newsnet-qa" {
   description = "hkpk-newsnet-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpk-newsnet-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = var.appid
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,18 +131,6 @@ resource "aws_security_group" "hkpk-newsnet-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpk-newsnet-qa"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = var.appid
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpk-newsnet-qa" {
@@ -152,6 +152,15 @@ resource "aws_instance" "hkpk-newsnet-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpk-newsnet-qa-name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+    }
   }
 
   tags = {

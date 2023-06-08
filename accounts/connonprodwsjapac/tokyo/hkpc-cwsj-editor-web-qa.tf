@@ -15,6 +15,18 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
   description = "hkpc-cwsj-editor-web"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-cwsj-editor-web"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_edttools_web_cwsjediting"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -168,10 +180,6 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    preserve = "true"
-  }
 }
 
 data "aws_ami" "hkpc-cwsj-editor-web" {
@@ -193,6 +201,16 @@ resource "aws_instance" "hkpc-cwsj-editor-web" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-cwsj-editor-web-name}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_edttools_web_cwsjediting"
+    }
   }
 
   tags = {
