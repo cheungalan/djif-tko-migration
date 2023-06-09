@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpk-jls-web2-qa" {
   description = "hkpk-jls-web2-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpk-jls-web2-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_jlsnews"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -126,18 +138,6 @@ resource "aws_security_group" "hkpk-jls-web2-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpk-jls-web2-qa"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_djnews_jlsnews"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpk-jls-web2-qa" {
@@ -159,6 +159,16 @@ resource "aws_instance" "hkpk-jls-web2-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpk-jls-web2-qa-name}${count.index + 1}-root"
+      bu          = "djin"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djin/newswires/web"
+      appid       = "in_newswires_djnews_jlsnews"
+    }
   }
 
   tags = {

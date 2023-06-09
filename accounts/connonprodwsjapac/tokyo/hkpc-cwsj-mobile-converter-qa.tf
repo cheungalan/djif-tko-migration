@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   description = "hkpc-cwsj-mobile-converter-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-cwsj-mobile-converter-qa"
+    bu          = var.TagBU
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = var.TagServiceName
+    appid       = "djcs_wsj_backend_cwsjsupport"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -125,19 +137,6 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-
-  tags = {
-    Name        = "hkpc-cwsj-mobile-converter-qa"
-    bu          = var.TagBU
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = var.TagServiceName
-    appid       = "djcs_wsj_backend_cwsjsupport"
-    preserve    = "true"
   }
 }
 

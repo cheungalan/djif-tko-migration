@@ -8,6 +8,17 @@ resource "aws_security_group" "hkpc-dist-admin-qa" {
   description = "hkpc-dist-admin-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-dist-admin-qa"
+    bu          = "djin"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djin/newswires/web"
+    appid       = "in_newswires_djnews_clsdist"
+    preserve    = "true"
+  }
   ingress {
     from_port   = 22
     to_port     = 22
@@ -118,18 +129,6 @@ resource "aws_security_group" "hkpc-dist-admin-qa" {
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name        = "hkpc-dist-admin-qa"
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_djnews_clsdist"
-    preserve    = "true"
   }
 }
 

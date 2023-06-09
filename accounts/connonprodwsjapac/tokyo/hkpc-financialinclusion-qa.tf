@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpc-financialinclusion-qa" {
   description = "hkpc-financialinclusion-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-financialinclusion-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_financialasia"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -119,18 +131,6 @@ resource "aws_security_group" "hkpc-financialinclusion-qa" {
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name        = "hkpc-financialinclusion-qa"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_financialasia"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-financialinclusion-qa" {
@@ -152,6 +152,16 @@ resource "aws_instance" "hkpc-financialinclusion-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-financialinclusion-qa-name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_financialasia"
+    }
   }
 
   tags = {

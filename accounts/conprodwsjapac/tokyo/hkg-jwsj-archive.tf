@@ -35,6 +35,18 @@ resource "aws_security_group" "djif-archive-sg" {
 
   vpc_id = var.vpc_id
 
+  tags = {
+    Name        = "djif-archive-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_jwsjarchive"
+    preserve    = "true"
+  }
+
   //IP-6495
 
   // Web Access 80
@@ -136,18 +148,6 @@ resource "aws_security_group" "djif-archive-sg" {
     protocol        = "tcp"
     security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
-
-  tags = {
-    Name        = "djif-archive-sg"
-    bu          = "djcs"
-    owner       = "Alan.Cheung@dowjones.com"
-    environment = var.TagEnv
-    product     = "wsj"
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_jwsjarchive"
-    preserve    = "true"
-  }
 }
 
 /*
@@ -173,6 +173,16 @@ resource "aws_instance" "hkg-jwsj-archive" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkg_jswj_archive_name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = "Alan.Cheung@dowjones.com"
+      environment = var.TagEnv
+      product     = "wsj"
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_jwsjarchive"
+    }
   }
 
   tags = {

@@ -8,6 +8,18 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   description = "hkpc-secure-wsj-asia-qa"
   vpc_id      = var.vpc_id
 
+  tags = {
+    Name        = "hkpc-secure-wsj-asia-qa"
+    bu          = "djcs"
+    owner       = var.TagOwner
+    environment = var.TagEnv
+    product     = var.TagProduct
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_securewsja"
+    preserve    = "true"
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
@@ -147,18 +159,6 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "tcp"
     cidr_blocks = ["10.167.4.26/32"]
   }
-
-  tags = {
-    Name        = "hkpc-secure-wsj-asia-qa"
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_securewsja"
-    preserve    = "true"
-  }
 }
 
 data "aws_ami" "hkpc-secure-wsj-asia-qa" {
@@ -180,6 +180,16 @@ resource "aws_instance" "hkpc-secure-wsj-asia-qa" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.hkpc-secure-wsj-asia-qa-name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = var.TagOwner
+      environment = var.TagEnv
+      product     = var.TagProduct
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_securewsja"
+    }
   }
 
   tags = {

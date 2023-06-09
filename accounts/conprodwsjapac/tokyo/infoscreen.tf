@@ -35,6 +35,18 @@ resource "aws_security_group" "djif-infoscreen-sg" {
 
   vpc_id = var.vpc_id
 
+  tags = {
+    Name        = "djif-infoscreen-sg"
+    bu          = "djcs"
+    owner       = "Alan.Cheung@dowjones.com"
+    environment = var.TagEnv
+    product     = "wsj"
+    component   = var.TagComponent
+    servicename = "djcs/wsj/web"
+    appid       = "djcs_wsj_web_infoscreen"
+    preserve    = "true"
+  }
+
   //IP-6495
 
   // Web Access 80
@@ -126,18 +138,6 @@ resource "aws_security_group" "djif-infoscreen-sg" {
     protocol        = "tcp"
     security_groups = [data.aws_security_group.wsj_prod_db.id]
   }
-
-  tags = {
-    Name        = "djif-infoscreen-sg"
-    bu          = "djcs"
-    owner       = "Alan.Cheung@dowjones.com"
-    environment = var.TagEnv
-    product     = "wsj"
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_infoscreen"
-    preserve    = "true"
-  }
 }
 
 /*
@@ -163,6 +163,16 @@ resource "aws_instance" "infoscreen" {
   root_block_device {
     volume_size = var.root_v_size
     volume_type = var.root_v_type
+    tags = {
+      Name        = "${var.infoscreen_name}${count.index + 1}-root"
+      bu          = "djcs"
+      owner       = "Alan.Cheung@dowjones.com"
+      environment = var.TagEnv
+      product     = "wsj"
+      component   = var.TagComponent
+      servicename = "djcs/wsj/web"
+      appid       = "djcs_wsj_web_infoscreen"
+    }
   }
 
   tags = {
