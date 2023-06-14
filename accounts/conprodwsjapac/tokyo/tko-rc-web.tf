@@ -82,19 +82,46 @@ resource "aws_security_group" "djif-rc-web-sg" {
 
   // SSH Access
   ingress {
-    description = "SSH Access"
+    description = "SSH Access from Global Protect Subnet"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.0/24", "10.167.17.0/24", "10.167.20.0/24", "10.167.22.0/24", "10.32.212.66/32", "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24"]
+  }
+
+  // SSH Access
+  ingress {
+    description = "SSH Access from DJ Proxy Server"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+  }
+
+  // SSH Access
+  ingress {
+    description     = "SSH Access from TKO-RC-DATAGEN"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-05132d98a2237dc55"]
+  }
+
+  // SSH Access
+  ingress {
+    description     = "SSH Access from AWS-RC-ARCHIVE"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0fa18ad2d052a29e1"]
   }
 
   ingress {
-    description = "FTP Access"
-    from_port   = 21
-    to_port     = 21
-    protocol    = "tcp"
-    cidr_blocks = ["10.167.16.34/32", "10.167.16.226/32", "10.167.16.181/32", "10.167.16.250/32"]
+    description     = "FTP Access from AWS-RC-DATAGEN"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-05132d98a2237dc55"]
   }
 
   // ICMP 
