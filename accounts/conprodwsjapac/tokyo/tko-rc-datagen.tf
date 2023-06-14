@@ -60,7 +60,7 @@ resource "aws_security_group" "djif-datagen-sg" {
 
   // RDP Access
   ingress {
-    description = "RDP Access"
+    description = "RDP Access from Global Protect"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
@@ -69,16 +69,34 @@ resource "aws_security_group" "djif-datagen-sg" {
 
   // FTP Access 21
   ingress {
-    description = "FTP Access 21"
+    description = "FTP Access 21 from Global Protect"
     from_port   = 21
     to_port     = 21
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32", "10.167.16.74/32", "10.167.16.70/32", "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23",   "10.140.16.0/20", "10.32.120.0/24"]
+  }
+
+  // FTP Access 21
+  ingress {
+    description = "FTP Access 21 from DJ Proxy"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    cidr_blocks = ["113.43.214.99/32", "205.203.99.34/32", "205.203.99.41/32", "203.116.229.70/32", "202.106.222.158/32"]
+  }
+
+  // FTP Access 21
+  ingress {
+    description     = "FTP Access 21 from TKO-RC-WEB"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-06e24f4c64f2dad71"]
   }
 
   // SMB Access
   ingress {
-    description = "SMB Access"
+    description = "SMB Access from Global Protect"
     from_port   = 445
     to_port     = 445
     protocol    = "tcp"
@@ -86,11 +104,19 @@ resource "aws_security_group" "djif-datagen-sg" {
   }
 
   egress {
-    description = "FTP Access"
+    description = "FTP Access to TKO-RC-WEB"
     from_port   = 21
     to_port     = 21
     protocol    = "tcp"
     cidr_blocks = ["13.113.112.91/32", "54.178.254.191/32"]
+  }
+
+  egress {
+    description     = "FTP Access to TKO-RC-WEB"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-06e24f4c64f2dad71"]
   }
 
   // Internet Access 80
@@ -129,11 +155,11 @@ resource "aws_security_group" "djif-datagen-sg" {
 
   // SSH 
   egress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["10.167.16.74/32", "10.167.16.70/32"]
+    description     = "SSH access to TKO-RC-WEB"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-06e24f4c64f2dad71"]
   }
 
   // Allow rDS access 
