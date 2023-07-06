@@ -35,10 +35,11 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 
   ingress {
+    description = "RDP from Global Protect Subnet"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
   ingress {
@@ -48,16 +49,10 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   ingress {
     from_port   = 139
     to_port     = 139
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -72,6 +67,14 @@ resource "aws_security_group" "hkpc-cln-dist" {
   ingress {
     from_port   = 1433
     to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+*/
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
@@ -168,17 +171,10 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 
   egress {
-    from_port   = 445
-    to_port     = 445
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 }
 
