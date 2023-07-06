@@ -187,18 +187,20 @@ resource "aws_security_group" "hkpc-cls-recv" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   egress {
     from_port   = 445
     to_port     = 445
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   egress {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 }
 
