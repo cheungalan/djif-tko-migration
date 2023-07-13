@@ -1,10 +1,10 @@
 // CT-15538
+/*
 resource "aws_eip" "aws-rc-datagen-eip" {
   count  = 4
   domain = "vpc"
 }
 
-/*
 resource "aws_eip_association" "aws-rc-datagen-eip-assoc" {
   count         = 4
   instance_id   = element(aws_instance.aws-rc-datagen.*.id, count.index)
