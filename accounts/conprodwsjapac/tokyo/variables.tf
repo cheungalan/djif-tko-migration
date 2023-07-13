@@ -22,6 +22,10 @@ variable "tko_rc_datagen_name" {
   default = "tko-rc-datagen"
 }
 
+variable "aws_rc_datagen_name" {
+  default = "aws-rc-datagen"
+}
+
 variable "tko_rc_web_name" {
   default = "tko-rc-web"
 }
@@ -47,6 +51,10 @@ variable "tko_rc_datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
+variable "aws_rc_datagen_subnet_id" {
+  default = "subnet-01908a38bc2ac7a5b"
+}
+
 variable "tko_rc_web_subnet_ids" {
   description = "A list of the subnet IDs for tko_rc_web"
   type        = list(string)
@@ -67,6 +75,10 @@ variable "infoscreen_subnet_id" {
 }
 
 variable "tko_rc_datagen_instance_type" {
+  default = "t3.large"
+}
+
+variable "aws_rc_datagen_instance_type" {
   default = "t3.large"
 }
 
