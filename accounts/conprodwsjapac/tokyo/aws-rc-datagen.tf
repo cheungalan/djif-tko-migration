@@ -26,6 +26,7 @@ resource "aws_volume_attachment" "aws-rc-datagen" {
 }
 
 resource "aws_ebs_volume" "aws-rc-datagen" {
+  count             = 4
   availability_zone = aws_instance.aws-rc-datagen[count.index].availability_zone
 
   type              = "gp3"
