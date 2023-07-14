@@ -8,6 +8,10 @@ variable "vpc_env" {
   default     = "prod"
 }
 
+variable "index" {
+  default = 0
+}
+
 variable "account_id" {
   description = "AWS Account Number"
   default     = "261053699423"

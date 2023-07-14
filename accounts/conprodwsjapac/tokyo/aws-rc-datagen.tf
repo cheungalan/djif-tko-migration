@@ -1,16 +1,4 @@
 // CT-15538
-/*
-resource "aws_eip" "aws-rc-datagen-eip" {
-  count  = 4
-  domain = "vpc"
-}
-
-resource "aws_eip_association" "aws-rc-datagen-eip-assoc" {
-  count         = 4
-  instance_id   = element(aws_instance.aws-rc-datagen.*.id, count.index)
-  allocation_id = element(aws_eip.aws-rc-datagen-eip.*.id, count.index)
-}
-*/
 
 resource "aws_key_pair" "aws_rc_datagen_key" {
   key_name   = "aws_rc_datagen_key"
@@ -51,7 +39,8 @@ resource "aws_instance" "aws-rc-datagen" {
   ami                    = data.aws_ami.win_image.image_id
   instance_type          = var.aws_rc_datagen_instance_type
   key_name               = aws_key_pair.aws_rc_datagen_key.id
-  subnet_id              = var.aws_rc_datagen_subnet_id
+  #subnet_id              = var.aws_rc_datagen_subnet_id
+  subnet_id               = var.index % 2 == 0 ? tolist(data.aws_subnets.inet_a.ids)[var.index / 2] : tolist(data.aws_subnets.inet_c.ids)[var.index / 2]
   vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, aws_security_group.djif-datagen-sg.id]
   availability_zone      = element(["ap-northeast-1a", "ap-northeast-1c"], count.index % 2)
 
