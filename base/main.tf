@@ -1,7 +1,3 @@
-data "aws_caller_identity" "current" {
-  # no arguments
-}
-
 data "aws_vpc" "vpc" {
   tags = {
     Name = "*.${var.vpc_env}.*.*-${var.vpc_env}"
