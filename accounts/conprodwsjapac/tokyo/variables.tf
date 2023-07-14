@@ -8,10 +8,6 @@ variable "vpc_env" {
   default     = "prod"
 }
 
-variable "index" {
-  default = 0
-}
-
 variable "account_id" {
   description = "AWS Account Number"
   default     = "261053699423"
@@ -52,10 +48,6 @@ variable "deployment_role" {
 }
 
 variable "tko_rc_datagen_subnet_id" {
-  default = "subnet-01908a38bc2ac7a5b"
-}
-
-variable "aws_rc_datagen_subnet_id" {
   default = "subnet-01908a38bc2ac7a5b"
 }
 
