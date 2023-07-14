@@ -41,9 +41,7 @@ resource "aws_instance" "aws-rc-datagen" {
   key_name               = aws_key_pair.aws_rc_datagen_key.id
   #subnet_id              = var.aws_rc_datagen_subnet_id
   #subnet_id               = var.index % 2 == 0 ? tolist(data.aws_subnets.inet_a.ids)[var.index / 2] : tolist(data.aws_subnets.inet_c.ids)[var.index / 2]
-  subnet_id              = count.index % 2 == 1 ? tolist(data.aws_subnets.inet_a.ids)[0] : tolist(data.aws_subnets.inet_c.ids)[0]
-  #subnet_id              = var.index % 2 == 0 ? tolist(data.aws_subnets.inet_a.ids)[floor(count.index % 2)] : tolist(data.aws_subnets.inet_c.ids)[floor(var.index / 2.0)]
-  #subnet_id              = tolist(data.aws_subnets.inet_a.ids, data.aws_subnets.inet_c.ids)[count.index % 2]
+  subnet_id              = count.index % 2 == 0 ? tolist(data.aws_subnets.inet_a.ids)[0] : tolist(data.aws_subnets.inet_c.ids)[0]
   vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, aws_security_group.djif-datagen-sg.id]
   availability_zone      = element(["ap-northeast-1a", "ap-northeast-1c"], count.index % 2)
 
