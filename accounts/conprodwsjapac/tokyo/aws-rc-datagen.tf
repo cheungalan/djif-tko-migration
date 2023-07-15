@@ -39,7 +39,6 @@ resource "aws_instance" "aws-rc-datagen" {
   ami                    = data.aws_ami.win_image.image_id
   instance_type          = var.aws_rc_datagen_instance_type
   key_name               = aws_key_pair.aws_rc_datagen_key.id
-  #subnet_id              = var.aws_rc_datagen_subnet_id
   subnet_id              = count.index % 2 == 0 ? tolist(data.aws_subnets.inet_a.ids)[0] : tolist(data.aws_subnets.inet_c.ids)[0]
   vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, aws_security_group.djif-datagen-sg.id]
   availability_zone      = element(["ap-northeast-1a", "ap-northeast-1c"], count.index % 2)
