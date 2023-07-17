@@ -20,7 +20,7 @@ resource "aws_ebs_volume" "aws-rc-datagen" {
   size              = 300
 
   tags = {
-    Name        = "${var.aws_rc_datagen_name}${count.index + 1}/dev/sdf"
+    Name        = "${var.aws_rc_datagen_name}${count.index + 1}/dev/sdd"
     bu          = var.TagBU
     owner       = var.TagOwner
     environment = var.TagEnv
