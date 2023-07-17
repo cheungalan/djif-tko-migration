@@ -102,6 +102,10 @@ variable "root_v_size" {
   default = "300"
 }
 
+variable "root_v_size_200" {
+  default = "200"
+}
+
 variable "TagEnv" {
   default = "prod"
 }
