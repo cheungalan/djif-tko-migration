@@ -7,7 +7,7 @@ resource "aws_key_pair" "aws_rc_datagen_key" {
 
 resource "aws_volume_attachment" "aws-rc-datagen" {
   count       = 4
-  device_name = "/dev/sdf"
+  device_name = "/dev/sdd"
   volume_id   = element(aws_ebs_volume.aws-rc-datagen.*.id, count.index)
   instance_id = element(aws_instance.aws-rc-datagen.*.id, count.index)
 }
