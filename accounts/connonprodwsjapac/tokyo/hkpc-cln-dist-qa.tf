@@ -91,7 +91,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
 */
 
   ingress {
-    description = "Internet Access 443"
+    description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
