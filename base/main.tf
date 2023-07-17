@@ -27,3 +27,27 @@ data "aws_subnets" "inet_c" {
     values = ["*-inet-*c"]
   }
 }
+
+data "aws_subnets" "pro_a" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["*-pro-*a"]
+  }
+}
+
+data "aws_subnets" "pro_c" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["*-pro-*c"]
+  }
+}
