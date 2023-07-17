@@ -36,24 +36,27 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   ingress {
-    from_port   = 5000
-    to_port     = 5100
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port   = 8880
-    to_port     = 8880
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
+    description = "FTP from Global Protect Subnet"
     from_port   = 21
     to_port     = 21
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
+  }
+
+  ingress {
+    description = "FTP-Data (Passive) from Global Protect Subnet"
+    from_port   = 5000
+    to_port     = 5100
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
+  }
+
+  ingress {
+    description     = "TCP 8880 from lls-editor-qa / lls01-editor-qa"
+    from_port       = 8880
+    to_port         = 8880
+    protocol        = "tcp"
+    security_groups = ["sg-0666e6b567548c60b"]
   }
 
 /*
@@ -89,6 +92,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   ingress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -96,21 +100,23 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
-    from_port   = 21
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "FTP to cln-dist5-qa / cln-dist01-qa"
+    from_port       = 21
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0666e6b567548c60b"]
   }
 
   egress {
-    description = "Passive Port connection"
-    from_port   = 1024
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["10.167.4.97/32"]
+    description     = "FTP (Passive) to cln-dist5-qa / cln-dist01-qa"
+    from_port       = 5000
+    to_port         = 5100
+    protocol        = "tcp"
+    security_groups = ["sg-0666e6b567548c60b"]
   }
 
   egress {
+    description = "Internet Access 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -118,6 +124,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
+    description = "Internet Access 443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -125,13 +132,15 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    description     = "Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-01536f4a5ec7e6519"]
   }
 
   egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -139,13 +148,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -153,33 +156,14 @@ resource "aws_security_group" "hkpc-cls-recv" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
-    from_port   = 123
-    to_port     = 123
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 123
-    to_port     = 123
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+/*
   egress {
     from_port   = 1433
     to_port     = 1433
@@ -187,7 +171,6 @@ resource "aws_security_group" "hkpc-cls-recv" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-/*
   egress {
     from_port   = 445
     to_port     = 445
@@ -197,6 +180,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
 */
 
   egress {
+    description = "SMTP"
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
