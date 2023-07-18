@@ -28,12 +28,22 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   ingress {
+    description = "RDP from Global Protect Subnet"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
+  ingress {
+    description = "SSH from Global Protect Subnet"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
+  }
+
+/*
   ingress {
     from_port   = 21
     to_port     = 21
@@ -61,22 +71,27 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   ingress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   egress {
     from_port   = 21
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+*/
 
   egress {
+    description = "Internet Access 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -84,20 +99,24 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   egress {
+    description = "Internet Access 443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+/*
   egress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -105,13 +124,7 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -119,27 +132,7 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
-    from_port   = 123
-    to_port     = 123
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 123
-    to_port     = 123
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -147,24 +140,27 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
   }
 
   egress {
-    from_port   = 1433
-    to_port     = 1433
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    description     = "Access to RDS cwsj-sql-qa.ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    from_port       = 1433
+    to_port         = 1433
+    protocol        = "tcp"
+    security_groups = ["sg-0f3e95285e196c776)"]
   }
 
+/*
   egress {
     from_port   = 445
     to_port     = 445
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   egress {
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 }
 
