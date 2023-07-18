@@ -157,6 +157,7 @@ resource "aws_security_group" "hkpc-cwsj-ftp-gateway" {
 */
 
   egress {
+    description = "SMTP"
     from_port   = 25
     to_port     = 25
     protocol    = "tcp"
