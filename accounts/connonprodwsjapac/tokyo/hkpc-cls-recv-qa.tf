@@ -104,7 +104,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
     from_port       = 21
     to_port         = 22
     protocol        = "tcp"
-    security_groups = ["sg-0666e6b567548c60b"]
+    security_groups = ["sg-0de67358259cbbc62"]
   }
 
   egress {
@@ -112,7 +112,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
     from_port       = 5000
     to_port         = 5100
     protocol        = "tcp"
-    security_groups = ["sg-0666e6b567548c60b"]
+    security_groups = ["sg-0de67358259cbbc62"]
   }
 
   egress {
