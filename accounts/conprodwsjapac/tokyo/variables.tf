@@ -22,6 +22,10 @@ variable "tko_rc_datagen_name" {
   default = "tko-rc-datagen"
 }
 
+variable "aws_rc_datagen_name" {
+  default = "aws-rc-datagen"
+}
+
 variable "tko_rc_web_name" {
   default = "tko-rc-web"
 }
@@ -70,6 +74,10 @@ variable "tko_rc_datagen_instance_type" {
   default = "t3.large"
 }
 
+variable "aws_rc_datagen_instance_type" {
+  default = "t3.large"
+}
+
 variable "tko_rc_web_instance_type" {
   default = "t3.large"
 }
@@ -92,6 +100,10 @@ variable "root_v_type" {
 
 variable "root_v_size" {
   default = "300"
+}
+
+variable "root_v_size_200" {
+  default = "200"
 }
 
 variable "TagEnv" {
