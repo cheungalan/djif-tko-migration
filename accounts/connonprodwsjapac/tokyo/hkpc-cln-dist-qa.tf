@@ -60,7 +60,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 
   ingress {
-    description     = "FTP from cls-receiver-qa / cls-receiver01-qa"
+    description     = "FTP-Data (Passive) from cls-receiver-qa / cls-receiver01-qa"
     from_port       = 5000
     to_port         = 5100
     protocol        = "tcp"
