@@ -3,6 +3,11 @@ variable "aws_region" {
   default     = "ap-northeast-1"
 }
 
+variable "vpc_env" {
+  description = "VPC Env"
+  default     = "nonprod"
+}
+
 variable "vpc_id" {
   description = "VPC Id"
   default     = "vpc-06aafb8a1a86a46c1"
