@@ -160,7 +160,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     from_port       = 1433
     to_port         = 1433
     protocol        = "tcp"
-    security_groups = ["sg-0f3e95285e196c776)"]
+    security_groups = ["sg-0f3e95285e196c776"]
   }
 
 /*
