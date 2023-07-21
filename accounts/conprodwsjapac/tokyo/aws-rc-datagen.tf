@@ -30,10 +30,6 @@ resource "aws_ebs_volume" "aws-rc-datagen" {
     appid       = "in_platform_randc_datagenjapan"
     autosnap    = "bkp=g"
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_instance" "aws-rc-datagen" {
