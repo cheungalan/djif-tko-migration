@@ -30,7 +30,6 @@ resource "aws_ebs_volume" "aws-rc-datagen" {
     appid       = "in_platform_randc_datagenjapan"
     autosnap    = "bkp=g"
   }
-
 }
 
 resource "aws_instance" "aws-rc-datagen" {
@@ -39,7 +38,7 @@ resource "aws_instance" "aws-rc-datagen" {
   instance_type          = var.aws_rc_datagen_instance_type
   key_name               = aws_key_pair.aws_rc_datagen_key.id
   subnet_id              = count.index % 2 == 0 ? tolist(data.aws_subnets.pro_a.ids)[0] : tolist(data.aws_subnets.pro_c.ids)[0]
-  vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, aws_security_group.djif-datagen-sg.id]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-datagen.id, data.aws_security_group.djif-infrastructure-tools.id, aws_security_group.djif-datagen-sg.id]
   availability_zone      = element(["ap-northeast-1a", "ap-northeast-1c"], count.index % 2)
 
   root_block_device {

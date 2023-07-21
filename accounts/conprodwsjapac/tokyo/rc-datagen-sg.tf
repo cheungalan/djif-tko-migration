@@ -5,6 +5,14 @@ data "aws_security_group" "djif-default-datagen" {
   }
 }
 
+//NCTCOMPUTE-3123 so instances can be connected to win.dowjone.net and Shavlik...
+data "aws_security_group" "djif-infrastructure-tools" {
+  filter {
+    name   = "group-name"
+    values = ["djif_infrastructure_tools"]
+  }
+}
+
 resource "aws_security_group" "djif-datagen-sg" {
   name        = "djif-datagen-sg"
   description = "djif-datagen-sg"
