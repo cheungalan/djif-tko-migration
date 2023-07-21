@@ -31,6 +31,9 @@ resource "aws_ebs_volume" "aws-rc-datagen" {
     autosnap    = "bkp=g"
   }
 
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_instance" "aws-rc-datagen" {
