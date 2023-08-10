@@ -11,7 +11,8 @@ data "aws_ami" "hkpc-cln-dist01-qa" {
 
 resource "aws_instance" "hkpc-cln-dist01-qa" {
   ami                    = data.aws_ami.hkpc-cln-dist01-qa.image_id
-  instance_type          = var.instance_type
+  //instance_type          = var.instance_type
+  instance_type          = "t3.xlarge"
   key_name               = aws_key_pair.hkpc-cln-dist-key.id
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cln-dist.id, aws_security_group.hkpc-cln-dist.id]
