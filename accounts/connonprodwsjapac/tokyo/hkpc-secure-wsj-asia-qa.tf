@@ -21,35 +21,40 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   ingress {
+    description = "SSH Access from Global Protect Subnet"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24", "10.193.242.0/23", "10.193.244.0/23", "10.193.246.0/23", "10.199.242.0/23", "10.199.244.0/23"]
   }
 
   ingress {
+    description = "HTTP access from internal"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
+    description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   ingress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   egress {
-    description = ""
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -57,15 +62,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
-    description = ""
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
-    description = ""
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -73,15 +70,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
-    description = ""
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
-    description = ""
+    description = "NTP Access"
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
@@ -89,7 +78,7 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
-    description = ""
+    description = "NTP Access"
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
@@ -97,12 +86,14 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   ingress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   egress {
     description = ""
     from_port   = 21
@@ -110,8 +101,10 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+*/
 
   egress {
+    description = "Internet Access 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -119,23 +112,24 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
   }
 
   egress {
-    description = ""
+    description = "Internet Access 443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  // Allow RDS access
   egress {
-    description = ""
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-01536f4a5ec7e6519"]
   }
 
   egress {
-    description = ""
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
@@ -153,11 +147,11 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
 
   // 4001
   egress {
-    description = "CWSJ Convertor"
-    from_port   = 4001
-    to_port     = 4001
-    protocol    = "tcp"
-    cidr_blocks = ["10.167.4.26/32"]
+    description     = "access to CWSJ Convertor (hkpc-cwsj-mobile-converter-qa1)"
+    from_port       = 4001
+    to_port         = 4001
+    protocol        = "tcp"
+    security_groups = ["sg-02d14f3a24629f322"]
   }
 }
 

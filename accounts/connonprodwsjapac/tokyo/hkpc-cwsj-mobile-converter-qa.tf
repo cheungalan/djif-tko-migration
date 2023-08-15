@@ -21,55 +21,73 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   ingress {
+    description = "SSH Access from Global Protect Subnet"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24", "10.193.242.0/23", "10.193.244.0/23", "10.193.246.0/23", "10.199.242.0/23", "10.199.244.0/23"]
   }
 
   ingress {
+    description = "HTTP access from internal"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
+    description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   ingress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   ingress {
+    description = "TCP 4001 access from internal from Global Protect Subnet"
     from_port   = 4001
     to_port     = 4001
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24", "10.193.242.0/23", "10.193.244.0/23", "10.193.246.0/23", "10.199.242.0/23", "10.199.244.0/23"]
   }
 
   ingress {
+    description     = "TCP 4001 access from internal from hkpk-secure-wsj-asia-qa for monitoring"
+    from_port       = 4001
+    to_port         = 4001
+    protocol        = "tcp"
+    security_groups = ["sg-0b1cbfac81a5eaabf"]
+  }
+
+  ingress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+/*
   egress {
     from_port   = 21
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+*/
 
   egress {
+    description = "Internet Access 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -77,20 +95,24 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   egress {
+    description = "Internet Access 443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+/*
   egress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "tcp"
@@ -98,13 +120,7 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
+    description = "DNS Access"
     from_port   = 53
     to_port     = 53
     protocol    = "udp"
@@ -112,13 +128,7 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   egress {
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
+    description = "NTP Access"
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
@@ -126,6 +136,7 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   egress {
+    description = "NTP Access"
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
@@ -133,6 +144,7 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   egress {
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
