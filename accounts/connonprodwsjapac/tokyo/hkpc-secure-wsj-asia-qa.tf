@@ -44,6 +44,14 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
+  ingress {
+    description     = "SFTP access from cln-dist01-qa"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0de67358259cbbc62"]
+  }
+
 /*
   ingress {
     from_port   = 3306

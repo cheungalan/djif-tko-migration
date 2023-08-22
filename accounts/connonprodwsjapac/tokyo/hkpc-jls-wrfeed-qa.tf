@@ -142,6 +142,23 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
+    description     = "FTP access to CAS_App01_QA"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-02db8573b985e2d52"]
+  }
+
+  // FTP-Data to CAS_App01_QA
+  egress {
+    description     = "FTP-Data access to CAS_App01_QA"
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = ["sg-02db8573b985e2d52"]
+  }
+
+  egress {
     description = "HTTP outbount to internet"
     from_port   = 80
     to_port     = 80
