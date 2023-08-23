@@ -52,14 +52,21 @@ resource "aws_security_group" "hkpc-secure-wsj-asia-qa" {
     security_groups = ["sg-0de67358259cbbc62"]
   }
 
-/*
   ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    description     = "SFTP access from JLS-WRFEED-QA"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
   }
-*/
+
+  ingress {
+    description     = "SFTP access from CAS_App01_QA"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-02db8573b985e2d52"]
+  }
 
   egress {
     description = "DNS Access"
