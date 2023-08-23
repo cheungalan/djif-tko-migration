@@ -28,21 +28,30 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   ingress {
-    description = "Custom inbound from Newswires feeds"
+    description = "Custom 20000 to 21000 from IDS2 QA server"
     from_port   = 20000
     to_port     = 20100
     protocol    = "tcp"
-    cidr_blocks = ["10.150.86.0/23", "10.150.88.0/23", "10.243.6.0/24", "10.243.135.0/24", "10.151.54.0/23", "10.151.56.0/23"]
+    cidr_blocks = ["10.150.86.0/23", "10.150.88.0/23", "10.151.54.0/23", "10.151.56.0/23"]
   }
 
   ingress {
-    description = "RDP inbound Access from all internal"
+    description = "Custom 20000 to 21000 from IDS2 Production server"
+    from_port   = 20000
+    to_port     = 20100
+    protocol    = "tcp"
+    cidr_blocks = ["10.243.6.0/24", "10.243.135.0/24"]
+  }
+
+  ingress {
+    description = "RDP from Global Protect Subnet"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8", "172.26.0.0/16", "192.168.0.0/16"]
+    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
+/*
   ingress {
     description = "FTP inbound access from internal"
     from_port   = 21
@@ -83,6 +92,7 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
   ingress {
     description = "ICMP from internal"
@@ -93,13 +103,126 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description = "Dyanmic high ports outbound to DJ FTP"
+    description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0b1cbfac81a5eaabf"]
+  }
+
+  egress {
+    description = "FTP access to DJ FTP (ftp.dowjones.com)"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    cidr_blocks = ["52.1.1.231/32"]
+  }
+
+  egress {
+    description = "FTP-Data access to DJ FTP (ftp.dowjones.com)"
     from_port   = 1024
     to_port     = 65535
     protocol    = "tcp"
     cidr_blocks = ["52.1.1.231/32"]
   }
 
+  egress {
+    description     = "FTP access to CAS_App01_QA"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-02db8573b985e2d52"]
+  }
+
+  egress {
+    description     = "FTP-Data access to CAS_App01_QA"
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = ["sg-02db8573b985e2d52"]
+  }
+
+  egress {
+    description     = "FTP access to JLS-WRFEED-QA"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  }
+
+  egress {
+    description     = "FTP-Data access to JLS-WRFEED-QA"
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  }
+
+  egress {
+    description = "Internet Access 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Internet Access 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description     = "MySQL Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-01536f4a5ec7e6519"]
+  }
+
+  egress {
+    description     = "MySQL Access to hkpk-jls-wrweb-qa"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-0d7db14df788b8f46"]
+  }
+
+  egress {
+    description = "DNS Access"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  egress {
+    description = "DNS Access"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  egress {
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "SMTP"
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
+  }
+
+/*
   egress {
     description = "Dyanmic high ports outbound to 152.1.1.231"
     from_port   = 1024
@@ -142,76 +265,11 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description     = "FTP access to CAS_App01_QA"
-    from_port       = 21
-    to_port         = 21
-    protocol        = "tcp"
-    security_groups = ["sg-02db8573b985e2d52"]
-  }
-
-  // FTP-Data to CAS_App01_QA
-  egress {
-    description     = "FTP-Data access to CAS_App01_QA"
-    from_port       = 1024
-    to_port         = 65535
-    protocol        = "tcp"
-    security_groups = ["sg-02db8573b985e2d52"]
-  }
-
-  egress {
-    description = "HTTP outbount to internet"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = "HTTPS outbount to internet"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
     description = "MySQL outbount to internal"
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description = "DNS outbount to internal"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description = "DNS outbount to 162.0.0.0"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["162.0.0.0/8"]
-  }
-
-  egress {
-    description = "DNS UDP outbound to internal"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description = "DNS UDP outbount to 162.0.0.0"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["162.0.0.0/8"]
   }
 
   egress {
@@ -231,28 +289,14 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description = "ICMP outbound to any"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
     description = "SMB outbout to internal"
     from_port   = 445
     to_port     = 445
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/8"]
   }
+*/
 
-  egress {
-    description = "SMTP outbout to any" // need to revisit this 
-    from_port   = 25
-    to_port     = 25
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 data "aws_ami" "hkpc-jls-wrfeed" {
