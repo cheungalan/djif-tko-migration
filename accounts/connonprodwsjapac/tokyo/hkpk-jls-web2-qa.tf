@@ -93,7 +93,7 @@ resource "aws_security_group" "hkpk-jls-web2-qa" {
   }
 
   egress {
-    description = "NTP"
+    description = "NTP TCP"
     from_port   = 123
     to_port     = 123
     protocol    = "tcp"
@@ -101,7 +101,7 @@ resource "aws_security_group" "hkpk-jls-web2-qa" {
   }
 
   egress {
-    description = "NTP"
+    description = "NTP UDP"
     from_port   = 123
     to_port     = 123
     protocol    = "udp"
