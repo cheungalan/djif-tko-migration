@@ -51,48 +51,13 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
-/*
   ingress {
-    description = "FTP inbound access from internal"
-    from_port   = 21
-    to_port     = 21
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    description     = "MSSQL from hkpk-jls-web2-qa1"
+    from_port       = 1433
+    to_port         = 1433
+    protocol        = "tcp"
+    security_groups = ["sg-0a95e25d5d66b4e65"]
   }
-
-  // FTP-Pasv
-  ingress {
-    description = "FTP-Pasv self inboudn access"
-    from_port   = 5000
-    to_port     = 5100
-    protocol    = "tcp"
-    self        = true
-  }
-
-  ingress {
-    description = "NetBios inbound from internal"
-    from_port   = 139
-    to_port     = 139
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    description = "SMB inbound from internal"
-    from_port   = 445
-    to_port     = 445
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    description = "MSSQL inbound from internal"
-    from_port   = 1433
-    to_port     = 1433
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-*/
 
   ingress {
     description = "ICMP from internal"
