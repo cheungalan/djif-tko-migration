@@ -60,6 +60,22 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   ingress {
+    description     = "FTP access from JLS-WRFEED-QA"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  }
+
+  ingress {
+    description     = "FTP-Data access from JLS-WRFEED-QA"
+    from_port       = 1024
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
+  }
+
+  ingress {
     description = "ICMP from internal"
     from_port   = -1
     to_port     = -1
@@ -121,6 +137,14 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     to_port         = 65535
     protocol        = "tcp"
     security_groups = ["sg-0f27d915082a302b7"]
+  }
+
+  egress {
+    description = "SFTP access to nwsnonprodsftp[1-2].dowjones.com"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["52.23.88.222/32", "35.82.48.198/32"]
   }
 
   egress {
