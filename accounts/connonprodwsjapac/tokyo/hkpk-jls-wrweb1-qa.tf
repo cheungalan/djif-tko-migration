@@ -77,6 +77,14 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
   }
 
   egress {
+    description     = "Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-01536f4a5ec7e6519"]
+  }
+
+  egress {
     description = "DNS TCP"
     from_port   = 53
     to_port     = 53
