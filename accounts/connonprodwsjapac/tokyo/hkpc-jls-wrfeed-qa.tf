@@ -60,19 +60,21 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   ingress {
-    description     = "FTP access from JLS-WRFEED-QA"
+    description     = "FTP self inbound access "
     from_port       = 21
     to_port         = 21
     protocol        = "tcp"
-    security_groups = ["sg-0f27d915082a302b7"]
+    self            = true
+//    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   ingress {
-    description     = "FTP-Data access from JLS-WRFEED-QA"
+    description     = "FTP-Data (Passive) self inbound access"
     from_port       = 1024
     to_port         = 65535
     protocol        = "tcp"
-    security_groups = ["sg-0f27d915082a302b7"]
+    self            = true
+//    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   ingress {
@@ -124,19 +126,21 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description     = "FTP access to JLS-WRFEED-QA"
+    description     = "FTP self outbound access"
     from_port       = 21
     to_port         = 21
     protocol        = "tcp"
-    security_groups = ["sg-0f27d915082a302b7"]
+    self            = true
+//    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   egress {
-    description     = "FTP-Data access to JLS-WRFEED-QA"
+    description     = "FTP-Data (Passive) self outbound access"
     from_port       = 1024
     to_port         = 65535
     protocol        = "tcp"
-    security_groups = ["sg-0f27d915082a302b7"]
+    self            = true
+//    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   egress {
