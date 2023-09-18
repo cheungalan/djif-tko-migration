@@ -306,7 +306,7 @@ resource "aws_instance" "hkpc-jls-wrfeed" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-jls-wrfeed-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed.id, aws_security_group.hkpc-jls-wrfeed.id]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed.id, aws_security_group.hkpc-jls-wrfeed.id, data.aws_security_group.djif-infrastructure-tools.id]
 
 
   root_block_device {
