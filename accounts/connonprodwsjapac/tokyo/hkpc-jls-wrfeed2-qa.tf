@@ -26,7 +26,7 @@ resource "aws_instance" "hkpc-jls-wrfeed2" {
   instance_type          = var.instance_type
   key_name               = "hkpc-jls-wrfeed-key"
   subnet_id              = "subnet-076c0f9457edadfc9"
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed2.id, data.aws_security_group.hkpc-jls-wrfeed.id]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed2.id, data.aws_security_group.hkpc-jls-wrfeed.id, data.aws_security_group.djif-infrastructure-tools.id]
 
 
   root_block_device {

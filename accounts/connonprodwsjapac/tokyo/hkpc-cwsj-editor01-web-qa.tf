@@ -14,7 +14,7 @@ resource "aws_instance" "hkpc-cwsj-editor01-web-qa" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-cwsj-editor-web-key.id
   subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cwsj-editor-web.id, aws_security_group.hkpc-cwsj-editor-web.id]
+  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cwsj-editor-web.id, aws_security_group.hkpc-cwsj-editor-web.id, data.aws_security_group.djif-infrastructure-tools.id]
 
   root_block_device {
     volume_size = var.root_v_size
