@@ -152,6 +152,14 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
+    description = "SFTP access to dj-ucpp-sftp-dev.dowjones.com"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["15.197.194.204/32", "3.33.195.45/32"]
+  }
+
+  egress {
     description = "Internet Access 80"
     from_port   = 80
     to_port     = 80
