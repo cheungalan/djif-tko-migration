@@ -118,7 +118,7 @@ resource "aws_security_group" "hkpk-tko-rc-04-qa" { // use by hkpk-rc-web03_qa1 
   }
 
   egress {
-    description = "ICMP
+    description = "ICMP"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
