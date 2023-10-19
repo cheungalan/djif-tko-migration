@@ -34,10 +34,6 @@ variable "hkpk-cwsj-enews-tools-qa-name" {
   default = "hkpk-cwsj-enews-tools-qa"
 }
 
-variable "hkpk-newsnet-qa-name" {
-  default = "hkpk-newsnet-qa"
-}
-
 variable "hkpk-tko-rc-04-qa-name" {
   default = "hkpk-tko-rc-04-qa"
 }
@@ -109,30 +105,11 @@ variable "appid" {
   default = "in_randc_web"
 }
 
-variable "hkpc-cwsj-editor-web-name" {
-  default = "cwsj-editor-qa"
-}
-
 variable "hkpc-cwsj-sql-name" {
   default = "cwsj-sql-qa"
 }
 
-variable "hkpc-lls-editor-web-name" {
-  default = "lls-editor-qa"
-}
-
-variable "hkpc-cln-dist-name" {
-  default = "cln-dist5-qa"
-}
 
 variable "hkpc-jls-wrfeed-name" {
   default = "jls-wrfeed01-qa"
-}
-
-variable "hkpc-cls-recv-name" {
-  default = "cls-receiver-qa"
-}
-
-variable "hkpc-cwsj-ftp-gateway-name" {
-  default = "cwsj-ftp-qa"
 }
