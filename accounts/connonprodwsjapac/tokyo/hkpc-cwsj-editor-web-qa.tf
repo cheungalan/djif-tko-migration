@@ -59,7 +59,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
-/*
+  /*
   ingress {
     from_port   = 21
     to_port     = 21
@@ -97,7 +97,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-/*
+  /*
   egress {
     from_port   = 21
     to_port     = 22
@@ -122,7 +122,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-/*
+  /*
   egress {
     from_port   = 3306
     to_port     = 3306
@@ -163,7 +163,7 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     security_groups = ["sg-0f3e95285e196c776"]
   }
 
-/*
+  /*
   egress {
     from_port   = 445
     to_port     = 445
@@ -178,50 +178,5 @@ resource "aws_security_group" "hkpc-cwsj-editor-web" {
     to_port     = 25
     protocol    = "tcp"
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
-  }
-}
-
-data "aws_ami" "hkpc-cwsj-editor-web" {
-  most_recent = true
-  owners      = ["819633815198"]
-  filter {
-    name   = "name"
-    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
-  }
-}
-
-resource "aws_instance" "hkpc-cwsj-editor-web" {
-  ami                    = data.aws_ami.hkpc-cwsj-editor-web.image_id
-  instance_type          = var.instance_type
-  key_name               = aws_key_pair.hkpc-cwsj-editor-web-key.id
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cwsj-editor-web.id, aws_security_group.hkpc-cwsj-editor-web.id, data.aws_security_group.djif-infrastructure-tools.id]
-
-  root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
-    tags = {
-      Name        = "${var.hkpc-cwsj-editor-web-name}-root"
-      bu          = "djcs"
-      owner       = var.TagOwner
-      environment = var.TagEnv
-      product     = var.TagProduct
-      component   = var.TagComponent
-      servicename = "djcs/wsj/web"
-      appid       = "djcs_edttools_web_cwsjediting"
-    }
-  }
-
-  tags = {
-    Name        = var.hkpc-cwsj-editor-web-name
-    bu          = "djcs"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djcs/wsj/web"
-    appid       = "djcs_edttools_web_cwsjediting"
-    autosnap    = "bkp=a"
-    preserve    = true
   }
 }

@@ -59,7 +59,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
     security_groups = ["sg-0666e6b567548c60b"]
   }
 
-/*
+  /*
   ingress {
     from_port   = 139
     to_port     = 139
@@ -163,7 +163,7 @@ resource "aws_security_group" "hkpc-cls-recv" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-/*
+  /*
   egress {
     from_port   = 1433
     to_port     = 1433
@@ -185,50 +185,5 @@ resource "aws_security_group" "hkpc-cls-recv" {
     to_port     = 25
     protocol    = "tcp"
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
-  }
-}
-
-data "aws_ami" "hkpc-cls-recv" {
-  most_recent = true
-  owners      = ["819633815198"]
-  filter {
-    name   = "name"
-    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
-  }
-}
-
-resource "aws_instance" "hkpc-cls-recv" {
-  ami                    = data.aws_ami.hkpc-cls-recv.image_id
-  instance_type          = var.instance_type
-  key_name               = aws_key_pair.hkpc-cls-recv-key.id
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cls-recv.id, aws_security_group.hkpc-cls-recv.id, data.aws_security_group.djif-infrastructure-tools.id]
-
-  root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
-    tags = {
-      Name        = "${var.hkpc-cls-recv-name}-root"
-      bu          = "djin"
-      owner       = var.TagOwner
-      environment = var.TagEnv
-      product     = var.TagProduct
-      component   = var.TagComponent
-      servicename = "djin/newswires/web"
-      appid       = "in_newswires_djnews_clsdist"
-    }
-  }
-
-  tags = {
-    Name        = var.hkpc-cls-recv-name
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_djnews_clsdist"
-    autosnap    = "bkp=a"
-    preserve    = true
   }
 }

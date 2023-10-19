@@ -67,7 +67,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
     security_groups = ["sg-0c9287027c2363a33"]
   }
 
-/*
+  /*
   ingress {
     from_port   = 139
     to_port     = 139
@@ -106,7 +106,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-/*
+  /*
   egress {
     from_port   = 21
     to_port     = 22
@@ -179,7 +179,7 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
-/*
+  /*
   egress {
     from_port   = 123
     to_port     = 123
@@ -202,49 +202,4 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 */
 
-}
-
-data "aws_ami" "hkpc-cln-dist" {
-  most_recent = true
-  owners      = ["819633815198"]
-  filter {
-    name   = "name"
-    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
-  }
-}
-
-resource "aws_instance" "hkpc-cln-dist" {
-  ami                    = data.aws_ami.hkpc-cln-dist.image_id
-  instance_type          = var.instance_type
-  key_name               = aws_key_pair.hkpc-cln-dist-key.id
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-cln-dist.id, aws_security_group.hkpc-cln-dist.id, data.aws_security_group.djif-infrastructure-tools.id]
-
-  root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
-    tags = {
-      Name        = "${var.hkpc-cln-dist-name}-root"
-      bu          = "djin"
-      owner       = var.TagOwner
-      environment = var.TagEnv
-      product     = var.TagProduct
-      component   = var.TagComponent
-      servicename = "djin/newswires/web"
-      appid       = "in_newswires_djnews_clsdist"
-    }
-  }
-
-  tags = {
-    Name        = var.hkpc-cln-dist-name
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_djnews_clsdist"
-    autosnap    = "bkp=a"
-    preserve    = true
-  }
 }
