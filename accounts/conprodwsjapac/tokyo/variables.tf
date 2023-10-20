@@ -18,10 +18,6 @@ variable "vpc_id" {
   default     = "vpc-09745522ce354a0f3"
 }
 
-variable "tko_rc_datagen_name" {
-  default = "tko-rc-datagen"
-}
-
 variable "aws_rc_datagen_name" {
   default = "aws-rc-datagen"
 }
@@ -32,10 +28,6 @@ variable "tko_rc_web_name" {
 
 variable "hkg_jswj_archive_name" {
   default = "hkg-jwsj-archive"
-}
-
-variable "hkg_financial_inclusion_name" {
-  default = "hkg-financial-inclusion"
 }
 
 variable "infoscreen_name" {
