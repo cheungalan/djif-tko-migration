@@ -96,11 +96,11 @@ resource "aws_security_group" "hkpc-lls-editor-web" {
   }
 */
 
-  // Port 20010 - 20011
+  // Port 20010 - 20099
   ingress {
-    description = "Custom 20010 to 20011 from IDS2 server"
+    description = "Custom 20010 to 20099 from IDS2 server"
     from_port   = 20010
-    to_port     = 20011
+    to_port     = 20099
     protocol    = "tcp"
     cidr_blocks = ["10.243.135.0/24", "10.243.6.0/24", "205.203.119.128/28", "205.203.122.128/28"]
   }
