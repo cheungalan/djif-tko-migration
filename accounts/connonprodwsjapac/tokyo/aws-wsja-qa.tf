@@ -10,6 +10,13 @@ locals {
     ticket      = "AN-648"
     created_by  = "aws-cloudops@dowjones.com"
   }
+
+  aws_wsja_qa_server_names = ["AWS-WSJA01-qa", "AWS-WSJA02-qa"]
+  aws_wsja_qa_server_az_suffix_by_name = {
+    AWS-WSJA01-qa = "a"
+    AWS-WSJA02-qa = "c"
+  }
+
 }
 
 data "aws_ami" "aws_wsja_qa" {
@@ -21,11 +28,11 @@ data "aws_ami" "aws_wsja_qa" {
 }
 
 resource "aws_instance" "aws_wsja_qa" {
-  for_each               = toset(["AWS-WSJA01-qa", "AWS-WSJA02-qa"])
+  for_each               = toset(local.aws_wsja_qa_server_names)
   ami                    = data.aws_ami.aws_wsja_qa.image_id
   instance_type          = "t3.medium"
   key_name               = aws_key_pair.hkpc-secure-wsj-asia-qa-key.id
-  subnet_id              = var.subnet_id
+  subnet_id              = data.aws_subnets.protected[local.aws_wsja_qa_server_az_suffix_by_name[each.key]].ids.0
   vpc_security_group_ids = [aws_security_group.hkpc-secure-wsj-asia-qa.id]
 
   root_block_device {
