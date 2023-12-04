@@ -34,6 +34,9 @@ resource "aws_instance" "aws_wsja_qa" {
   key_name               = aws_key_pair.hkpc-secure-wsj-asia-qa-key.id
   subnet_id              = data.aws_subnets.protected[local.aws_wsja_qa_server_az_suffix_by_name[each.key]].ids.0
   vpc_security_group_ids = [aws_security_group.hkpc-secure-wsj-asia-qa.id]
+  metadata_options {
+    http_tokens = "required" // enable IMDSv2 required
+  }
 
   root_block_device {
     volume_size = 400
