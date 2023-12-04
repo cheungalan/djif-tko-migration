@@ -51,3 +51,17 @@ data "aws_subnets" "pro_c" {
     values = ["*-pro-*c"]
   }
 }
+
+data "aws_subnets" "protected" {
+  for_each = toset(["a", "c", "d"])
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["*-pro-*${each.value}"]
+  }
+}
