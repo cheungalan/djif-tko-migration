@@ -43,6 +43,15 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
   }
 
+  // Custom 20000-21000
+  ingress {
+    description = "Custom 20000 to 21000 from IDS2 Prod server"
+    from_port   = 20000
+    to_port     = 21000
+    protocol    = "tcp"
+    cidr_blocks = ["10.243.135.0/24", "10.243.6.0/24"]
+  }
+
   ingress {
     description = "FTP-Data (Passive) from Global Protect Subnet"
     from_port   = 5000
