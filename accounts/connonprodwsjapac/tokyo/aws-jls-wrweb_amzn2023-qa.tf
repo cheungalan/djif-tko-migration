@@ -4,7 +4,7 @@ resource "aws_instance" "jls_wrweb_amzn2023" {
     AWS-JLS-WRWEB-12-QA = "c"
   }
 
-  ami                    = data.aws_ami.amigo_amzn_2023_image.image_id
+  ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
   instance_type          = "t3.medium"
   key_name               = aws_key_pair.hkpk-jls-wrweb1-qa-key.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0

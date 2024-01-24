@@ -66,7 +66,7 @@ data "aws_subnets" "protected" {
   }
 }
 
-data "aws_ami" "amigo_amzn_2023_image" {
+data "aws_ami" "amigo_amzn_linux2023" {
   owners = ["528339170479"]
   filter {
     name   = "name"

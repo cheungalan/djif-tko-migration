@@ -4,7 +4,7 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
     AWS-RC-WEB-12 = "c"
   }
 
-  ami                    = data.aws_ami.amigo_amzn_2023_image.image_id
+  ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
   instance_type          = "t3.large"
   key_name               = aws_key_pair.tko_rc_web_key.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
