@@ -17,7 +17,8 @@ resource "aws_instance" "dist_admin_amzn2023" {
     tags = merge(
       local.default_tags_dist_admin,
       {
-        Name = "${each.key}-root"
+        Name   = "${each.key}-root"
+        ticket = "CT-15762"
       }
     )
   }
@@ -28,6 +29,7 @@ resource "aws_instance" "dist_admin_amzn2023" {
       Name     = each.key
       autosnap = "bkp=a"
       preserve = true
+      ticket   = "CT-15762"
     }
   )
 }

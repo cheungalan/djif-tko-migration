@@ -18,7 +18,8 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
     tags = merge(
       local.default_tags_rc_web,
       {
-        Name = "${each.key}-root"
+        Name   = "${each.key}-root"
+        ticket = "CT-15762"
       }
     )
   }
@@ -29,6 +30,7 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
       Name     = each.key
       autosnap = "bkp=a"
       preserve = true
+      ticket   = "CT-15762"
     }
   )
 }
