@@ -1,4 +1,4 @@
-local {
+locals {
   default_tags = {
     bu          = var.TagBU
     owner       = var.TagOwner
