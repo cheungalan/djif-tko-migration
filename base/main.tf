@@ -65,3 +65,11 @@ data "aws_subnets" "protected" {
     values = ["*-pro-*${each.value}"]
   }
 }
+
+data "aws_ami" "amigo_amzn_2023_image" {
+  owners = ["528339170479"]
+  filter {
+    name   = "name"
+    values = ["amigo-amzn_linux-2023-dowjones-base-202401042335"]
+  }
+}
