@@ -1,7 +1,7 @@
 resource "aws_instance" "jls_wrweb_amzn2023" {
   for_each = {
     AWS-JLS-WRWEB-11-QA = "a" // serverName = "AZ_short_id"
-    AWS-JLS-WRWEB-11-QA = "c"
+    AWS-JLS-WRWEB-12-QA = "c"
   }
 
   ami                    = data.aws_ami.amigo_amzn_2023_image.image_id
