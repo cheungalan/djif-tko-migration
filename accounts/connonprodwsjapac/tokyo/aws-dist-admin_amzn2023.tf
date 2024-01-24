@@ -1,7 +1,8 @@
 resource "aws_instance" "dist_admin_amzn2023" {
-  for_each = [
-    { AWS-DIST-ADMIN-11-QA = "a" } // serverName = "AZ_short_id"
-  ]
+  for_each = {
+    AWS-DIST-ADMIN-11-QA = "a" // serverName = "AZ_short_id"
+  }
+
   ami                    = data.aws_ami.amigo_amzn_2023_image.image_id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.hkpc-dist-admin-qa-key.id
