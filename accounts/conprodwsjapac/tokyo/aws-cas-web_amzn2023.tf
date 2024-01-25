@@ -8,7 +8,7 @@ resource "aws_instance" "aws_cas_web_amzn2003" {
   instance_type          = "t3.large"
   key_name               = aws_key_pair.aws_wsjasia_key.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
-  vpc_security_group_ids = [data.aws_security_group.djif_infrastructure_tools.id, aws_security_group.AWS_CAS_Web_sg.id]
+  vpc_security_group_ids = [data.aws_security_group.djif-infrastructure-tools.id, data.aws_security_group.aws_cas_web_sg.id]
 
   root_block_device {
     volume_size = 300

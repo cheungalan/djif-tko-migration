@@ -41,9 +41,16 @@ data "aws_security_group" "AWS-RC-Archive-sg" {
   }
 }
 
-data "aws_security_group" "djif-default-datagen" {
+data "aws_security_group" "djif_default" {
   filter {
     name   = "group-name"
     values = ["djif_default"]
+  }
+}
+
+data "aws_security_group" "aws_cas_web_sg" {
+  filter {
+    name   = "group-name"
+    values = ["AWS-CAS-Web-sg"]
   }
 }
