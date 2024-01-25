@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 data "aws_vpc" "vpc" {
   tags = {
     Name = "*.${var.vpc_env}.*.*-${var.vpc_env}"
