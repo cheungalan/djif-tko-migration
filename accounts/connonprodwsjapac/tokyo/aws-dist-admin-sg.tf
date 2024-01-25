@@ -6,7 +6,7 @@ resource "aws_security_group" "aws-dist-admin-sg" {
   tags = merge(
     local.default_tags_dist_admin,
     {
-      Name   = aws-dist-admin-sg
+      Name   = "aws-dist-admin-sg"
       ticket = "CT-15762"
     }
   )
