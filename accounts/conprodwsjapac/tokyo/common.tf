@@ -1,15 +1,19 @@
-data "aws_security_group" "wsj_prod_db" {
-  filter {
-    name   = "group-name"
-    values = ["djcs-prod-wsja_con-db-sg"]
-  }
-}
-
 data "aws_ami" "win_image" {
   owners = ["528339170479"]
   filter {
     name   = "name"
     values = ["amigo-windows-2019-dowjones-base-202306212219"]
+  }
+}
+
+data "aws_key_pair" "wsj-tko-migration_key" {
+  key_name = "wsj-tko-migration_key"
+}
+
+data "aws_security_group" "wsj_prod_db" {
+  filter {
+    name   = "group-name"
+    values = ["djcs-prod-wsja_con-db-sg"]
   }
 }
 
@@ -26,7 +30,6 @@ data "aws_security_group" "AWS-CLN-WEB-sg" {
     values = ["AWS-CLN-WEB-sg"]
   }
 }
-
 
 data "aws_security_group" "AWS-DIST-ADMIN-sg" {
   filter {

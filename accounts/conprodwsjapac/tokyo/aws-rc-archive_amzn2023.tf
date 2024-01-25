@@ -17,7 +17,7 @@ resource "aws_instance" "rc_archive_amzn2023" {
 
   ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
   instance_type          = "t3.xlarge"
-  key_name               = aws_key_pair.wsj-tko-migration_key.id
+  key_name               = data.aws_key_pair.wsj-tko-migration_key.id
   subnet_id              = data.aws_subnets.protected[each.value["az_short_id"]].ids.0
   vpc_security_group_ids = [data.aws_security_group.djif-default-fi.id, data.aws_security_group.AWS-RC-Archive-sg.id]
 
