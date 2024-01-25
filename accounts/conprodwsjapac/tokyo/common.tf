@@ -6,10 +6,6 @@ data "aws_ami" "win_image" {
   }
 }
 
-data "aws_key_pair" "wsj-tko-migration_key" {
-  key_name = "wsj-tko-migration_key"
-}
-
 data "aws_security_group" "wsj_prod_db" {
   filter {
     name   = "group-name"
