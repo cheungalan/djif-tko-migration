@@ -1,4 +1,4 @@
-resource "aws_security_group" "aws_jls_wrweb_sg" {
+resource "aws_security_group" "aws-jls-wrweb-sg" {
   name        = "aws-jls-wrweb-sg"
   description = "aws-jls-wrweb-sg"
   vpc_id      = var.vpc_id
@@ -6,7 +6,7 @@ resource "aws_security_group" "aws_jls_wrweb_sg" {
   tags = merge(
     local.default_tags_jls_wrweb,
     {
-      Name   = "${each.key}-root"
+      Name   = each.key
       ticket = "CT-15762"
     }
   )
