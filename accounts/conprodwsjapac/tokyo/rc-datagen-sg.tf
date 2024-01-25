@@ -1,18 +1,3 @@
-data "aws_security_group" "djif-default-datagen" {
-  filter {
-    name   = "group-name"
-    values = ["djif_default"]
-  }
-}
-
-//NCTCOMPUTE-3123 so instances can be connected to win.dowjone.net and Shavlik...
-data "aws_security_group" "djif-infrastructure-tools" {
-  filter {
-    name   = "group-name"
-    values = ["djif_infrastructure_tools"]
-  }
-}
-
 resource "aws_security_group" "djif-datagen-sg" {
   name        = "djif-datagen-sg"
   description = "djif-datagen-sg"
@@ -57,7 +42,7 @@ resource "aws_security_group" "djif-datagen-sg" {
     from_port   = 21
     to_port     = 21
     protocol    = "tcp"
-    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23",   "10.140.16.0/20", "10.32.120.0/24"]
+    cidr_blocks = ["10.197.242.0/23", "10.197.244.0/23", "10.169.146.0/23", "10.169.148.0/23", "10.140.16.0/20", "10.32.120.0/24"]
   }
 
   // FTP Access 21
