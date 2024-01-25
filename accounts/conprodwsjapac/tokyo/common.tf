@@ -13,13 +13,6 @@ data "aws_security_group" "wsj_prod_db" {
   }
 }
 
-data "aws_security_group" "djif-default-fi" {
-  filter {
-    name   = "group-name"
-    values = ["djif_default"]
-  }
-}
-
 data "aws_security_group" "AWS-CLN-WEB-sg" {
   filter {
     name   = "group-name"

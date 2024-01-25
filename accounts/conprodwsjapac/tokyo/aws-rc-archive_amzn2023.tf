@@ -19,7 +19,7 @@ resource "aws_instance" "rc_archive_amzn2023" {
   instance_type          = "t3.xlarge"
   key_name               = aws_key_pair.aws_wsjasia_key.id
   subnet_id              = data.aws_subnets.protected[each.value["az_short_id"]].ids.0
-  vpc_security_group_ids = [data.aws_security_group.djif-default-fi.id, data.aws_security_group.AWS-RC-Archive-sg.id]
+  vpc_security_group_ids = [data.aws_security_group.AWS-RC-Archive-sg.id]
 
   root_block_device {
     volume_size = 300
