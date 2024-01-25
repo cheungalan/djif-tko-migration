@@ -1,4 +1,4 @@
-resource "aws_security_group" "aws_dist_admin_sg" {
+resource "aws_security_group" "aws-dist-admin-sg" {
   name        = "aws-dist-admin-sg"
   description = "aws-dist-admin-sg"
   vpc_id      = var.vpc_id
@@ -6,7 +6,7 @@ resource "aws_security_group" "aws_dist_admin_sg" {
   tags = merge(
     local.default_tags_dist_admin,
     {
-      Name   = "${each.key}-root"
+      Name   = each.key}
       ticket = "CT-15762"
     }
   )
