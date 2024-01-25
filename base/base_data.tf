@@ -77,3 +77,12 @@ data "aws_ami" "amigo_amzn_linux2023" {
     values = ["amigo-amzn_linux-2023-dowjones-base-202401042335"]
   }
 }
+
+// NCTCOMPUTE-3245
+//NCTCOMPUTE-3123 so instances can be connected to win.dowjone.net and Shavlik...
+data "aws_security_group" "djif-infrastructure-tools" {
+  filter {
+    name   = "group-name"
+    values = ["djif_infrastructure_tools"]
+  }
+}

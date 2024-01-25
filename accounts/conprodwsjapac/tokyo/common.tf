@@ -40,3 +40,10 @@ data "aws_security_group" "AWS-RC-Archive-sg" {
     values = ["AWS-RC-Archive-sg"]
   }
 }
+
+data "aws_security_group" "djif-default-datagen" {
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
+}
