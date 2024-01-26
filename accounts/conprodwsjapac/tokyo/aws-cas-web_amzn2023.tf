@@ -10,6 +10,13 @@ resource "aws_instance" "aws_cas_web_amzn2003" {
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
   vpc_security_group_ids = [data.aws_security_group.djif-infrastructure-tools.id, data.aws_security_group.aws_cas_web_sg.id]
 
+  metadata_options { // required IMDSV2
+    http_endpoint          = "enabled"
+    http_tokens            = "required"
+    instance_metadata_tags = "enabled"
+  }
+
+
   root_block_device {
     volume_size = 300
     volume_type = "gp3"

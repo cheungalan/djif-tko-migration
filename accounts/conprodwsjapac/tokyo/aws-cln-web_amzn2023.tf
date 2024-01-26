@@ -10,6 +10,13 @@ resource "aws_instance" "cln_web_amzn2023" {
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
   vpc_security_group_ids = [data.aws_security_group.AWS-CLN-WEB-sg.id]
 
+
+  metadata_options { // required IMDSV2
+    http_endpoint          = "enabled"
+    http_tokens            = "required"
+    instance_metadata_tags = "enabled"
+  }
+
   root_block_device {
     volume_size = 300
     volume_type = "gp3"
