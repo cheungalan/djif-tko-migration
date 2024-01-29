@@ -1,7 +1,3 @@
-data "aws_caller_identity" "current" {
-  # no arguments
-}
-
 provider "aws" {
   region = var.aws_region
   assume_role {

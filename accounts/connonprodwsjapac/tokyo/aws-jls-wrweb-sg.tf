@@ -6,7 +6,7 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   tags = merge(
     local.default_tags_jls_wrweb,
     {
-      Name   = each.key
+      Name   = "aws-jls-wrweb-sg"
       ticket = "CT-15762"
     }
   )
@@ -44,19 +44,19 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   }
 
   ingress {
-    description     = "FTP self inbound access "
-    from_port       = 21
-    to_port         = 21
-    protocol        = "tcp"
-    self            = true
+    description = "FTP self inbound access "
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    self        = true
   }
 
   ingress {
-    description     = "FTP-Data (Passive) self inbound access"
-    from_port       = 1024
-    to_port         = 65535
-    protocol        = "tcp"
-    self            = true
+    description = "FTP-Data (Passive) self inbound access"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    self        = true
   }
 
   ingress {
@@ -108,19 +108,19 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   }
 
   egress {
-    description     = "FTP self outbound access"
-    from_port       = 21
-    to_port         = 21
-    protocol        = "tcp"
-    self            = true
+    description = "FTP self outbound access"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    self        = true
   }
 
   egress {
-    description     = "FTP-Data (Passive) self outbound access"
-    from_port       = 1024
-    to_port         = 65535
-    protocol        = "tcp"
-    self            = true
+    description = "FTP-Data (Passive) self outbound access"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    self        = true
   }
 
   egress {

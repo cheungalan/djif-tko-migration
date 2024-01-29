@@ -1,0 +1,6 @@
+resource "aws_key_pair" "aws_wsjasia_key_qa" {
+  key_name   = "aws-wsjasia-key-qa"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqi5VeR42gSyCs20WVZoxoB+Dx7VpaJhEeJtvvYNvhbMowlTGgW+0blps+tidRlNBCCBzW0P2Tz8IrsX8bokNVGhXej9OFfOh6B6P11WtU3riHBhNUIFTIomIMQC+cgsm2plCfTqJ5N2GZgrN7VUbUcO+JVo4VIU78+HEk5gZRk9aWt6H2Ym0MNNXUPULIUprG0mJ+8v820WKBv7yyVhmOpq2ZAVis5gzwXbVKa5a97UCbLr6G3qtk2Emcf9hWdbf1+IUAiXBbfTvEq6k19ao7ASbfti8tfZuGOLAU7/AQXOrA3aqpuF6Yq37rW4fvix51MqX4LStTXzBW1053WRom7PYPennjxt8tv12mQX17yfYYb7NzmRhK39lKuLslRD5tzkGO/PHS8NLX1GvrEgRDgG/GyztCyW1VEP2GyJNexQzoEu9zg8ytSVECrWRtAuzG+cqc/+8kr+qsnEB13sO5igssqsm5/kuGkUGVC2EgvyxJyjrDEeruHMTZuDynwUE= aws-wsjasia-key-qa"
+
+  tags = local.default_tags
+}

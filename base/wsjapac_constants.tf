@@ -17,6 +17,14 @@ locals {
     }
   )
 
+  default_tags_cas_web = merge(
+    local.default_tags,
+    {
+      appid    = "in_newswires_djnews_cas"
+      preserve = "true"
+    }
+  )
+
   default_tags_jls_wrweb = merge(
     local.default_tags,
     {
