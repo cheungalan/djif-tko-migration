@@ -16,7 +16,7 @@ output "same_env_same_region_pro" {
 
 output "same_env_all_regions" {
   value = flatten([
-    split(",", lookup(local.prt_lz, "${var.vpc_env}_tokyo_all")),
+    split(",", lookup(local.wsjapac_lz, "${var.vpc_env}_tokyo_all")),
   ])
 }
 
