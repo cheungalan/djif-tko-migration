@@ -80,9 +80,18 @@ data "aws_ami" "amigo_amzn_linux2023" {
 
 // NCTCOMPUTE-3245
 //NCTCOMPUTE-3123 so instances can be connected to win.dowjone.net and Shavlik...
-data "aws_security_group" "djif-infrastructure-tools" {
+data "aws_security_group" "djif-infrastructure-tools" { // this can be replaced with the `b_selected` for_each SG lookup
   filter {
     name   = "group-name"
     values = ["djif_infrastructure_tools"]
   }
+}
+
+
+data "aws_security_group" "b_selected" {
+  for_each = setunion(compact(flatten([
+    var.djif_std_security_group_names,
+    var.c_security_group_names,
+  ])))
+  name = each.key
 }

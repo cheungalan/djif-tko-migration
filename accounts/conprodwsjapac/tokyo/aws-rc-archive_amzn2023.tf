@@ -15,11 +15,13 @@ locals {
 resource "aws_instance" "rc_archive_amzn2023" {
   for_each = local.rc_archive_amzn2023_servers_by_name
 
-  ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
-  instance_type          = "t3.xlarge"
-  key_name               = aws_key_pair.aws_wsjasia_key.id
-  subnet_id              = data.aws_subnets.protected[each.value["az_short_id"]].ids.0
-  vpc_security_group_ids = [data.aws_security_group.AWS-RC-Archive-sg.id]
+  ami           = data.aws_ami.amigo_amzn_linux2023.image_id
+  instance_type = "t3.xlarge"
+  key_name      = aws_key_pair.aws_wsjasia_key.id
+  subnet_id     = data.aws_subnets.protected[each.value["az_short_id"]].ids.0
+  vpc_security_group_ids = [
+    data.aws_security_group.b_selected["AWS-RC-Archive-sg"].id
+  ]
 
   metadata_options { // required IMDSV2
     http_endpoint          = "enabled"

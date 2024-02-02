@@ -13,34 +13,6 @@ data "aws_security_group" "wsj_prod_db" {
   }
 }
 
-data "aws_security_group" "AWS-CLN-WEB-sg" {
-  filter {
-    name   = "group-name"
-    values = ["AWS-CLN-WEB-sg"]
-  }
-}
-
-data "aws_security_group" "AWS-DIST-ADMIN-sg" {
-  filter {
-    name   = "group-name"
-    values = ["AWS-DIST-ADMIN-sg"]
-  }
-}
-
-data "aws_security_group" "AWS-JLS-WRWEB-sg" {
-  filter {
-    name   = "group-name"
-    values = ["AWS-JLS-WRWEB-sg"]
-  }
-}
-
-data "aws_security_group" "AWS-RC-Archive-sg" {
-  filter {
-    name   = "group-name"
-    values = ["AWS-RC-Archive-sg"]
-  }
-}
-
 data "aws_security_group" "djif_default" {
   filter {
     name   = "group-name"
@@ -48,9 +20,3 @@ data "aws_security_group" "djif_default" {
   }
 }
 
-data "aws_security_group" "aws_cas_web_sg" {
-  filter {
-    name   = "group-name"
-    values = ["AWS-CAS-Web-sg"]
-  }
-}
