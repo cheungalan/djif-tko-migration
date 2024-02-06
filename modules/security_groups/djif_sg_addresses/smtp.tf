@@ -7,6 +7,7 @@ variable "smtp" {
   default = [
     "10.13.32.134/32",   #smtp.dowjones.net
     "172.26.150.199/32", # smtp2.dowjones.net, redundant to smtp.dowjones.net
+    "172.26.151.197/32"  # 3rd redundant smtp server to smtp.dowjones.net
   ]
 }
 

@@ -8,7 +8,7 @@ resource "aws_instance" "jls_wrweb_amzn2023" {
   instance_type          = "t3.xlarge"
   key_name               = aws_key_pair.aws_wsjasia_key.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
-  vpc_security_group_ids = [data.aws_security_group.AWS-JLS-WRWEB-sg.id]
+  vpc_security_group_ids = [data.aws_security_group.b_selected["AWS-JLS-WRWEB-sg"].id]
 
   metadata_options { // required IMDSV2
     http_endpoint          = "enabled"
