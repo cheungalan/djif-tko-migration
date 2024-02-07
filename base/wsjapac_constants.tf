@@ -9,10 +9,10 @@ locals {
     created_by  = "AWS-CloudOps@dowjones.com"
   }
 
-  default_tags_dist_admin = merge(
+  default_tags_cas_admin = merge(
     local.default_tags,
     {
-      appid    = "in_newswires_djnews_clsdist"
+      appid    = "in_newswires_djnews_cas"
       preserve = "true"
     }
   )
@@ -25,7 +25,7 @@ locals {
     }
   )
 
-  default_tags_jls_wrweb = merge(
+  default_tags_jwr_web = merge(
     local.default_tags,
     {
       appid    = "in_newswires_web_jlswireryter"
@@ -36,13 +36,12 @@ locals {
   default_tags_rc_archive = merge(
     local.default_tags,
     {
-      appid       = "djcs_wsj_web_cwsjarchive"
-      servicename = "djcs/wsj/web"
+      appid       = "in_platform_randc_datagenjapan"
       preserve    = true
     }
   )
 
-  default_tags_rc_web = merge(
+  default_tags_rnc_web = merge(
     local.default_tags,
     {
       appid    = "in_platform_randc_datagenjapan"

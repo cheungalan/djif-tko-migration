@@ -1,14 +1,14 @@
-resource "aws_instance" "jls_wrweb_amzn2023" {
+resource "aws_instance" "jwr_web_amzn2023" {
   for_each = {
-    AWS-JLS-WRWEB-11-QA = "a" // serverName = "AZ_short_id"
-    AWS-JLS-WRWEB-12-QA = "c"
+    tokqkjwrweb01 = "a" // serverName = "AZ_short_id"
+    tokqkjwrweb02 = "c"
   }
 
   ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
   instance_type          = "t3.medium"
   key_name               = aws_key_pair.aws_wsjasia_key_qa.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
-  vpc_security_group_ids = [data.aws_security_group.b_selected["wsjapac-default-sg"].id, aws_security_group.aws-jls-wrweb-sg.id, ]
+  vpc_security_group_ids = [data.aws_security_group.b_selected["wsjapac-default-sg"].id, aws_security_group.jwr-web-sg.id, ]
 
   metadata_options { // required IMDSV2
     http_endpoint          = "enabled"
@@ -22,7 +22,7 @@ resource "aws_instance" "jls_wrweb_amzn2023" {
     encrypted   = true
 
     tags = merge(
-      local.default_tags_jls_wrweb,
+      local.default_tags_jwr_web,
       {
         Name   = "${each.key}-root"
         ticket = "CT-15762"
@@ -31,7 +31,7 @@ resource "aws_instance" "jls_wrweb_amzn2023" {
   }
 
   tags = merge(
-    local.default_tags_jls_wrweb,
+    local.default_tags_jwr_web,
     {
       Name     = each.key
       autosnap = "bkp=a"

@@ -1,18 +1,24 @@
-resource "aws_security_group" "cas-web-sg" {
-  name        = "cas-web-sg"
-  description = "cas-web-sg"
+resource "aws_security_group" "rnc-web-sg" {
+  name        = "rnc-web-sg"
+  description = "rnc-web-sg"
   vpc_id      = var.vpc_id
 
   tags = merge(
-    local.default_tags_cas_web,
+    local.default_tags_rnc_web,
     {
-      Name     = "cas-web-sg"
-      preserve = true
-      ticket   = "CT-15762"
+      Name   = "rnc-web-sg"
+      ticket = "CT-15762"
     }
   )
 
-  // Web Access 80
+  ingress {
+    description     = "SSH/SFTP Access from hkpc-rc-datagen01_qa"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0eb2105765ff2629e"]
+  }
+
   ingress {
     description = "HTTP access from internal"
     from_port   = 80
@@ -21,7 +27,6 @@ resource "aws_security_group" "cas-web-sg" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-  // Web Access 443
   ingress {
     description = "HTTPS access from internal"
     from_port   = 443
@@ -31,7 +36,7 @@ resource "aws_security_group" "cas-web-sg" {
   }
 
   egress {
-    description     = "MySQL Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
+    description     = "Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
