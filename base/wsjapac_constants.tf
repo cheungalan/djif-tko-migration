@@ -36,13 +36,12 @@ locals {
   default_tags_rc_archive = merge(
     local.default_tags,
     {
-      appid       = "djcs_wsj_web_cwsjarchive"
-      servicename = "djcs/wsj/web"
+      appid       = "in_platform_randc_datagenjapan"
       preserve    = true
     }
   )
 
-  default_tags_rc_web = merge(
+  default_tags_rnc_web = merge(
     local.default_tags,
     {
       appid    = "in_platform_randc_datagenjapan"
