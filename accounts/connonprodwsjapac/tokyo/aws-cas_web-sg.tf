@@ -1,12 +1,12 @@
-resource "aws_security_group" "aws_cas_web_sg" {
-  name        = "AWS-CAS-Web-sg"
-  description = "AWS-CAS-Web-sg"
+resource "aws_security_group" "cas-web-sg" {
+  name        = "cas-web-sg"
+  description = "cas-web-sg"
   vpc_id      = var.vpc_id
 
   tags = merge(
     local.default_tags_cas_web,
     {
-      Name     = "AWS-CAS-Web-sg"
+      Name     = "cas-web-sg"
       preserve = true
       ticket   = "CT-15762"
     }
