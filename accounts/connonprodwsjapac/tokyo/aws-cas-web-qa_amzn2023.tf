@@ -1,6 +1,6 @@
 resource "aws_instance" "aws_cas_web_amzn2003" {
   for_each = {
-    AWS-CAS-WEB-11_QA = "a" // serverName = "AZ_short_id"
+    tokqkcasweb01 = "a" // serverName = "AZ_short_id"
   }
 
   ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
