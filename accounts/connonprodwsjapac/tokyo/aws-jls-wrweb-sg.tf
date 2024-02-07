@@ -28,14 +28,6 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   }
 
   ingress {
-    description = "RDP from Global Protect Subnet"
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["10.197.240.0/20", "10.169.144.0/20", "10.140.16.0/20", "10.32.120.0/24", "10.193.240.0/20", "10.199.240.0/20"]
-  }
-
-  ingress {
     description     = "MSSQL from hkpk-jls-web2-qa1"
     from_port       = 1433
     to_port         = 1433
@@ -140,22 +132,6 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   }
 
   egress {
-    description = "Internet Access 80"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = "Internet Access 443"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
     description     = "MySQL Access to RDS djcs-wsja-rds-qa.cluster-ckwswi0iistd.ap-northeast-1.rds.amazonaws.com"
     from_port       = 3306
     to_port         = 3306
@@ -171,35 +147,4 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
     security_groups = ["sg-0d7db14df788b8f46"]
   }
 
-  egress {
-    description = "DNS Access"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description = "DNS Access"
-    from_port   = 53
-    to_port     = 53
-    protocol    = "udp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description = "ICMP"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = "SMTP"
-    from_port   = 25
-    to_port     = 25
-    protocol    = "tcp"
-    cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
-  }
 }
