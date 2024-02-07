@@ -1,4 +1,4 @@
-resource "aws_instance" "aws_rc_web_amzn2023" {
+resource "aws_instance" "aws_rnc_web_amzn2023" {
   for_each = {
     tokqkrncweb01 = "a" // serverName = "AZ_short_id"
     tokqkrncweb02 = "c"
@@ -7,7 +7,7 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
   instance_type          = "t3.medium"
   key_name               = aws_key_pair.aws_wsjasia_key_qa.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
-  vpc_security_group_ids = [data.aws_security_group.b_selected["wsjapac-default-sg"].id, aws_security_group.aws-rc-web-sg.id]
+  vpc_security_group_ids = [data.aws_security_group.b_selected["wsjapac-default-sg"].id, aws_security_group.aws-rnc-web-sg.id]
 
   metadata_options { // required IMDSV2
     http_endpoint          = "enabled"
@@ -22,7 +22,7 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
     delete_on_termination = false
 
     tags = merge(
-      local.default_tags_rc_web,
+      local.default_tags_rnc_web,
       {
         Name   = "${each.key}-root"
         ticket = "CT-15762"
@@ -31,7 +31,7 @@ resource "aws_instance" "aws_rc_web_amzn2023" {
   }
 
   tags = merge(
-    local.default_tags_rc_web,
+    local.default_tags_rnc_web,
     {
       Name     = each.key
       autosnap = "bkp=a"
