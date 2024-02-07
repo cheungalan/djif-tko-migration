@@ -1,4 +1,4 @@
-resource "aws_instance" "aws_cas_web_amzn2003" {
+resource "aws_instance" "cas_web_amzn2003" {
   for_each = {
     tokqkcasweb01 = "a" // serverName = "AZ_short_id"
   }
