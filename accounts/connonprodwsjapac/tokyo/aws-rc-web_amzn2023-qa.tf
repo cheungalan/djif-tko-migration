@@ -1,7 +1,7 @@
 resource "aws_instance" "aws_rc_web_amzn2023" {
   for_each = {
-    AWS-RC-WEB-11-QA = "a" // serverName = "AZ_short_id"
-    AWS-RC-WEB-12-QA = "c"
+    tokqkrncweb01 = "a" // serverName = "AZ_short_id"
+    tokqkrncweb02 = "c"
   }
   ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
   instance_type          = "t3.medium"
