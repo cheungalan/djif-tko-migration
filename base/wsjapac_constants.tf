@@ -9,10 +9,10 @@ locals {
     created_by  = "AWS-CloudOps@dowjones.com"
   }
 
-  default_tags_dist_admin = merge(
+  default_tags_cas_admin = merge(
     local.default_tags,
     {
-      appid    = "in_newswires_djnews_clsdist"
+      appid    = "in_newswires_djnews_cas"
       preserve = "true"
     }
   )
