@@ -1,4 +1,4 @@
-resource "aws_instance" "aws_rnc_web_amzn2023" {
+resource "aws_instance" "rnc_web_amzn2023" {
   for_each = {
     tokqkrncweb01 = "a" // serverName = "AZ_short_id"
     tokqkrncweb02 = "c"
