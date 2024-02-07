@@ -25,7 +25,7 @@ locals {
     }
   )
 
-  default_tags_jls_wrweb = merge(
+  default_tags_jwr_web = merge(
     local.default_tags,
     {
       appid    = "in_newswires_web_jlswireryter"
