@@ -1,12 +1,12 @@
-resource "aws_security_group" "aws-cas-admin-sg" {
-  name        = "aws-cas-admin-sg"
-  description = "aws-cas-admin-sg"
+resource "aws_security_group" "cas-admin-sg" {
+  name        = "cas-admin-sg"
+  description = "cas-admin-sg"
   vpc_id      = var.vpc_id
 
   tags = merge(
     local.default_tags_cas_admin,
     {
-      Name   = "aws-cas-admin-sg"
+      Name   = "cas-admin-sg"
       ticket = "CT-15762"
     }
   )
