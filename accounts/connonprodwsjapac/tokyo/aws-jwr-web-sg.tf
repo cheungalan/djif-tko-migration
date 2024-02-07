@@ -1,12 +1,12 @@
-resource "aws_security_group" "aws-jwr-web-sg" {
-  name        = "aws-jwr-web-sg"
-  description = "aws-jwr-web-sg"
+resource "aws_security_group" "jwr-web-sg" {
+  name        = "jwr-web-sg"
+  description = "jwr-web-sg"
   vpc_id      = var.vpc_id
 
   tags = merge(
     local.default_tags_jwr_web,
     {
-      Name   = "aws-jwr-web-sg"
+      Name   = "jwr-web-sg"
       ticket = "CT-15762"
     }
   )
