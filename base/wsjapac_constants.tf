@@ -9,6 +9,30 @@ locals {
     created_by  = "AWS-CloudOps@dowjones.com"
   }
 
+  default_tags_dist_admin = merge(
+    local.default_tags,
+    {
+      appid    = "in_newswires_djnews_cas"
+      preserve = "true"
+    }
+  )
+
+  default_tags_jls_wrweb = merge(
+    local.default_tags,
+    {
+      appid    = "in_newswires_web_jlswireryter"
+      preserve = "true"
+    }
+  )
+
+  default_tags_rc_web = merge(
+    local.default_tags,
+    {
+      appid    = "in_platform_randc_datagenjapan"
+      preserve = "true"
+    }
+  )
+
   default_tags_cas_admin = merge(
     local.default_tags,
     {
