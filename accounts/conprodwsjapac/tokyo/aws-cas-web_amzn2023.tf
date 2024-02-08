@@ -1,7 +1,7 @@
-resource "aws_instance" "aws_cas_web_amzn2003" {
+resource "aws_instance" "cas_web_amzn2003" {
   for_each = {
-    AWS-CAS-WEB-11 = "a" // serverName = "AZ_short_id"
-    AWS-CAS-WEB-12 = "c"
+    tokpkcasweb01 = "a" // serverName = "AZ_short_id"
+    tokpkcasweb02 = "c"
   }
 
   ami           = data.aws_ami.amigo_amzn_linux2023.image_id
@@ -9,7 +9,8 @@ resource "aws_instance" "aws_cas_web_amzn2003" {
   key_name      = aws_key_pair.aws_wsjasia_key.id
   subnet_id     = data.aws_subnets.protected[each.value].ids.0
   vpc_security_group_ids = [
-    data.aws_security_group.b_selected["djif_infrastructure_tools"].id,
+    data.aws_security_group.b_selected["djif_default"].id,
+    data.aws_security_group.b_selected["wsjapac-default-sg"].id,
     data.aws_security_group.b_selected["AWS-CAS-Web-sg"].id
   ]
 
