@@ -73,7 +73,7 @@ locals {
     }
   )
 
-  default_tags_cln_web = merge(
+  default_tags_cls_web = merge(
     local.default_tags,
     {
       appid = "in_newswires_djnews_clsdist"
