@@ -87,6 +87,12 @@ data "aws_security_group" "djif-infrastructure-tools" { // this can be replaced 
   }
 }
 
+data "aws_security_group" "djif-default" { // this can be replaced with the `b_selected` for_each SG lookup
+  filter {
+    name   = "group-name"
+    values = ["djif_default"]
+  }
+}
 
 data "aws_security_group" "b_selected" {
   for_each = setunion(compact(flatten([
