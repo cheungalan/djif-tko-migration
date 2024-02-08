@@ -57,7 +57,7 @@ locals {
     }
   )
 
-  default_tags_rc_archive = merge(
+  default_tags_rnc_archive = merge(
     local.default_tags,
     {
       appid       = "in_platform_randc_datagenjapan"
