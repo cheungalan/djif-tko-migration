@@ -8,5 +8,5 @@ variable "c_security_group_names" {
 variable "djif_std_security_group_names" {
   description = "A list of `Name` of DJ standard security groups"
   type        = list(string)
-  default     = ["djif_infrastructure_tools"]
+  default     = ["djif_infrastructure_tools", "djif_default"]
 }
