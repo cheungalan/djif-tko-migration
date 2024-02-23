@@ -108,8 +108,3 @@ variable "appid" {
 variable "hkpc-cwsj-sql-name" {
   default = "cwsj-sql-qa"
 }
-
-
-variable "hkpc-jls-wrfeed-name" {
-  default = "jls-wrfeed01-qa"
-}

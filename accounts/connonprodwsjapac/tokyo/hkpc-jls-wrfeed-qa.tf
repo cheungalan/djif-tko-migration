@@ -52,29 +52,21 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   ingress {
-    description     = "MSSQL from hkpk-jls-web2-qa1"
-    from_port       = 1433
-    to_port         = 1433
-    protocol        = "tcp"
-    security_groups = ["sg-0a95e25d5d66b4e65"]
+    description = "FTP self inbound access "
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    self        = true
+    //    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   ingress {
-    description     = "FTP self inbound access "
-    from_port       = 21
-    to_port         = 21
-    protocol        = "tcp"
-    self            = true
-//    security_groups = ["sg-0f27d915082a302b7"]
-  }
-
-  ingress {
-    description     = "FTP-Data (Passive) self inbound access"
-    from_port       = 1024
-    to_port         = 65535
-    protocol        = "tcp"
-    self            = true
-//    security_groups = ["sg-0f27d915082a302b7"]
+    description = "FTP-Data (Passive) self inbound access"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    self        = true
+    //    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   ingress {
@@ -126,21 +118,21 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description     = "FTP self outbound access"
-    from_port       = 21
-    to_port         = 21
-    protocol        = "tcp"
-    self            = true
-//    security_groups = ["sg-0f27d915082a302b7"]
+    description = "FTP self outbound access"
+    from_port   = 21
+    to_port     = 21
+    protocol    = "tcp"
+    self        = true
+    //    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   egress {
-    description     = "FTP-Data (Passive) self outbound access"
-    from_port       = 1024
-    to_port         = 65535
-    protocol        = "tcp"
-    self            = true
-//    security_groups = ["sg-0f27d915082a302b7"]
+    description = "FTP-Data (Passive) self outbound access"
+    from_port   = 1024
+    to_port     = 65535
+    protocol    = "tcp"
+    self        = true
+    //    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   egress {
@@ -223,7 +215,7 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     cidr_blocks = ["10.13.32.134/32", "172.26.150.199/32"]
   }
 
-/*
+  /*
   egress {
     description = "Dyanmic high ports outbound to 152.1.1.231"
     from_port   = 1024
@@ -298,50 +290,4 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 */
 
-}
-
-data "aws_ami" "hkpc-jls-wrfeed" {
-  most_recent = true
-  owners      = ["819633815198"]
-  filter {
-    name   = "name"
-    values = ["DJW2K19DC_VANILLA_PACKER_CHEF12*"]
-  }
-}
-
-resource "aws_instance" "hkpc-jls-wrfeed" {
-  ami                    = data.aws_ami.hkpc-jls-wrfeed.image_id
-  instance_type          = var.instance_type
-  key_name               = aws_key_pair.hkpc-jls-wrfeed-key.id
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [data.aws_security_group.djif-default-hkpc-jls-wrfeed.id, aws_security_group.hkpc-jls-wrfeed.id, data.aws_security_group.djif-infrastructure-tools.id]
-
-
-  root_block_device {
-    volume_size = var.root_v_size
-    volume_type = var.root_v_type
-    tags = {
-      Name        = "${var.hkpc-jls-wrfeed-name}-root"
-      bu          = "djin"
-      owner       = var.TagOwner
-      environment = var.TagEnv
-      product     = var.TagProduct
-      component   = var.TagComponent
-      servicename = "djin/newswires/web"
-      appid       = "in_newswires_web_jlswireryter"
-    }
-  }
-
-  tags = {
-    Name        = var.hkpc-jls-wrfeed-name
-    bu          = "djin"
-    owner       = var.TagOwner
-    environment = var.TagEnv
-    product     = var.TagProduct
-    component   = var.TagComponent
-    servicename = "djin/newswires/web"
-    appid       = "in_newswires_web_jlswireryter"
-    autosnap    = "bkp=a"
-    preserve    = true
-  }
 }
