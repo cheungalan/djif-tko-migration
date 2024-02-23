@@ -28,14 +28,6 @@ resource "aws_security_group" "jwr-web-sg" {
   }
 
   ingress {
-    description     = "MSSQL from hkpk-jls-web2-qa1"
-    from_port       = 1433
-    to_port         = 1433
-    protocol        = "tcp"
-    security_groups = ["sg-0a95e25d5d66b4e65"]
-  }
-
-  ingress {
     description = "FTP self inbound access "
     from_port   = 21
     to_port     = 21
