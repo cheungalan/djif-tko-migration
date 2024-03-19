@@ -1,4 +1,3 @@
-
 resource "aws_instance" "wsja_mgr_amzn2023" {
   for_each = {
     tokqkwsjamgr01 = "a" // serverName = "AZ_short_id"
