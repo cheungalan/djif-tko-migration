@@ -1,4 +1,3 @@
-
 resource "aws_instance" "mob_app_amzn2023" {
   for_each = {
     tokqkmobapp01 = "c" // serverName = "AZ_short_id"
