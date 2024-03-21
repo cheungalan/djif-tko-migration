@@ -70,6 +70,14 @@ resource "aws_security_group" "hkpc-cwsj-mobile-converter-qa" {
   }
 
   ingress {
+    description     = "TCP 4001 access from internal from tokqkwsjamgr01 for monitoring"
+    from_port       = 4001
+    to_port         = 4001
+    protocol        = "tcp"
+    security_groups = ["sg-04a72f031e8d893f2"]
+  }
+
+  ingress {
     description = "ICMP"
     from_port   = -1
     to_port     = -1
