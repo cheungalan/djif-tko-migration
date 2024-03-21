@@ -6,7 +6,7 @@ locals {
     product     = var.TagProduct
     component   = var.TagComponent
     servicename = "djcs/wsj/web"
-    appid       = "djcs_wsj_web_securewsja"
+    appid       = "djcs_wsj_web_wsja"
     ticket      = "AN-648"
     created_by  = "aws-cloudops@dowjones.com"
   }

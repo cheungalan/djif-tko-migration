@@ -7,7 +7,7 @@ resource "aws_security_group" "wsja-mgr-sg" {
     local.default_tags,
     {
       Name         = "wsja-mgr-sg"
-      appid        = "djcs_wsj_backend_cwsjsupport"
+      appid        = "djcs_wsj_web_wsja"
       bu           = "djcs"
       servicename  = "djcs/wsj/web"
       preserve     = "true"

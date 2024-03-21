@@ -24,7 +24,7 @@ resource "aws_instance" "wsja_mgr_amzn2023" {
       local.default_tags,
       {
         Name         = "${each.key}-root"
-        appid        = "djcs_wsj_backend_cwsjsupport"
+        appid        = "djcs_wsj_web_wsja"
         bu           = "djcs"
         servicename  = "djcs/wsj/web"
         preserve     = "true"
@@ -37,7 +37,7 @@ resource "aws_instance" "wsja_mgr_amzn2023" {
     local.default_tags,
     {
       Name         = each.key
-      appid        = "djcs_wsj_backend_cwsjsupport"
+      appid        = "djcs_wsj_web_wsja"
       bu           = "djcs"
       servicename  = "djcs/wsj/web"
       autosnap     = "bkp=a"
