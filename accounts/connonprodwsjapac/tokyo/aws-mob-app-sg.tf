@@ -15,6 +15,14 @@ resource "aws_security_group" "mob-app-sg" {
     }
   )
 
+  ingress {
+    description = "SSH access from HKG Office subnet"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["10.32.5.0/24"]
+  }
+
   // ICMP Inbound
   ingress {
     description = "ICMP"
