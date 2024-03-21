@@ -86,6 +86,14 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
+    description     = "SFTP access to tokqkwsjamgr01"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-04a72f031e8d893f2"]
+  }
+
+  egress {
     description = "FTP access to DJ FTP (ftp.dowjones.com)"
     from_port   = 21
     to_port     = 21
