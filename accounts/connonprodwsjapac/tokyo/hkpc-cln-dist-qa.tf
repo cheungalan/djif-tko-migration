@@ -76,29 +76,6 @@ resource "aws_security_group" "hkpc-cln-dist" {
     security_groups = ["sg-0c9287027c2363a33"]
   }
 
-  /*
-  ingress {
-    from_port   = 139
-    to_port     = 139
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port   = 445
-    to_port     = 445
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
-    from_port   = 1433
-    to_port     = 1433
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-*/
-
   ingress {
     description = "HTTPS access from internal"
     from_port   = 443
@@ -115,21 +92,20 @@ resource "aws_security_group" "hkpc-cln-dist" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-  /*
-  egress {
-    from_port   = 21
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-*/
-
   egress {
     description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
     security_groups = ["sg-0b1cbfac81a5eaabf"]
+  }
+
+  egress {
+    description     = "SFTP access to tokqkwsjamgr01"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-04a72f031e8d893f2"]
   }
 
   egress {
