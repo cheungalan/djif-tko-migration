@@ -12,6 +12,22 @@ resource "aws_security_group" "jwr-web-sg" {
   )
 
   ingress {
+    description = "HTTP access from internal"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
+    description = "HTTPS access from internal"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
     description = "Custom 20000 to 21000 from IDS2 QA server"
     from_port   = 20000
     to_port     = 20100
@@ -25,6 +41,22 @@ resource "aws_security_group" "jwr-web-sg" {
     to_port     = 20100
     protocol    = "tcp"
     cidr_blocks = ["10.243.6.0/24", "10.243.135.0/24"]
+  }
+
+  ingress {
+    description = "MySQL self inbound access"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    self        = true
+  }
+
+  ingress {
+    description = "MySQL access from jls-wrfeed-qa"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = ["sg-0f27d915082a302b7"]
   }
 
   ingress {
@@ -129,6 +161,14 @@ resource "aws_security_group" "jwr-web-sg" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = ["sg-01536f4a5ec7e6519"]
+  }
+
+  egress {
+    description = "MySQL self outbound access"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    self        = true
   }
 
   egress {
