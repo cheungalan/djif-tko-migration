@@ -192,6 +192,14 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
+    description     = "MySQL Access to tokqkjwrweb"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-0431cbfb618862fd2"]
+  }
+
+  egress {
     description = "DNS Access"
     from_port   = 53
     to_port     = 53
