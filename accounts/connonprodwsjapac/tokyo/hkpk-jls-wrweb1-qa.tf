@@ -68,6 +68,14 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
     self        = true
   }
 
+  ingress {
+    description = "MySQL access from tokqkjwrweb01/02"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = ["sg-0431cbfb618862fd2"]
+  }
+
   egress {
     description = "Internet Access 80"
     from_port   = 80
@@ -90,6 +98,14 @@ resource "aws_security_group" "hkpk-jls-wrweb1-qa" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = ["sg-01536f4a5ec7e6519"]
+  }
+
+  egress {
+    description = "MySQL access to tokqkjwrweb01/02"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = ["sg-0431cbfb618862fd2"]
   }
 
   egress {
