@@ -12,22 +12,20 @@ resource "aws_security_group" "cls-web-sg" {
     }
   )
 
-  // Web Access 80
   ingress {
-    description = "Web Access 80"
+    description = "HTTP access from internal"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
-  // Web Access 443
   ingress {
-    description = "Web Access 443"
+    description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   // SFTP Access from AWS-CLS-LLS
