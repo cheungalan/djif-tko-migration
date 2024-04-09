@@ -7,7 +7,6 @@ resource "aws_security_group" "cls-web-sg" {
     local.default_tags_cls_web,
     {
       Name     = "cls-web-sg"
-      preserve = true
       ticket   = "CT-15847"
     }
   )
