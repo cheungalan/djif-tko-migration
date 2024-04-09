@@ -1,6 +1,6 @@
-resource "aws_security_group" "cls_web-sg" {
-  name        = "cls_web-sg"
-  description = "cls_web-sg"
+resource "aws_security_group" "cls-web-sg" {
+  name        = "cls-web-sg"
+  description = "cls-web-sg"
   vpc_id      = var.vpc_id
 
   tags = merge(
