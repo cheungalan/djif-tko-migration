@@ -12,28 +12,19 @@ resource "aws_security_group" "rnc-web-sg" {
   )
 
   ingress {
-    description = "HTTP access from internet"
+    description = "HTTP access from internal"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
-    description = "HTTPS access from internet"
+    description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  // SSH Access
-  ingress {
-    description     = "SSH Access from AWS-RC-ARCHIVE"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["sg-0fa18ad2d052a29e1"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
@@ -42,6 +33,24 @@ resource "aws_security_group" "rnc-web-sg" {
     to_port         = 21
     protocol        = "tcp"
     security_groups = ["sg-05132d98a2237dc55"]
+  }
+
+  // SSH Access
+  ingress {
+    description     = "SFTP Access from AWS-RC-DATAGEN"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-05132d98a2237dc55"]
+  }
+
+  // SSH Access
+  ingress {
+    description     = "SFTP Access from AWS-RC-ARCHIVE"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0fa18ad2d052a29e1"]
   }
 
   // Allow rDS access 
