@@ -7,7 +7,6 @@ resource "aws_security_group" "cas-web-sg" {
     local.default_tags_cas_web,
     {
       Name     = "cas-web-sg"
-      preserve = true
       ticket   = "CT-15847"
     }
   )
