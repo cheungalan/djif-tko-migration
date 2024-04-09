@@ -77,6 +77,7 @@ locals {
     local.default_tags,
     {
       appid = "in_newswires_djnews_clsdist"
+      preserve = "true"
     }
   )
 
