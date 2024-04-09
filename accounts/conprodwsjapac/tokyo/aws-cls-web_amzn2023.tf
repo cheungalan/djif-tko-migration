@@ -11,7 +11,7 @@ resource "aws_instance" "cls_web_amzn2023" {
   vpc_security_group_ids = [
     data.aws_security_group.b_selected["djif_default"].id,
     data.aws_security_group.b_selected["wsjapac-default-sg"].id,
-    data.aws_security_group.b_selected["AWS-CLN-WEB-sg"].id
+    aws_security_group.cls-web-sg.id
   ]
 
 
