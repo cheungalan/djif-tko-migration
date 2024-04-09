@@ -6,6 +6,14 @@ data "aws_ami" "win_image" {
   }
 }
 
+data "aws_ami" "amigo_amzn_linux2023" {
+  owners = ["528339170479"]
+  filter {
+    name   = "name"
+    values = ["amigo-amzn_linux-2023-dowjones-base-202404031423"]
+  }
+}
+
 data "aws_security_group" "wsj_prod_db" {
   filter {
     name   = "group-name"

@@ -70,13 +70,7 @@ data "aws_subnets" "protected" {
   }
 }
 
-data "aws_ami" "amigo_amzn_linux2023" {
-  owners = ["528339170479"]
-  filter {
-    name   = "name"
-    values = ["amigo-amzn_linux-2023-dowjones-base-202401042335"]
-  }
-}
+
 
 // NCTCOMPUTE-3245
 //NCTCOMPUTE-3123 so instances can be connected to win.dowjone.net and Shavlik...
