@@ -22,7 +22,7 @@ resource "aws_instance" "rnc_archive_amzn2023" {
   vpc_security_group_ids = [
     data.aws_security_group.b_selected["djif_default"].id,
     data.aws_security_group.b_selected["wsjapac-default-sg"].id,
-    data.aws_security_group.b_selected["AWS-RC-Archive-sg"].id
+    aws_security_group.rnc-archive-sg.id
   ]
 
   metadata_options { // required IMDSV2
