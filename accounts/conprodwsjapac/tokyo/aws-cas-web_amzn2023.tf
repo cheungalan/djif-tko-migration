@@ -11,7 +11,7 @@ resource "aws_instance" "cas_web_amzn2003" {
   vpc_security_group_ids = [
     data.aws_security_group.b_selected["djif_default"].id,
     data.aws_security_group.b_selected["wsjapac-default-sg"].id,
-    data.aws_security_group.b_selected["AWS-CAS-Web-sg"].id
+    aws_security_group.cas-web-sg.id
   ]
 
   metadata_options { // required IMDSV2
