@@ -76,7 +76,7 @@ locals {
   default_tags_cls_web = merge(
     local.default_tags,
     {
-      appid = "in_newswires_djnews_clsdist"
+      appid    = "in_newswires_djnews_clsdist"
       preserve = "true"
     }
   )
