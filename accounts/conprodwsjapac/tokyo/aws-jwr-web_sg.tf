@@ -27,13 +27,22 @@ resource "aws_security_group" "jwr-web-sg" {
     cidr_blocks = ["10.0.0.0/8"]
   }
 
-  // 3306 Access AWS-JLS-Feed-sg
+  // 3306 Access from AWS-JLS-Feed-sg
   ingress {
     description     = "MySQL Access from AWS-JLS-Feed-sg"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
     security_groups = ["sg-0bf184f21f20d632d"]
+  }
+
+  // 3306 Access from AWS-JLS-WRWEB-sg
+  ingress {
+    description     = "MySQL Access from AWS-JLS-WRWEB-sg"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-0ccddd1cd6c70bafd"]
   }
 
   // 3306 Self inbound Access  
@@ -43,6 +52,15 @@ resource "aws_security_group" "jwr-web-sg" {
     to_port     = 3306
     protocol    = "tcp"
     self        = true
+  }
+
+  // 3306 Access to AWS-JLS-WRWEB-sg
+  egress {
+    description     = "MySQL Access to AWS-JLS-WRWEB-sg"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-0ccddd1cd6c70bafd"]
   }
 
   // 3306 Self Outbound Access
