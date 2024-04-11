@@ -5,13 +5,13 @@ resource "aws_instance" "cls_web_amzn2023" {
   }
 
   ami                    = data.aws_ami.amigo_amzn_linux2023.image_id
-  instance_type          = "t3.xlarge"
+  instance_type          = "t3.large"
   key_name               = aws_key_pair.aws_wsjasia_key.id
   subnet_id              = data.aws_subnets.protected[each.value].ids.0
   vpc_security_group_ids = [
     data.aws_security_group.b_selected["djif_default"].id,
     data.aws_security_group.b_selected["wsjapac-default-sg"].id,
-    data.aws_security_group.b_selected["AWS-CLN-WEB-sg"].id
+    aws_security_group.cls-web-sg.id
   ]
 
 

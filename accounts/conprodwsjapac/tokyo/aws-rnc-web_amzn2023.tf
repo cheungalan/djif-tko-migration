@@ -11,7 +11,7 @@ resource "aws_instance" "aws_rnc_web_amzn2023" {
   vpc_security_group_ids = [
     data.aws_security_group.b_selected["djif_default"].id, 
     data.aws_security_group.b_selected["wsjapac-default-sg"].id,
-    aws_security_group.djif-rc-web-sg.id
+    aws_security_group.rnc-web-sg.id
   ]
 
   metadata_options { // required IMDSV2
