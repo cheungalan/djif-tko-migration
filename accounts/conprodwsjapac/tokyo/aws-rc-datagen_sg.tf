@@ -88,6 +88,14 @@ resource "aws_security_group" "djif-datagen-sg" {
     security_groups = ["sg-06e24f4c64f2dad71"]
   }
 
+  egress {
+    description     = "FTP Access to tokpkrncweb"
+    from_port       = 21
+    to_port         = 21
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rnc-web-sg.id]
+  }
+
   // Internet Access 80
   egress {
     description = "Internet Access 80"
@@ -129,6 +137,14 @@ resource "aws_security_group" "djif-datagen-sg" {
     to_port         = 22
     protocol        = "tcp"
     security_groups = ["sg-06e24f4c64f2dad71"]
+  }
+
+  egress {
+    description     = "SSH Access to tokpkrncweb"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rnc-web-sg.id]
   }
 
   // Allow rDS access

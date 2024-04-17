@@ -113,6 +113,15 @@ resource "aws_security_group" "djif-rc-web-sg" {
     security_groups = ["sg-0fa18ad2d052a29e1"]
   }
 
+  // SSH Access
+  ingress {
+    description     = "SSH Access from tokpkrncarchv"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rnc-archive-sg.id]
+  }
+
   ingress {
     description     = "FTP Access from AWS-RC-DATAGEN"
     from_port       = 21
