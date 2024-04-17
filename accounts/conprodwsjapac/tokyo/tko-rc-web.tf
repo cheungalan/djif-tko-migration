@@ -115,7 +115,7 @@ resource "aws_security_group" "djif-rc-web-sg" {
 
   // SSH Access
   ingress {
-    description     = "SSH Access from tokpkrncarchv01/02"
+    description     = "SSH Access from tokpkrncarchv"
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
