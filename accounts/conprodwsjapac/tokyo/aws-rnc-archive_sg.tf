@@ -22,7 +22,7 @@ resource "aws_security_group" "rnc-archive-sg" {
 
   // SSH access to tko-rc-web 
   egress {
-    description     = "SSH access to tko-rc-web"
+    description     = "SSH outbound access to tko-rc-web"
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
