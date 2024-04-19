@@ -46,11 +46,20 @@ resource "aws_security_group" "rnc-web-sg" {
 
   // SSH Access
   ingress {
-    description     = "SFTP Access from AWS-RC-ARCHIVE"
+    description     = "SFTP inbound access from AWS-RC-ARCHIVE"
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
     security_groups = ["sg-0fa18ad2d052a29e1"]
+  }
+
+  // SSH Access
+  ingress {
+    description     = "SFTP inbound access from tokpkrncarchv"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rnc-archive-sg.id]
   }
 
   // Allow rDS access 
