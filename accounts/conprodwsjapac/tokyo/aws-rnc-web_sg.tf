@@ -59,7 +59,7 @@ resource "aws_security_group" "rnc-web-sg" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.rnc-archive-sg.id]
+    security_groups = ["sg-0c568e20a33221898"]
   }
 
   // Allow rDS access 
