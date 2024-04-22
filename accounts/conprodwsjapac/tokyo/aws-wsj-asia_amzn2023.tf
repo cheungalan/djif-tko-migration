@@ -14,7 +14,6 @@ resource "aws_instance" "wsj_asia_amzn2023" {
     aws_security_group.wsj-asia-sg.id
   ]
 
-
   metadata_options { // required IMDSV2
     http_endpoint          = "enabled"
     http_tokens            = "required"
