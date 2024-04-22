@@ -85,9 +85,22 @@ locals {
     local.default_tags,
     {
       appid       = "djcs_edttools_web_cwsjenews"
+      bu          = "djcs"
       product     = "wsj"
       component   = "web"
       servicename = "djcs/wsj/web"
     }
   )
+
+  default_tags_wsj_asia = merge(
+    local.default_tags,
+    {
+      appid       = "djcs_wsj_web_wsja"
+      bu          = "djcs"
+      product     = "wsj"
+      component   = "web"
+      servicename = "djcs/wsj/web"
+    }
+  )
+
 }
