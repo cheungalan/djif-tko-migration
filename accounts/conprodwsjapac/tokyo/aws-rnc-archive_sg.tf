@@ -35,7 +35,7 @@ resource "aws_security_group" "rnc-archive-sg" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.rnc-web-sg.id]
+    security_groups = ["sg-0c92609891d0b1924"]
   }
 
 }
