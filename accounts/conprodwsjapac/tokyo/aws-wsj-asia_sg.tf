@@ -12,14 +12,6 @@ resource "aws_security_group" "wsj-asia-sg" {
   )
 
   ingress {
-    description = "HTTP access from internal"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  ingress {
     description = "HTTPS access from internal"
     from_port   = 443
     to_port     = 443
