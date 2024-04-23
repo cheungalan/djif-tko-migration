@@ -38,4 +38,13 @@ resource "aws_security_group" "rnc-archive-sg" {
     security_groups = ["sg-0c92609891d0b1924"]
   }
 
+  // SSH access to AWS-RC-Archive-01/02
+  egress {
+    description     = "SSH outbound access to AWS-RC-Archive-01/02"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["sg-0fa18ad2d052a29e1"]
+  }
+
 }
