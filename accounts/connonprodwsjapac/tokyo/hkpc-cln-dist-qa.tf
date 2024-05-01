@@ -93,14 +93,6 @@ resource "aws_security_group" "hkpc-cln-dist" {
   }
 
   egress {
-    description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["sg-0b1cbfac81a5eaabf"]
-  }
-
-  egress {
     description     = "SFTP access to tokqkwsjamgr01"
     from_port       = 22
     to_port         = 22

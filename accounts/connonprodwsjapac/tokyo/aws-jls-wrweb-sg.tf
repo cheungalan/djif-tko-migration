@@ -60,14 +60,6 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
   }
 
   egress {
-    description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["sg-0b1cbfac81a5eaabf"]
-  }
-
-  egress {
     description = "FTP access to DJ FTP (ftp.dowjones.com)"
     from_port   = 21
     to_port     = 21
@@ -153,14 +145,6 @@ resource "aws_security_group" "aws-jls-wrweb-sg" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = ["sg-01536f4a5ec7e6519"]
-  }
-
-  egress {
-    description     = "MySQL Access to hkpk-jls-wrweb-qa"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = ["sg-0d7db14df788b8f46"]
   }
 
   egress {

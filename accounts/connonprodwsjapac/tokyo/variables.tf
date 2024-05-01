@@ -26,32 +26,12 @@ variable "hkpc-secure-wsj-asia-qa-name" {
   default = "hkpk-secure-wsj-asia-qa"
 }
 
-variable "hkpc-infosceen-qa-name" {
-  default = "hkpk-infosceen-qa"
-}
-
-variable "hkpk-cwsj-enews-tools-qa-name" {
-  default = "hkpk-cwsj-enews-tools-qa"
-}
-
 variable "hkpk-tko-rc-04-qa-name" {
   default = "hkpk-tko-rc-04-qa"
 }
 
-variable "hkpc-dist-admin-qa-name" {
-  default = "hkpk-dist-admin-qa"
-}
-
-variable "hkpc-financialinclusion-qa-name" {
-  default = "hkpk-financialinclusion-qa"
-}
-
 variable "hkpk-jls-web2-qa-name" {
   default = "hkpk-jls-web2-qa"
-}
-
-variable "hkpk-jls-wrweb1-qa-name" {
-  default = "hkpk-jls-wrweb1-qa"
 }
 
 variable "deployment_role" {
