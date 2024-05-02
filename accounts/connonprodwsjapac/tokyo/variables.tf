@@ -22,18 +22,6 @@ variable "hkpc-cwsj-mobile-converter-qa-name" {
   default = "hkpc-cwsj-mobile-converter-qa"
 }
 
-variable "hkpc-secure-wsj-asia-qa-name" {
-  default = "hkpk-secure-wsj-asia-qa"
-}
-
-variable "hkpk-tko-rc-04-qa-name" {
-  default = "hkpk-tko-rc-04-qa"
-}
-
-variable "hkpk-jls-web2-qa-name" {
-  default = "hkpk-jls-web2-qa"
-}
-
 variable "deployment_role" {
   description = "Name of role for deployment"
   default     = "djif-admin"
