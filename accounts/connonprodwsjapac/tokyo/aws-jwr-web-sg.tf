@@ -52,18 +52,10 @@ resource "aws_security_group" "jwr-web-sg" {
   }
 
   ingress {
-    description = "MySQL access from hkpk-jls-wrweb-qa"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    security_groups = ["sg-0d7db14df788b8f46"]
-  }
-
-  ingress {
-    description = "MySQL access from jls-wrfeed-qa"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
+    description     = "MySQL access from jls-wrfeed-qa"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
     security_groups = ["sg-0f27d915082a302b7"]
   }
 
@@ -89,14 +81,6 @@ resource "aws_security_group" "jwr-web-sg" {
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["10.0.0.0/8"]
-  }
-
-  egress {
-    description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["sg-0b1cbfac81a5eaabf"]
   }
 
   egress {
@@ -177,14 +161,6 @@ resource "aws_security_group" "jwr-web-sg" {
     to_port     = 3306
     protocol    = "tcp"
     self        = true
-  }
-
-  egress {
-    description     = "MySQL Access to hkpk-jls-wrweb-qa"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = ["sg-0d7db14df788b8f46"]
   }
 
 }

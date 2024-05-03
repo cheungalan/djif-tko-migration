@@ -78,14 +78,6 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
   }
 
   egress {
-    description     = "SFTP access to hkpk-secure-wsj-asia-qa1"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["sg-0b1cbfac81a5eaabf"]
-  }
-
-  egress {
     description     = "SFTP access to tokqkwsjamgr01"
     from_port       = 22
     to_port         = 22
@@ -181,14 +173,6 @@ resource "aws_security_group" "hkpc-jls-wrfeed" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = ["sg-01536f4a5ec7e6519"]
-  }
-
-  egress {
-    description     = "MySQL Access to hkpk-jls-wrweb-qa"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = ["sg-0d7db14df788b8f46"]
   }
 
   egress {
